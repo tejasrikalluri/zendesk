@@ -2,13 +2,13 @@ fw-input {
     width: 71%;
 }
 
-.domain {
-    width: 134%
-}
-
 .align {
     margin-left: 5px;
     margin-top: 12px;
+}
+
+fw-select {
+    width: fit-content;
 }
 
 .message_div, .token_error_zd, .token_error {

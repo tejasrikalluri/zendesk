@@ -557,7 +557,46 @@
 512
 513
 514
-515</td><td class="line-coverage quiet"><span class="cline-any cline-yes">127×</span>
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554</td><td class="line-coverage quiet"><span class="cline-any cline-yes">127×</span>
 <span class="cline-any cline-yes">127×</span>
 <span class="cline-any cline-yes">127×</span>
 <span class="cline-any cline-yes">127×</span>
@@ -1071,6 +1110,45 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">$(document).ready(function () {
     app.initialized().then(function (_client) {
         var modal_client = _client;
@@ -1090,17 +1168,18 @@
                 $(".ticketsList").html('');
                 $("#existingMsg").show();
                 $("#partNew").hide();
-                getTicket(ticket_id, modal_client, getContextInfo);
+                getContextInfo(function (c_data) {
+                    getTicket(ticket_id, modal_client, c_data);
+                });
             } else {
                 $(this).prop("disabled", false);
                 showNotification(modal_client, "danger", "Please enter any Ticket ID");
             }
-&nbsp;
         });
-        $(document).on('input', 'input,textarea', function () {
+        $(document).on('input', '#partNew input,textarea', function () {
             $("#m_button").prop("disabled", false);
         });
-        $(document).on('change', 'select', function () {
+        $(document).on('change', `select,input[type=radio][name='optTicket']`, function () {
             $("#m_button").prop("disabled", false);
         });
         $("#ticketId").on("input", function () {
@@ -1108,6 +1187,7 @@
         });
         $("input[name='optradio']").click(function () {
             if ($('input:radio[name=optradio]:checked').val() === "new") {
+                $("#ticketId").val("");
                 $("#m_button").text("Create a Zendesk ticket");
                 $("#m_button").prop("disabled", true);
                 $("#partNew").show();
@@ -1115,24 +1195,36 @@
             } else {
                 $("#m_button").text("Append to ticket");
                 $(".ticketsList").html('');
-                getExistingTickets(getContextInfo, modal_client, "change");
+                $("#m_button").prop("disabled", true);
+                $("#search").prop("disabled", false);
+            <span class="missing-if-branch" title="else path not taken" >E</span>    getExistingTickets(getContextInfo, modal_client, "change");
             }
         });
         $(document).on('change', '#group', function () {
-            <span class="missing-if-branch" title="else path not taken" >E</span>if ($(this).val() !== "Select") {
+            if ($(this).val() !== "Select") {
                 $("#agent,.agentLabel,.agentSpan").hide();
                 $('#agent option:not(:first)').remove();
-                var options = {
+                var <span class="missing-if-branch" title="else path not taken" >E</span>options = {
                     "group_id": btoa($(this).val())
                 };
                 modal_client.request.invoke("getAssinableAgents", options).then(function (data) {
-                    <span class="missing-if-branch" title="else path not taken" >E</span>if (data.response.message === undefined) {
-                        var count = 0, length = data.response.group_memberships.length, arr = data.response.group_memberships;
-                        agentProcess(count, length, arr, modal_client);
-                        
+                    if (data.response.message === undefined) {
+                        var count = <span class="fstat-no" title="function not covered" >0, length = data.response.group_memberships.length, arr = data.response.group_memberships;</span>
+<span class="cstat-no" title="statement not covered" >                        agentProcess(count, length, arr, modal_client);</span>
+                        if (data.response.next_page !== null) {
+                            options.link = data.response.next_page;
+                            modal_client.request.invoke("getAssinableAgents", options).then(function (data) {
+                                if (data.response.message === undefined) {
+                                    var count = 0, length = data.response.group_memberships.length, arr = data.response.group_memberships;
+                                    agentProcess(count, length, arr, modal_client);
+                                }
+                            }, function (error) {
+                                showNotification(modal_client, "danger", error.message);
+                            });
+                        }
                     }
-                }, function (error) <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >                    showNotification(modal_client, "danger", error.message);</span>
+                }, function (error) {
+                    showNotification(modal_client, "danger", error.message);<span class="branch-1 cbranch-no" title="branch not covered" ></span>
                 });
             }
         });
@@ -1146,9 +1238,9 @@
                     $.each(c_data.conversation.messages, function (i, v) {
                         var obj = {};
                         obj["created_at"] = v.created_time;
-                        obj["actor_id"] = (v.actor_id !== undefined) ? atob(v.actor_id) : <span class="branch-1 cbranch-no" title="branch not covered" >atob(v.org_actor_id);</span>
-                        obj["message_parts"] = v.message_parts;
-                        obj["message_type"] = atob(v.message_type);
+                        obj["actor_id"] = (v.actor_id !== undefined) ? atob(v.actor_id) : atob(v.org_actor_id);
+<span class="fstat-no" title="function not covered" >                        obj["message_parts"] = v.message_parts;</span>
+<span class="cstat-no" title="statement not covered" >                        obj["message_type"] = atob(v.message_type);</span>
                         obj["actor_type"] = atob(v.actor_type);
                         obj["id"] = atob(v.id);
                         arr.push(obj);
@@ -1159,15 +1251,14 @@
                     clickWithNewTicket(c_data, modal_client);
                 }
             });
-&nbsp;
         });
-    }, function () <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >        showNotification(modal_client, "danger", "Something went wrong, please try again");</span>
+    }, function () {
+        showNotification(modal_client, "danger", "Something went wrong, please try again");
     });
     //for new user ticket create fetching the values
     function clickWithNewTicket(c_data, modal_client) {
         var subject = $("#subject").val().trim(), notes = $("#notes").val().trim(), status = $("#status").val();
-        var obj = {
+        var obj<span class="missing-if-branch" title="else path not taken" >E</span> = {
             "body": {
                 "custom_fields": {
                 }
@@ -1177,10 +1268,10 @@
             if (subject !== "" &amp;&amp; notes !== "" &amp;&amp; status !== "Select" &amp;&amp; status !== "") {
                 checkFieldValidation(subject, notes, obj);
                 obj.body["requester_id"] = btoa(c_data.user_id);
-                checkValid("old", modal_client, obj, c_data.email);
+            <span class="missing-if-branch" title="else path not taken" >E</span>    checkValid("old", modal_client, obj, c_data.email);
             } else
                 showNotification(modal_client, "danger", "Please fill mandatory fields");
-        } else <span class="missing-if-branch" title="else path not taken" >E</span>if (c_data.source === "new_requester")
+        } else i<span class="cstat-no" title="statement not covered" >f (c_data.source === "new_requester")</span>
             formNewRequester(subject, notes, c_data, modal_client, obj, "not_resolve", status);
     }
     //search zendesk id from db
@@ -1190,10 +1281,10 @@
             var db_id = d_data.conv_id;
             formAUI(modal_client, c_data, id, db_id);
         }, function (error) {
-            <span class="missing-if-branch" title="else path not taken" >E</span>if (error.status === 404) {
+            if (error.status === 404) {
                 setDb(modal_client, id, trimmed_id, arr, c_data, c_data.user_id);
             } else
-<span class="cstat-no" title="statement not covered" >                showNotification(client, "danger", "Unable to fetch DB data");</span>
+                showNotification(client, "danger", "Unable to fetch DB data");
         });
     }
     //check the db and conversation id form an object form a UI for internal note
@@ -1201,55 +1292,66 @@
         var messages = data.conversation.messages, last_conv_id = messages[messages.length - 1].id;
         var arr = [], ui_arr = [];
         $.each(messages, function (i, v) {
-            var trimmed_id = jQuery.trim(v.id).substring(0, 30).trim(this) + "...";
+            var trimmed_id = jQuery.trim(v.id).substring(0, 30).trim(this) + "...";<span class="branch-1 cbranch-no" title="branch not covered" ></span>
             arr.push(trimmed_id);
         });
         var trimmed_id = jQuery.trim(last_conv_id).substring(0, 30).trim(this) + "...";
         if (db_id === trimmed_id)
-            showNotification(client, "info", "No new message for this coonversation.");
+            showNotification(client, "info", "No new message for this conversation.");
         else {
             var index = $.inArray(db_id, arr);
             $.each(messages, function (i, v) {
                 var obj = {};
-                 if (index &gt; 0) {
+                if (index &gt; 0) {
                     if (i &gt; index) {
                         obj["created_at"] = v.created_time;
-                        obj["actor_id"] = (v.actor_id !== undefined) ? atob(v.actor_id) : <span class="branch-1 cbranch-no" title="branch not covered" >atob(v.org_actor_id);</span>
+                        obj["actor_id"] = (v.actor_id !== undefined) ? atob(v.actor_id) : atob(v.org_actor_id);
                         obj["message_parts"] = v.message_parts;
                         obj["actor_type"] = atob(v.actor_type);
                         obj["message_type"] = atob(v.message_type);
                         obj["id"] = atob(v.id);
-                        ui_arr.push(obj);
-                    }
-                }
+                        ui_a<span class="fstat-no" title="function not covered" >rr.push(obj);</span>
+<span class="cstat-no" title="statement not covered" >                    }</span>
+<span class="cstat-no" title="statement not covered" >                }</span>
+                if (index === -1) {
+                    var obj = {};
+                    obj["created_at"] = v.created_time;
+                    obj["actor_id"] = (v.actor_id !== undefined) ? atob(v.actor_id) : atob(v.org_actor_id);
+                    obj["message_parts"] = v.message_parts;
+                    obj["message_type"] = atob(v.message_type);
+                    obj["actor_type"] = atob(v.actor_type);
+                    obj["id"] = atob(v.id);
+                    ui_arr.push(obj);
+            <span class="missing-if-branch" title="else path not taken" >E</span>    }
             });
             if (index != -1)
                 updateDb(client, id, trimmed_id, ui_arr, data, ui_arr, data);
+            else if (index === -1) {
+                setDb(client, id, trimmed_id, ui_arr, data, data.user_id);
+            }
         }
-&nbsp;
     }
     //set zendesk id in db
     function setDb(client, id, trimmed_id, arr, c_data, user_id) {
         client.db.set(id, { conv_id: trimmed_id }).then(function () {
             formUIforNote(arr, c_data, client, user_id, id, "append");
-        }, function (error) <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >            if (error.status !== 404)</span>
-<span class="cstat-no" title="statement not covered" >                showNotification(client, "danger", error.message);</span>
+        }, function (error) {
+            if (error.status !== 404)
+                showNotification(client, "danger", error.message);
         });
     }
     //show tickets of user in append a ticket screen
     function getExistingTickets(getContextInfo, modal_client, source) {
-        getContextInfo(function (data) {
-            $("#partExisting label:first").html(`Enter an existing ticket " ${data.name} "`);
-            $("#ticketsOf").html(`Tickets of ${data.name} in last 30 days`);
+        getC<span class="missing-if-branch" title="else path not taken" >E</span>ontextInfo(function (data) {
+            $("#partExisting label:first").html(`Enter an existing Ticket ID`);
+            $("#ticketsOf").html(`Tickets in last 30 days`);
             $("#partExisting,#existingMsg").show();
             $("#partNew").hide();
-            <span class="missing-if-branch" title="else path not taken" >E</span>if (source === "change") {
+            if (source === "change") {
                 $("#ticketsLoad").hide();
             }
             if (data.source === "new_ticket") {
                 getTickets(data, modal_client);
-                $("#m_button").prop("disabled", false);
             } else {
                 $("#m_button").prop("disabled", true);
                 $("#partExisting,#existingMsg").hide();
@@ -1259,22 +1361,31 @@
 &nbsp;
     }
     //get a ticket data when ticket id is being searched
-    function getTicket(ticket_id, client, c_data) {
+    function<span class="missing-if-branch" title="else path not taken" >E</span> getTicket(ticket_id, client, c_data) {
         var options = {
             "ticket_id": btoa(ticket_id)
         };
         client.request.invoke("getTicket", options).then(function (data) {
-            <span class="missing-if-branch" title="else path not taken" >E</span>if (data.response.message === undefined) {
+            if (data.response.message === undefined) {
                 var resp = data.response, arr = [];
                 formTicketUi(resp, arr, 0, c_data);
                 $(".ticketsList").append(arr.join('')).show();
                 $("#ticketsLoad").show();
                 $(".ticketShow:nth-child(1)").find('input[type=radio]').attr('checked', true);
-                $(".existingMsg").hide();
-            }
+                $("#m_button").prop("disabled", false);
+                $(".existi<span class="fstat-no" title="function not covered" >ngMsg").hide();</span>
+<span class="cstat-no" title="statement not covered" >            }</span>
         }, function (err) {
             $(".existingMsg").hide();
-            showNotification(client, "danger", err.message);
+            $("#m_button").prop("disabled", true);
+            if (err.status === 404) {
+                showNotification(client, "danger", "Ticket not found, Please enter valid Ticket ID");
+            } else if (err.status === 400) {
+                showNotification(client, "danger", "Input value should be an integer");
+            }<span class="fstat-no" title="function not covered" ></span>
+<span class="cstat-no" title="statement not covered" >            else {</span>
+                showNotification(client, "danger", err.message);
+            }
         });
     }
     //fetching the tickets of zendesk user
@@ -1283,20 +1394,28 @@
             "user_id": btoa(c_data.user_id)
         };
         client.request.invoke("searchTickets", options).then(function (data) {
-            <span class="missing-if-branch" title="else path not taken" >E</span>if (data.response.message === undefined) {
+            if (data.response.message === undefined) {
                 var resp = data.response, arr = [];
-                $.each(resp, function (i, v) {
-                    if (i &lt;= 2) {
-                        formTicketUi(v, arr, i, c_data);
-                    }
-                });
-                $(".ticketsList").append(arr.join('')).show();
-                $("#ticketsLoad").show();
-                $(".ticketShow:nth-child(1)").find('input[type=radio]').attr('checked', true);
-                $(".loader,.existingMsg").hide();
+                if (resp.length &gt; 0) {
+                    $.each(resp, function (i, v) {
+                        if (i &lt;= 2) {
+                            formTicketUi(v, arr, i, c_data);
+                        }
+                    });
+                    $(".ticketsList").append(arr.join('')).show();
+                    $("#ticketsLoad").show();
+                    $(".ticketShow:nth-child(1)").find('input[type=radio]').attr('checked', true);
+                    $("#m_button").prop("disabled", false);
+&nbsp;
+                    $(".loader,.existingMsg").hide();
+                } else {
+                    $("#m_button").prop("disabled", true);
+                    $("#partExisting,#existingMsg").hide();
+                    $(".existingNoTickets").show();
+                }
             }
-        }, function (err) <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >            showNotification(client, "danger", err.message);</span>
+        }, function (err) {
+            showNotification(client, "danger", err.message);
         });
     }
     //when new messages are in db update db when create a internal note
@@ -1304,8 +1423,8 @@
         var trimmed_id = jQuery.trim(conv_id).substring(0, 30).trim(this) + "...";
         modal_client.db.update(id, "set", { "conv_id": trimmed_id }).then(function () {
             formUIforNote(ui_arr, data, modal_client, data.user_id, id, "append");
-        }, function () <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >            showNotification(modal_client, "Unexpected error occured, please try again later!", "danger");</span>
+        }, function () {
+            showNotification(modal_client, "Unexpected error occured, please try again later!", "danger");
         });
     }
     // existing Tickets UI
@@ -1319,11 +1438,11 @@
         if (v.due_at !== null) {
             var date_split2 = v.due_at.split("T")[0], convert2 = new Date(date_split2);
             var month_str2 = convert2.getDate() + " " + monthNames[convert2.getMonth()] + " " + convert2.getFullYear();
-            arr.push(`&lt;div&gt;${c_data.name} | Created at ${month_str} | Due at ${month_str2} &lt;/div&gt;&lt;/div&gt;`);
+            arr.push(`&lt;div&gt;Created at ${month_str} | Due at ${month_str2} &lt;/div&gt;&lt;/div&gt;`);
         }
         else {
             var month_str2 = "~";
-            arr.push(`&lt;div&gt;${c_data.name} | Created at ${month_str} | Due at ${month_str2} &lt;/div&gt;&lt;/div&gt;`);
+            arr.push(`&lt;div&gt;Created at ${month_str} | Due at ${month_str2} &lt;/div&gt;&lt;/div&gt;`);
         }
         return arr;
     }
@@ -1358,28 +1477,27 @@
         obj.body["subject"] = btoa(subject);
         obj.body["description"] = btoa(notes);
     }
-    //form body for ticket creation for select fields
+    //form b<span class="missing-if-branch" title="else path not taken" >E</span>ody for ticket creation for select fields
     function formSelectFieldBody(ele, obj) {
         if ($(ele).prop("multiple")) {
             var array = $(ele).val();
             if (array.length !== 0)
                 obj.body.custom_fields[$(ele).prop("id")] = btoa(array);
         } else {
-            if ($(ele).val() !== "Select" &amp;&amp; $(ele).val() !== "")
+        <span class="missing-if-branch" title="else path not taken" >E</span>    if ($(ele).val() !== "Select" &amp;&amp; $(ele).val() !== "")
                 otherSelects(ele, obj);
         }
     }
     //for single select forming a body for ticket creation
-    function otherSelects(ele, obj) {
+    func<span class="missing-if-branch" title="else path not taken" >E</span>tion otherSelects(ele, obj) {
         if ($(ele).attr("id") !== "agent" &amp;&amp; $(ele).attr("id") !== "status" &amp;&amp; $(ele).attr("id") !== "priority" &amp;&amp; $(ele).attr("id") !== "group")
             obj.body.custom_fields[$(ele).attr("id")] = btoa($(ele).val());
         else {
             obj.body[$(ele).attr("id")] = btoa($(ele).val());
-&nbsp;
         }
     }
-    //for checkbox forming a body for ticket creation
 &nbsp;
+    //for checkbox forming a body for ticket creation
     function formCheckboxBody(ele, obj) {
         if ($(ele).prop("checked")) {
             obj.body.custom_fields[$(ele).attr("id")] = btoa(true);
@@ -1388,7 +1506,7 @@
             obj.body.custom_fields[$(ele).attr("id")] = btoa(false);
     }
     //for textarea forming a body for ticket creation
-    function formTextareaBody(ele, obj) {
+    function<span class="missing-if-branch" title="else path not taken" >E</span> formTextareaBody(ele, obj) {
         if ($(ele).attr("id") !== "notes" &amp;&amp; $(ele).val().trim() !== "") {
             obj.body.custom_fields[$(ele).attr("id")] = btoa($(ele).val());
         }
@@ -1397,22 +1515,22 @@
     function formNewRequester(subject, notes, c_data, modal_client, obj, origin, status) {
         $("#m_button").attr("data-id", "valid");
         if (subject !== "" &amp;&amp; notes !== "" &amp;&amp; c_data.email !== null &amp;&amp; status !== "Select" &amp;&amp; status !== "") {
-            checkFieldValidation(subject, notes, obj);
-            obj.body["name"] = btoa(c_data.name);
-            <span class="missing-if-branch" title="else path not taken" >E</span>if (c_data.email !== null) obj.body["email"] = btoa(c_data.email)
+            checkFieldV<span class="fstat-no" title="function not covered" >alidation(subject, notes, obj);</span>
+<span class="cstat-no" title="statement not covered" >            obj.body["name"] = btoa(c_data.name);</span>
+            if (c_data.email !== null) obj.body["email"] = btoa(c_data.email);
             checkOrigin(origin, modal_client, obj, c_data);
         } else
             showNotification(modal_client, "danger", "Please fill mandatory fields");
     }
     //for check validation for ticket creation
     function checkValid(origin, modal_client, obj, data) {
-        <span class="missing-if-branch" title="else path not taken" >E</span>if ($("#m_button").attr("data-id") === "valid")
+        if (<span class="missing-if-branch" title="else path not taken" >E</span>$("#m_button").attr("data-id") === "valid")
             ticketCreate(modal_client, obj, data, origin);
     }
     //send origin for validtion of ticket creation data
     function checkOrigin(origin, modal_client, obj, c_data) {
-        <span class="missing-if-branch" title="else path not taken" >E</span>if (origin !== "resolved")
-            checkValid("new", modal_client, obj, c_data)
+        if (origin !== "resolved")
+            checkValid("new", modal_client, obj, c_data);
     }
     //iterate loop for agents list
     function agentProcess(count, length, arr, client) {
@@ -1428,17 +1546,16 @@
             "assignee_id": btoa(decodedUserId)
         };
         client.request.invoke("searchAssignee", options).then(function (data) {
-            <span class="missing-if-branch" title="else path not taken" >E</span>if (data.response.message === undefined) {
+            if (data.response.message === undefined) {
                 $('#agent')
                     .append($("&lt;option&gt;&lt;/option&gt;")
                         .attr("value", atob(data.response.id))
                         .text(atob(data.response.name)));
                 var new_count = count + 1;
                 agentProcess(new_count, length, arr, client);
-&nbsp;
             }
-        }, function () <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >            showNotification(client, "danger", "Failed to Agent details");</span>
+        }, function () {
+            showNotification(client, "danger", "Failed to Agent details");
         });
     }
 &nbsp;
@@ -1446,7 +1563,7 @@
     function getTicketFields(client) {
         var options = {};
         client.request.invoke("getTicketFields", options).then(function (data) {
-            <span class="missing-if-branch" title="else path not taken" >E</span>if (data.response.message === undefined) {
+            if (data.response.message === undefined) {
                 var arr = [];
                 $.each(data.response.ticket_fields, function (i, v) {
                     if (v.type === "status") {
@@ -1498,7 +1615,7 @@
     function formSelectFields(data) {
         $.each(data.response.ticket_fields, function (i, v) {
             if (v.type === "tagger" || v.type === "multiselect") {
-                if (v.type === "tagger")
+             <span class="missing-if-branch" title="else path not taken" >E</span>   if (v.type === "tagger")
                     $(`#${v.id}`).append($("&lt;option&gt;&lt;/option&gt;").text("Select"));
                 $.each(v.custom_field_options, function (i1, v1) {
                     $(`#${v.id}`).append($("&lt;option&gt;&lt;/option&gt;")
@@ -1508,7 +1625,7 @@
             if (v.type === "multiselect") {
                 $(`#${v.id}`).select2({});
             }
-        });
+        });<span class="missing-if-branch" title="else path not taken" >E</span>
     }
     //append dynamic custom fields from zendesk
     function appendUI(v, arr) {
@@ -1518,17 +1635,17 @@
           &lt;/textarea&gt;`);
         }
         else if (v.type === "integer" || v.type === "decimal") {
-            arr.push(`&lt;label&gt;${v.title}&lt;/label&gt;&lt;br/&gt;`);
-            arr.push(`&lt;input id="${v.id}" type="number" class="custom_fields custom_fields_${v.id} form-control" required&gt;
+            arr.push(`&lt;<span class="fstat-no" title="function not covered" >label&gt;${v.title}&lt;/label&gt;&lt;br/&gt;`);</span>
+<span class="cstat-no" title="statement not covered" >            arr.push(`&lt;input id="${v.id}" type="number" class="custom_fiel</span>ds custom_fields_${v.id} form-control" required&gt;
     &lt;/input&gt;`);
         } else if (v.type === "tagger") {
             arr.push(`&lt;label&gt;${v.title}&lt;/label&gt;&lt;br/&gt;`);
             arr.push(`&lt;select class="custom_fields custom_fields_${v.id} form-control" id="${v.id}"&gt;&lt;/select&gt;`);
         } else
-            appendOtherFields(v, arr);
+            <span class="missing-if-branch" title="else path not taken" >E</span>appendOtherFields(v, arr);
     }
     //append multiselect,checkbox,date fields from zendesk in ticket creation modal
-    function appendOtherFields(v, arr) {
+    function appendOt<span class="missing-if-branch" title="else path not taken" >E</span>herFields(v, arr) {
         if (v.type === "multiselect") {
             arr.push(`&lt;label&gt;${v.title}&lt;/label&gt;&lt;br/&gt;`);
             arr.push(`&lt;select class="custom_fields custom_fields_${v.id}" id="${v.id}" name="${v.title}[]" multiple="multiple"&gt;&lt;/select&gt;`);
@@ -1537,17 +1654,17 @@
             &lt;label&gt;&lt;input type="checkbox" id="${v.id}"&gt;${v.title}&lt;/label&gt;
           &lt;/div&gt;`);
         }
-        else <span class="missing-if-branch" title="else path not taken" >E</span>if (v.type === "date") {
+        else if (v.type === "date") {
             arr.push(`&lt;label&gt;${v.title}&lt;/label&gt;&lt;br/&gt;
             &lt;input class="form-control custom_fields custom_fields_${v.id}" type="date" id="${v.id}"&gt;
             `);
         }
-    }
-    //get groups list from zendesk
+    }<span class="fstat-no" title="function not covered" ></span>
+    //get gr<span class="cstat-no" title="statement not covered" >oups list from zendesk</span>
     function getGroups(client) {
         var options = {};
         client.request.invoke("getGroups", options).then(function (data) {
-            <span class="missing-if-branch" title="else path not taken" >E</span>if (data.response.message === undefined) {
+            if (data.response.message === undefined) {
                 $.each(data.response.groups, function (i, v) {
                     $('#group')
                         .append($("&lt;option&gt;&lt;/option&gt;")
@@ -1557,17 +1674,17 @@
                 $(".spinner,#partExisting").hide();
                 $("#modal-body").show();
             }
-        }, function () <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >            showNotification(client, "danger", "Failed to fetch Groups");</span>
+        }, function () {
+            showNotification(client, "danger", "Failed to fetch Groups");
         });
     }
     //create ticket in zendesk
     function ticketCreate(client, options, c_data, origin) {
         client.request.invoke("createTicket", options).then(function (data) {
-            <span class="missing-if-branch" title="else path not taken" >E</span>if (data.response.message === undefined) {
+            if (data.response.message === undefined) {
                 if (origin === "old")
                     sendDataToInstance(client, c_data, origin);
-                else <span class="missing-if-branch" title="else path not taken" >E</span>if (origin === "new")
+                else if (origin === "new")
                     sendInstaceForNewUser(c_data, client, origin);
             }
         }, function (error) {
@@ -1581,8 +1698,8 @@
     function contextInfo(client, callback) {
         client.instance.context().then(function (context) {
             callback(context.data);
-        }, function (error) <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >            showNotification(client, "danger", error);</span>
+        }, function (error) {
+            showNotification(client, "danger", error);
         });
     }
 });</pre></td></tr>
@@ -1591,7 +1708,7 @@
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Aug 03 2021 06:02:49 GMT+0530 (India Standard Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Mar 13 2022 21:08:51 GMT+0530 (India Standard Time)
 </div>
 </div>
 <script src="../prettify.js"></script>

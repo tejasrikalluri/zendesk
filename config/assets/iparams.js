@@ -8,13 +8,13 @@ app.initialized().then(function (client) {
             addIdAttr("apiKey", "Please enter Freshchat API Key");
         else
             idRemoveAtrr("apiKey");
-        if ($("#domain").val().trim() === "") {
-            addIdAttr("domain", "Please enter Freshchat Domain");
+        if (!$("fw-select").val()) {
+            addIdAttr("region", "Please select Freshchat Region");
         }
         else {
-            idRemoveAtrr("domain");
+            idRemoveAtrr("region");
         }
-        if ($("#apiKey").val().trim() !== "" && $("#domain").val().trim() !== "") {
+        if ($("#apiKey").val().trim() !== "" && $("fw-select").val()) {
             $("#authBtn").text("Authenticating...");
             getAgents(client);
         } else buttonEnable("authBtn");
@@ -51,12 +51,11 @@ app.initialized().then(function (client) {
             buttonEnable("ZDauthBtn");
         }
     });
-    $(document).on('fwChange', '#subdomain,#password,#email,#domain,#apiKey', function () {
+    $(document).on('fwChange', '#subdomain,#password,#email,#apiKey', function () {
         buttonEnable("ZDauthBtn");
         idRemoveAtrr("subdomain");
         idRemoveAtrr("email");
         idRemoveAtrr("password");
-        idRemoveAtrr("domain");
         idRemoveAtrr("apiKey");
         $(".token_error_zd,.message_div,.error_div").html("");
     });
@@ -81,16 +80,18 @@ function idRemoveAtrr(id) {
 }
 function getAgents(client) {
     var api_key = $("#apiKey").val();
-    var domain = $("#domain").val();
     var headers = { "Authorization": "Bearer " + api_key };
     var options = { headers: headers };
-    var url = `https://${domain}/v2/agents?items_per_page=2`;
+    var url = ($("fw-select").val() === "us") ? `https://api.freshchat.com/v2/agents?items_per_page=2` :
+        `https://api.${$("fw-select").val()}.freshchat.com/v2/agents?items_per_page=2`;
+    console.log(url)
     client.request.get(url, options).then(function () {
         $(".error_div").html("");
         $("#authBtn").text("Authenticated");
         $(".ZD_authentication").show();
         $(".authentication").hide();
     }, function (error) {
+        console.log(error)
         handleError(error, "error_div");
         buttonEnable("authBtn");
     });

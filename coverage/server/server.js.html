@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">82.14% </span>
+        <span class="strong">82.65% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>161/196</span>
+        <span class='fraction'>162/196</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">66.04% </span>
+        <span class="strong">67.92% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>70/106</span>
+        <span class='fraction'>72/106</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>31/31</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">81.58% </span>
+        <span class="strong">82.11% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>155/190</span>
+        <span class='fraction'>156/190</span>
       </div>
     </div>
   </div>
@@ -430,17 +430,10 @@
 385
 386
 387
-388
-389
-390
-391
-392</td><td class="line-coverage quiet"><span class="cline-any cline-yes">293×</span>
-<span class="cline-any cline-yes">293×</span>
-<span class="cline-any cline-yes">293×</span>
-<span class="cline-any cline-yes">293×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+388</td><td class="line-coverage quiet"><span class="cline-any cline-yes">337×</span>
+<span class="cline-any cline-yes">337×</span>
+<span class="cline-any cline-yes">337×</span>
+<span class="cline-any cline-yes">337×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-yes">3×</span>
@@ -453,12 +446,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">81×</span>
+<span class="cline-any cline-yes">69×</span>
+<span class="cline-any cline-yes">11×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">59×</span>
-<span class="cline-any cline-yes">58×</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">58×</span>
+<span class="cline-any cline-yes">69×</span>
 <span class="cline-any cline-yes">58×</span>
 <span class="cline-any cline-yes">56×</span>
 <span class="cline-any cline-yes">56×</span>
@@ -589,12 +581,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">108×</span>
-<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">130×</span>
+<span class="cline-any cline-yes">77×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">66×</span>
-<span class="cline-any cline-yes">65×</span>
+<span class="cline-any cline-yes">77×</span>
+<span class="cline-any cline-yes">76×</span>
 <span class="cline-any cline-yes">64×</span>
 <span class="cline-any cline-yes">64×</span>
 <span class="cline-any cline-yes">64×</span>
@@ -602,11 +594,11 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">12×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">12×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -829,9 +821,6 @@
 var request = require('request');
 var base64 = require('base-64');
 exports = {
-  events: [
-    { event: "onMessageCreate", callback: "onMessageCreateCallback" }
-  ],
   onMessageCreateCallback: function (payload) {
     var message_data = payload.data.message;
     <span class="missing-if-branch" title="else path not taken" >E</span>if (message_data.is_offline &amp;&amp; payload.iparams.offlineVal) {
@@ -841,15 +830,14 @@ exports = {
         var emailExist = validateEmail(content);
         <span class="missing-if-branch" title="else path not taken" >E</span>if ("text" in message_parts &amp;&amp; emailExist === false) searchUser(content, payload);
       }
-&nbsp;
     }
   },
   searchUser: function (args) {
     request(reqData.searchUser(args), function (err, resp, body) {
-      <span class="missing-if-branch" title="if path not taken" >I</span>if (err) {
-<span class="cstat-no" title="statement not covered" >        renderData(err);</span>
+      if (err) {
+        renderData(err);
       }
-      <span class="missing-if-branch" title="else path not taken" >E</span>if (resp !== undefined) {
+      if (resp !== undefined) {
         if (resp.statusCode === 200) {
           try {
             var respObj = JSON.parse(body);
@@ -1150,7 +1138,7 @@ function getTickets(respObj, ticketArr) {
         "priority": respObj.tickets[i].priority, "status": respObj.tickets[i].status,
         "created_at": respObj.tickets[i].created_at,
         "assignee_id": (respObj.tickets[i].assignee_id !== null) ? base64.encode(respObj.tickets[i].assignee_id) : null,
-        "due_at": respObj.tickets[i].due_at
+        "due_at": respObj.tickets[i].due_at, "requester_id": base64.encode(respObj.tickets[i].requester_id)
       };
       ticketArr.push(obj);
     }
@@ -1206,7 +1194,7 @@ function createTicketInZendesk(args) {
     }
     <span class="missing-if-branch" title="else path not taken" >E</span>if (resp !== undefined) {
       <span class="missing-if-branch" title="else path not taken" >E</span>if (resp.statusCode === 201) {
-        console.info("Ticket created succesfully");
+        console.info("Ticket created successfully.");
       } else {
         var error = <span class="cstat-no" title="statement not covered" >{</span>
           status: resp.statusCode,
@@ -1222,7 +1210,7 @@ function createTicketInZendesk(args) {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Aug 03 2021 06:02:49 GMT+0530 (India Standard Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Mar 13 2022 21:08:51 GMT+0530 (India Standard Time)
 </div>
 </div>
 <script src="../prettify.js"></script>
