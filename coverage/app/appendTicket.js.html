@@ -1,0 +1,629 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for app\appendTicket.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">app/</a> appendTicket.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">79.46% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>89/112</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">45.83% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>11/24</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">81.48% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>22/27</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">79.28% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>88/111</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line medium'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189</td><td class="line-coverage quiet"><span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">50×</span>
+<span class="cline-any cline-yes">50×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">50×</span>
+<span class="cline-any cline-yes">50×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">50×</span>
+<span class="cline-any cline-yes">50×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">$(document).ready(function () {
+    app.initialized().then(function (_client) {
+        var append_client = _client;
+        $("#append_ticket_details").hide();
+        var getContextData = function (callback) {
+            contextInfo(append_client, callback);
+        };
+        getContextData(function (c_data) {
+            var page = 1;
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (c_data.user_id !== null)
+                getTickets(c_data, append_client, page);
+            else {
+<span class="cstat-no" title="statement not covered" >                showNotification(append_client, "info", "No existing tickets for this User");</span>
+<span class="cstat-no" title="statement not covered" >                $(".loader").hide();</span>
+            }
+        });
+        $(document).on("click", ".append", function (e) {
+            $(this).prop("disabled", true);
+            var obj = {};
+            var arr = [];
+            getContextData(function (c_data) {
+                c_data.conversation.messages.reverse();
+                $.each(c_data.conversation.messages, function (i, v) {
+                    obj["created_at"] = v.created_time;
+                    obj["actor_id"] = v.actor_id;
+                    obj["message_parts"] = v.message_parts;
+                    obj["id"] = v.id;
+                    arr.push(obj);
+                });
+                var parse_id = parseInt(e.target.dataset.id);
+                searchInDb(append_client, parse_id, arr, c_data);
+            });
+        });
+    }, function () <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        showNotification(append_client, "danger", "Unexcepted error occured, please try again");</span>
+    });
+    function searchInDb(append_client, id, arr, c_data) {
+        var trimmed_id = jQuery.trim(c_data.conversation.messages[c_data.conversation.messages.length - 1].id).substring(0, 30).trim(this) + "...";
+        append_client.db.get(id).then(function (d_data) {
+            var db_id = d_data.conv_id;
+            formAUI(append_client, c_data, id, db_id);
+        }, function (error) {
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (error.status === 404) {
+                setDb(append_client, id, trimmed_id, arr, c_data, c_data.user_id);
+                formUIforNote(arr, c_data, append_client, c_data.user_id, id, "append_resolve");
+            } else
+<span class="cstat-no" title="statement not covered" >                showNotification(client, "danger", "Unable to fetch DB data");</span>
+        });
+    }
+    function setDb(client, id, trimmed_id, arr, c_data, user_id) {
+        client.db.set(id, { conv_id: trimmed_id }).then(function () {
+            formUIforNote(arr, c_data, client, user_id, id, "append_resolve");
+        }, function (error) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >            if (error.status !== 404)</span>
+<span class="cstat-no" title="statement not covered" >                showNotification(client, "danger", error.message);</span>
+        });
+    }
+    function formAUI(client, data, id, db_id) {
+        var messages = data.conversation.messages;
+        var last_conv_id = messages[messages.length - 1].id;
+        var arr = [], ui_arr = [];
+        $.each(messages, function (i, v) {
+            var trimmed_id = jQuery.trim(v.id).substring(0, 30).trim(this) + "...";
+            arr.push(trimmed_id);
+        });
+        var trimmed_id = jQuery.trim(last_conv_id).substring(0, 30).trim(this) + "...";
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (db_id === trimmed_id)
+<span class="cstat-no" title="statement not covered" >            showNotification(client, "info", "No new message for this coonversation.")</span>
+        else {
+            console.log("not equal....")
+            var index = $.inArray(db_id, arr);
+            console.log(db_id, trimmed_id)
+            console.log(index, messages.length - 1)
+            $.each(messages, function (i, v) {
+                var obj = {};
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (index === 0) {
+<span class="cstat-no" title="statement not covered" >                    if (i &gt;= index) {</span>
+<span class="cstat-no" title="statement not covered" >                        obj["created_at"] = v.created_time;</span>
+<span class="cstat-no" title="statement not covered" >                        obj["actor_id"] = v.actor_id;</span>
+<span class="cstat-no" title="statement not covered" >                        obj["message_parts"] = v.message_parts;</span>
+<span class="cstat-no" title="statement not covered" >                        obj["actor_type"] = v.actor_type;</span>
+<span class="cstat-no" title="statement not covered" >                        obj["message_type"] = v.message_type;</span>
+<span class="cstat-no" title="statement not covered" >                        obj["id"] = v.id;</span>
+<span class="cstat-no" title="statement not covered" >                        ui_arr.push(obj);</span>
+                    }
+                } <span class="missing-if-branch" title="else path not taken" >E</span>if (index &gt; 0) {
+                    if (i &gt; index) {
+                        obj["created_at"] = v.created_time;
+                        obj["actor_id"] = v.actor_id;
+                        obj["message_parts"] = v.message_parts;
+                        obj["actor_type"] = v.actor_type;
+                        obj["message_type"] = v.message_type;
+                        obj["id"] = v.id;
+                        ui_arr.push(obj);
+                    }
+                }
+            });
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (index != -1) {
+                updateDb(client, id, trimmed_id, ui_arr, data);
+                // formUIforNote(ui_arr, data, client, data.user_id, id, "append");
+            }
+        }
+&nbsp;
+    }
+    function updateDb(client, id, trimmed_id, ui_arr, data) {
+        client.db.update(id, "set", { "conv_id": trimmed_id }).then(function () {
+            formUIforNote(ui_arr, data, client, data.user_id, id, "append");
+        }, function () <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >            showNotification(client, "danger", "Failed to update DB");</span>
+        });
+    }
+&nbsp;
+    function contextInfo(client, callback) {
+        client.instance.context().then(function (context) {
+            callback(context.data);
+        }, function (error) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >            showNotification(client, "danger", error);</span>
+        });
+    }
+    function getTickets(c_data, client, page) {
+        console.log(c_data)
+        var options = {
+            "user_id": btoa(c_data.user_id), page: page
+        };
+        client.request.invoke("getAllTickets", options).then(function (data) {
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (data.response !== undefined) {
+                var resp = data.response;
+                var arr = [];
+                $.each(resp.tickets, function (i, v) {
+                    arr.push(`&lt;div class="t_a"&gt;&lt;div id="ticket_${v.id}" class="ticket_modal"&gt;`);
+                    arr.push(`&lt;p id="subject_${v.id}" class="subject_modal" title="${v.subject}"&gt;${v.subject}&lt;/p&gt;`);
+                    console.log(`https://${c_data.getSubdomain}/agent/tickets/${v.id}`)
+                    arr.push(`&lt;a href="https://${c_data.getSubdomain}/agent/tickets/${v.id}" target="_blank" id="id_${v.id}" class="id_modal"&gt;#${v.id}&lt;/a&gt;`);
+                    arr.push(`&lt;p class="seperator_modal"&gt;&lt;/p&gt;`);
+                    var date_split = v.created_at.split("T")[0];
+                    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+                    ];
+                    var convert = new Date(date_split);
+                    var month_str = convert.getDate() + " " + monthNames[convert.getMonth()] + " " + convert.getFullYear();
+                    arr.push(`&lt;table border="0" class="ticket_info_modal"&gt;
+                    &lt;tr&gt;
+                      &lt;td class="label_info_modal"&gt;Created at&lt;/td&gt;
+                      &lt;td id=""&gt;
+                        &lt;div class="value_info"&gt;${month_str}&lt;/div&gt;
+                      &lt;/td&gt;
+                    &lt;/tr&gt;`);
+                    <span class="missing-if-branch" title="if path not taken" >I</span>if (v.due_at !== null) {
+                        var date_split2 = <span class="cstat-no" title="statement not covered" >v.due_at.split("T")[0];</span>
+                        var convert2 = <span class="cstat-no" title="statement not covered" >new Date(date_split2);</span>
+                        var month_str2 = <span class="cstat-no" title="statement not covered" >convert2.getDate() + " " + monthNames[convert2.getMonth()] + " " + convert2.getFullYear();</span>
+<span class="cstat-no" title="statement not covered" >                        arr.push(`&lt;tr&gt;</span>
+                                  &lt;td class="label_info_modal"&gt;Due at&lt;/td&gt;
+                                  &lt;td id=""&gt;
+                                    &lt;div class="value_info"&gt;${month_str2}&lt;/div&gt;
+                                  &lt;/td&gt;
+                                                      &lt;/tr&gt;`);
+                    }
+                    else {
+                        var month_str2 = "~";
+                        arr.push(`&lt;tr&gt;
+                        &lt;td class="label_info_modal"&gt;Due at&lt;/td&gt;
+                        &lt;td id=""&gt;
+                          &lt;div class="value_info"&gt;${month_str2}&lt;/div&gt;
+                        &lt;/td&gt;
+                                  &lt;/tr&gt;`);
+                    }
+&nbsp;
+                    arr.push(`&lt;tr&gt;
+                              &lt;td class="label_info_modal"&gt;
+                                Status
+                              &lt;/td&gt;
+                              &lt;td id=""&gt;
+                                &lt;div class="value_info"&gt;${v.status}&lt;/div&gt;
+                              &lt;/td&gt;
+                            &lt;/tr&gt;
+                          &lt;/table&gt;`);
+                    arr.push(`&lt;/div&gt;&lt;div id="append_area_${v.id}" class="append_area"&gt;&lt;fw-button data-id="${v.id}" color="primary" id="append_${v.id}" class="append"&gt; Append &lt;/fw-button&gt;&lt;/div&gt;&lt;/div&gt;`);
+                });
+                $("#append_ticket_details").append(arr.join('')).show();
+                $(".loader").hide();
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (resp.tickets.length === 0)
+<span class="cstat-no" title="statement not covered" >                    showNotification(append_client, "info", "No existing tickets for this User");</span>
+            }
+        }, function (err) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >            showNotification(client, "alert", err.message);</span>
+        });
+    }
+});</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Apr 29 2021 14:56:19 GMT+0530 (India Standard Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for app\viewTicketDetails.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">app/</a> viewTicketDetails.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">94.34% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>50/53</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">87.5% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>7/8</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">78.57% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>11/14</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">93.62% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>44/47</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78</td><td class="line-coverage quiet"><span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">$(document).ready(function () {
+    app.initialized().then(function (_client) {
+        window.viewTicketClient = _client;
+        contextInfo(viewTicketClient);
+    }, function () <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        showNotification(viewTicketClient, "error", "Something went wrong, please try again");</span>
+    });
+    //get context data
+    function contextInfo(client) {
+        client.instance.context().then(function (context) {
+            getTicket(context.data, client);
+        }, function (error) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >            showNotification(client, "danger", error);</span>
+        });
+    }
+    //fetch zendesk ticket data
+    function getTicket(c_data, client) {
+        var options = {
+            "ticket_id": btoa(c_data.ticket_id)
+        };
+        client.request.invoke("getTicket", options).then(function (data) {
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (data.response.message === undefined) {
+                var resp = data.response, arr = []; const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+                ];
+                var created_at = resp.created_at, creatSplit = created_at.split("T")[0];
+                var convert1 = new Date(creatSplit), month_str1 = convert1.getDate() + " " + monthNames[convert1.getMonth()] + " " + convert1.getFullYear();
+                getTicketAssignedTo(resp, client, arr, month_str1, monthNames, c_data.domain);
+            }
+        }, function (err) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >            showNotification(client, "danger", err.message);</span>
+        });
+    }
+    //get ticket assignee
+    function getTicketAssignedTo(ticket, client, arr, month_str1, monthNames, domain) {
+        if (ticket.assignee_id !== null) {
+            checkAssignee(atob(ticket.assignee_id), client, function (aData) {
+                var assigneeTo = atob(aData.name);
+                checkAssignee(atob(ticket.submitter_id), client, function (aData) {
+                    var assignedBy = atob(aData.name);
+                    displayTicketDetails(arr, ticket, month_str1, monthNames, assigneeTo, assignedBy, domain);
+                });
+            });
+        } else {
+            checkAssignee(atob(ticket.submitter_id), client, function (aData) {
+                var assignedBy = atob(aData.name);
+                displayTicketDetails(arr, ticket, month_str1, monthNames, "~", assignedBy, domain);
+            });
+        }
+&nbsp;
+    }
+    //display tickets details
+    function displayTicketDetails(arr, ticket, month_str1, monthNames, assigneeTo, assignedBy, domain) {
+        arr.push(`&lt;div class="msubject"&gt;${xssTest(ticket.subject)}&lt;/div&gt;`);
+        arr.push(`&lt;div class="msubjval"&gt;&lt;a href="https://${domain}/agent/tickets/${ticket.id}" rel="noreferrer" target="_blank"&gt;#${ticket.id}&lt;/a&gt;&lt;/div&gt;`);
+        arr.push(`&lt;p class="mcreated"&gt;Created on&lt;/p&gt;`);
+        arr.push(`&lt;div class="val"&gt;${month_str1}&lt;/div&gt;`);
+        arr.push(`&lt;p class="mdesc"&gt;Description&lt;/p&gt;`);
+        arr.push(`&lt;div class="val"&gt;${xssTest(ticket.description)}&lt;/div&gt;`);
+        arr.push(`&lt;p class="mdue"&gt;Due on&lt;/p&gt;`);
+        if (ticket.due_at !== null) {
+            var due_at = ticket.due_at, dueSplit = due_at.split("T")[0], convert2 = new Date(dueSplit);
+            var month_str2 = convert2.getDate() + " " + monthNames[convert2.getMonth()] + " " + convert2.getFullYear();
+            arr.push(`&lt;div class="val"&gt;${month_str2}&lt;/div&gt;`)
+        } else arr.push(`&lt;div class="val"&gt;~&lt;/div&gt;`);
+        arr.push(`&lt;p class="massigned"&gt;Assigned to&lt;/p&gt;`);
+        arr.push(`&lt;div class="val"&gt;${xssTest(assigneeTo)}&lt;/div&gt;`);
+        arr.push(`&lt;p class="mstatus"&gt;Status&lt;/p&gt;`);
+        arr.push(`&lt;div class="val"&gt;${ticket.status}&lt;/div&gt;`);
+        arr.push(`&lt;p class="mpriority"&gt;Priority&lt;/p&gt;`);
+        (ticket.priority !== null) ?
+            arr.push(`&lt;div class="val"&gt;${ticket.priority}&lt;/div&gt;`) : arr.push(`&lt;div class="val"&gt;~&lt;/div&gt;`);
+        arr.push(`&lt;p class="massignedby"&gt;Assigned by&lt;/p&gt;`);
+        arr.push(`&lt;div class="val"&gt;${xssTest(assignedBy)}&lt;/div&gt;`);
+        $(".viewTicket").append(arr.join('')).show();
+        $(".spinner").hide();
+    }
+});</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Aug 03 2021 06:02:49 GMT+0530 (India Standard Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

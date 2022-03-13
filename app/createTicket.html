@@ -1,0 +1,93 @@
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://static.freshdev.io/fdk/2.0/assets/fresh_client.js"></script>
+    <script type="module" src="https://unpkg.com/@freshworks/crayons/dist/crayons/crayons.esm.js">
+    </script>
+    <script nomodule src="https://unpkg.com/@freshworks/crayons/dist/crayons/crayons.js">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://static.freshdev.io/fdk/2.0/assets/freshchat.css" />
+    <script src="createTicket.js"></script>
+    <script src="common.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <fw-spinner id="msg" size="medium" class="spinner"></fw-spinner>
+    <div id="modal-body" class="body">
+        <p>Choose to either save as a new Zendesk ticket or append it to an existing ticket.</p>
+        <div class="choose">
+            <label class="radio-inline">
+                <input type="radio" name="optradio" value="new" checked>Save as a new Ticket
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="optradio" value="existing" />Append to existing Ticket
+            </label>
+        </div>
+        <div id="partNew"> <label>Subject</label><span class="red"> *</span>
+            <input type="text" id="subject" class="form-control" required>
+            </input>
+            <label>Notes</label><span class="red"> *</span>
+            <textarea id="notes" class="form-control" required>
+            </textarea>
+            <label>Status</label><span class="red"> *</span>
+            <select class="form-control" id="status">
+                <option selected disable>Select</option>
+            </select>
+            <label>Priority</label>
+            <select class="form-control" id=priority>
+                <option selected disable>Select</option>
+            </select>
+            <label>Group</label>
+            <select class="form-control" id="group">
+                <option selected disable>Select</option>
+            </select>
+            <label class="agentLabel">Agent</label>
+            <select label="Status" id="agent" class="form-control">
+                <option selected disable>Select</option>
+            </select>
+            <label>Tags</label>
+            <input type="text" id="tags" class="form-control" required clear-input>
+            </input>
+        </div>
+        <div id="partExisting" class="body2">
+            <p id="existingMsg" class="existingMsg">Loading Please wait...</fw-spinner>
+            <div id="ticketsLoad">
+                <div class="flex-container">
+                    <div class="flex-child">
+                        <label id="textLabel"></label>
+                        <input type="number" id="ticketId" class="form-control" required clear-input
+                            placeholder="Search tickets using ticket ID (ex: 1234)">
+                        </input>
+                    </div>
+                    <div class="flex-child1">
+                        <fw-button color="primary" id="search">Search Ticket</fw-button>
+                    </div>
+                </div>
+                <div>
+                    <p id="ticketsOf" class="ticketsOf">
+                    </p>
+                    <div class="ticketsList">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="existingNoTickets">
+            <b>No existing ticket found</b>
+            <p>Save it as a new ticket instead</p>
+        </div>
+    </div>
+
+    <div id="check_ui"></div>
+    <div class="modal-footer">
+        <fw-button color="secondary" id="cancel"> Cancel </fw-button>
+        <fw-button color="primary" id="m_button"> Create a Zendesk ticket </fw-button>
+    </div>
+</body>
+
+</html>

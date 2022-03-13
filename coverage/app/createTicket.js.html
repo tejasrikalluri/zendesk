@@ -1,0 +1,1607 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for app\createTicket.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">app/</a> createTicket.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">96.31% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>287/298</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">86.67% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>130/150</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">88.46% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>69/78</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">96.13% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>273/284</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515</td><td class="line-coverage quiet"><span class="cline-any cline-yes">127×</span>
+<span class="cline-any cline-yes">127×</span>
+<span class="cline-any cline-yes">127×</span>
+<span class="cline-any cline-yes">127×</span>
+<span class="cline-any cline-yes">127×</span>
+<span class="cline-any cline-yes">127×</span>
+<span class="cline-any cline-yes">102×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">127×</span>
+<span class="cline-any cline-yes">127×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">127×</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">127×</span>
+<span class="cline-any cline-yes">1540×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">127×</span>
+<span class="cline-any cline-yes">95×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">127×</span>
+<span class="cline-any cline-yes">78×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">127×</span>
+<span class="cline-any cline-yes">42×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">34×</span>
+<span class="cline-any cline-yes">34×</span>
+<span class="cline-any cline-yes">34×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">127×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">127×</span>
+<span class="cline-any cline-yes">68×</span>
+<span class="cline-any cline-yes">68×</span>
+<span class="cline-any cline-yes">68×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">165×</span>
+<span class="cline-any cline-yes">165×</span>
+<span class="cline-any cline-yes">165×</span>
+<span class="cline-any cline-yes">165×</span>
+<span class="cline-any cline-yes">165×</span>
+<span class="cline-any cline-yes">165×</span>
+<span class="cline-any cline-yes">165×</span>
+<span class="cline-any cline-yes">165×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">57×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">57×</span>
+<span class="cline-any cline-yes">57×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">57×</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">35×</span>
+<span class="cline-any cline-yes">35×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">45×</span>
+<span class="cline-any cline-yes">45×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">34×</span>
+<span class="cline-any cline-yes">33×</span>
+<span class="cline-any cline-yes">33×</span>
+<span class="cline-any cline-yes">33×</span>
+<span class="cline-any cline-yes">33×</span>
+<span class="cline-any cline-yes">33×</span>
+<span class="cline-any cline-yes">33×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">33×</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-yes">82×</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">68×</span>
+<span class="cline-any cline-yes">68×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">68×</span>
+<span class="cline-any cline-yes">68×</span>
+<span class="cline-any cline-yes">68×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">68×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">154×</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">84×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">42×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">84×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">70×</span>
+<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">23×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">35×</span>
+<span class="cline-any cline-yes">35×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">127×</span>
+<span class="cline-any cline-yes">127×</span>
+<span class="cline-any cline-yes">122×</span>
+<span class="cline-any cline-yes">122×</span>
+<span class="cline-any cline-yes">122×</span>
+<span class="cline-any cline-yes">2440×</span>
+<span class="cline-any cline-yes">122×</span>
+<span class="cline-any cline-yes">366×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2440×</span>
+<span class="cline-any cline-yes">122×</span>
+<span class="cline-any cline-yes">488×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2440×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">122×</span>
+<span class="cline-any cline-yes">122×</span>
+<span class="cline-any cline-yes">122×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2440×</span>
+<span class="cline-any cline-yes">1586×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1586×</span>
+<span class="cline-any cline-yes">488×</span>
+<span class="cline-any cline-yes">488×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1098×</span>
+<span class="cline-any cline-yes">122×</span>
+<span class="cline-any cline-yes">122×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">976×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">122×</span>
+<span class="cline-any cline-yes">2440×</span>
+<span class="cline-any cline-yes">244×</span>
+<span class="cline-any cline-yes">122×</span>
+<span class="cline-any cline-yes">244×</span>
+<span class="cline-any cline-yes">732×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2440×</span>
+<span class="cline-any cline-yes">122×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">976×</span>
+<span class="cline-any cline-yes">244×</span>
+<span class="cline-any cline-yes">244×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">732×</span>
+<span class="cline-any cline-yes">244×</span>
+<span class="cline-any cline-yes">244×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488×</span>
+<span class="cline-any cline-yes">122×</span>
+<span class="cline-any cline-yes">122×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">366×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">366×</span>
+<span class="cline-any cline-yes">122×</span>
+<span class="cline-any cline-yes">122×</span>
+<span class="cline-any cline-yes">244×</span>
+<span class="cline-any cline-yes">122×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">122×</span>
+<span class="cline-any cline-yes">122×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">122×</span>
+<span class="cline-any cline-yes">122×</span>
+<span class="cline-any cline-yes">108×</span>
+<span class="cline-any cline-yes">108×</span>
+<span class="cline-any cline-yes">216×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">108×</span>
+<span class="cline-any cline-yes">108×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">102×</span>
+<span class="cline-any cline-yes">101×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">$(document).ready(function () {
+    app.initialized().then(function (_client) {
+        var modal_client = _client;
+        $("#modal-body,#partExisting,#agent,.agentLabel,.agentSpan,.existingNoTickets").hide();
+        $("#m_button").prop("disabled", true);
+        var getContextInfo = function (callback) {
+            contextInfo(modal_client, callback);
+        };
+        getTicketFields(modal_client);
+        $("#cancel").off().click(function () <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >            modal_client.instance.close();</span>
+        });
+        $("#search").off().click(function () {
+            $(this).prop("disabled", true);
+            var ticket_id = $("#ticketId").val().trim();
+            if (ticket_id !== "") {
+                $(".ticketsList").html('');
+                $("#existingMsg").show();
+                $("#partNew").hide();
+                getTicket(ticket_id, modal_client, getContextInfo);
+            } else {
+                $(this).prop("disabled", false);
+                showNotification(modal_client, "danger", "Please enter any Ticket ID");
+            }
+&nbsp;
+        });
+        $(document).on('input', 'input,textarea', function () {
+            $("#m_button").prop("disabled", false);
+        });
+        $(document).on('change', 'select', function () {
+            $("#m_button").prop("disabled", false);
+        });
+        $("#ticketId").on("input", function () {
+            $("#search").prop("disabled", false);
+        });
+        $("input[name='optradio']").click(function () {
+            if ($('input:radio[name=optradio]:checked').val() === "new") {
+                $("#m_button").text("Create a Zendesk ticket");
+                $("#m_button").prop("disabled", true);
+                $("#partNew").show();
+                $("#partExisting,.existingNoTickets").hide();
+            } else {
+                $("#m_button").text("Append to ticket");
+                $(".ticketsList").html('');
+                getExistingTickets(getContextInfo, modal_client, "change");
+            }
+        });
+        $(document).on('change', '#group', function () {
+            <span class="missing-if-branch" title="else path not taken" >E</span>if ($(this).val() !== "Select") {
+                $("#agent,.agentLabel,.agentSpan").hide();
+                $('#agent option:not(:first)').remove();
+                var options = {
+                    "group_id": btoa($(this).val())
+                };
+                modal_client.request.invoke("getAssinableAgents", options).then(function (data) {
+                    <span class="missing-if-branch" title="else path not taken" >E</span>if (data.response.message === undefined) {
+                        var count = 0, length = data.response.group_memberships.length, arr = data.response.group_memberships;
+                        agentProcess(count, length, arr, modal_client);
+                        
+                    }
+                }, function (error) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >                    showNotification(modal_client, "danger", error.message);</span>
+                });
+            }
+        });
+&nbsp;
+        $(document).on('click', '#m_button', function () {
+            $(this).prop("disabled", true);
+            getContextInfo(function (c_data) {
+                if ($('#m_button').text() === "Append to ticket") {
+                    var arr = [], radioValue = $("input[name='optTicket']:checked").val();
+                    c_data.conversation.messages.reverse();
+                    $.each(c_data.conversation.messages, function (i, v) {
+                        var obj = {};
+                        obj["created_at"] = v.created_time;
+                        obj["actor_id"] = (v.actor_id !== undefined) ? atob(v.actor_id) : <span class="branch-1 cbranch-no" title="branch not covered" >atob(v.org_actor_id);</span>
+                        obj["message_parts"] = v.message_parts;
+                        obj["message_type"] = atob(v.message_type);
+                        obj["actor_type"] = atob(v.actor_type);
+                        obj["id"] = atob(v.id);
+                        arr.push(obj);
+                    });
+                    var parse_id = parseInt(radioValue);
+                    searchInDb(modal_client, parse_id, arr, c_data);
+                } else {
+                    clickWithNewTicket(c_data, modal_client);
+                }
+            });
+&nbsp;
+        });
+    }, function () <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        showNotification(modal_client, "danger", "Something went wrong, please try again");</span>
+    });
+    //for new user ticket create fetching the values
+    function clickWithNewTicket(c_data, modal_client) {
+        var subject = $("#subject").val().trim(), notes = $("#notes").val().trim(), status = $("#status").val();
+        var obj = {
+            "body": {
+                "custom_fields": {
+                }
+            }
+        };
+        if (c_data.source === "new_ticket") {
+            if (subject !== "" &amp;&amp; notes !== "" &amp;&amp; status !== "Select" &amp;&amp; status !== "") {
+                checkFieldValidation(subject, notes, obj);
+                obj.body["requester_id"] = btoa(c_data.user_id);
+                checkValid("old", modal_client, obj, c_data.email);
+            } else
+                showNotification(modal_client, "danger", "Please fill mandatory fields");
+        } else <span class="missing-if-branch" title="else path not taken" >E</span>if (c_data.source === "new_requester")
+            formNewRequester(subject, notes, c_data, modal_client, obj, "not_resolve", status);
+    }
+    //search zendesk id from db
+    function searchInDb(modal_client, id, arr, c_data) {
+        var trimmed_id = jQuery.trim(c_data.conversation.messages[c_data.conversation.messages.length - 1].id).substring(0, 30).trim(this) + "...";
+        modal_client.db.get(id).then(function (d_data) {
+            var db_id = d_data.conv_id;
+            formAUI(modal_client, c_data, id, db_id);
+        }, function (error) {
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (error.status === 404) {
+                setDb(modal_client, id, trimmed_id, arr, c_data, c_data.user_id);
+            } else
+<span class="cstat-no" title="statement not covered" >                showNotification(client, "danger", "Unable to fetch DB data");</span>
+        });
+    }
+    //check the db and conversation id form an object form a UI for internal note
+    function formAUI(client, data, id, db_id) {
+        var messages = data.conversation.messages, last_conv_id = messages[messages.length - 1].id;
+        var arr = [], ui_arr = [];
+        $.each(messages, function (i, v) {
+            var trimmed_id = jQuery.trim(v.id).substring(0, 30).trim(this) + "...";
+            arr.push(trimmed_id);
+        });
+        var trimmed_id = jQuery.trim(last_conv_id).substring(0, 30).trim(this) + "...";
+        if (db_id === trimmed_id)
+            showNotification(client, "info", "No new message for this coonversation.");
+        else {
+            var index = $.inArray(db_id, arr);
+            $.each(messages, function (i, v) {
+                var obj = {};
+                 if (index &gt; 0) {
+                    if (i &gt; index) {
+                        obj["created_at"] = v.created_time;
+                        obj["actor_id"] = (v.actor_id !== undefined) ? atob(v.actor_id) : <span class="branch-1 cbranch-no" title="branch not covered" >atob(v.org_actor_id);</span>
+                        obj["message_parts"] = v.message_parts;
+                        obj["actor_type"] = atob(v.actor_type);
+                        obj["message_type"] = atob(v.message_type);
+                        obj["id"] = atob(v.id);
+                        ui_arr.push(obj);
+                    }
+                }
+            });
+            if (index != -1)
+                updateDb(client, id, trimmed_id, ui_arr, data, ui_arr, data);
+        }
+&nbsp;
+    }
+    //set zendesk id in db
+    function setDb(client, id, trimmed_id, arr, c_data, user_id) {
+        client.db.set(id, { conv_id: trimmed_id }).then(function () {
+            formUIforNote(arr, c_data, client, user_id, id, "append");
+        }, function (error) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >            if (error.status !== 404)</span>
+<span class="cstat-no" title="statement not covered" >                showNotification(client, "danger", error.message);</span>
+        });
+    }
+    //show tickets of user in append a ticket screen
+    function getExistingTickets(getContextInfo, modal_client, source) {
+        getContextInfo(function (data) {
+            $("#partExisting label:first").html(`Enter an existing ticket " ${data.name} "`);
+            $("#ticketsOf").html(`Tickets of ${data.name} in last 30 days`);
+            $("#partExisting,#existingMsg").show();
+            $("#partNew").hide();
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (source === "change") {
+                $("#ticketsLoad").hide();
+            }
+            if (data.source === "new_ticket") {
+                getTickets(data, modal_client);
+                $("#m_button").prop("disabled", false);
+            } else {
+                $("#m_button").prop("disabled", true);
+                $("#partExisting,#existingMsg").hide();
+                $(".existingNoTickets").show();
+            }
+        });
+&nbsp;
+    }
+    //get a ticket data when ticket id is being searched
+    function getTicket(ticket_id, client, c_data) {
+        var options = {
+            "ticket_id": btoa(ticket_id)
+        };
+        client.request.invoke("getTicket", options).then(function (data) {
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (data.response.message === undefined) {
+                var resp = data.response, arr = [];
+                formTicketUi(resp, arr, 0, c_data);
+                $(".ticketsList").append(arr.join('')).show();
+                $("#ticketsLoad").show();
+                $(".ticketShow:nth-child(1)").find('input[type=radio]').attr('checked', true);
+                $(".existingMsg").hide();
+            }
+        }, function (err) {
+            $(".existingMsg").hide();
+            showNotification(client, "danger", err.message);
+        });
+    }
+    //fetching the tickets of zendesk user
+    function getTickets(c_data, client) {
+        var options = {
+            "user_id": btoa(c_data.user_id)
+        };
+        client.request.invoke("searchTickets", options).then(function (data) {
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (data.response.message === undefined) {
+                var resp = data.response, arr = [];
+                $.each(resp, function (i, v) {
+                    if (i &lt;= 2) {
+                        formTicketUi(v, arr, i, c_data);
+                    }
+                });
+                $(".ticketsList").append(arr.join('')).show();
+                $("#ticketsLoad").show();
+                $(".ticketShow:nth-child(1)").find('input[type=radio]').attr('checked', true);
+                $(".loader,.existingMsg").hide();
+            }
+        }, function (err) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >            showNotification(client, "danger", err.message);</span>
+        });
+    }
+    //when new messages are in db update db when create a internal note
+    function updateDb(modal_client, id, conv_id, ui_arr, data) {
+        var trimmed_id = jQuery.trim(conv_id).substring(0, 30).trim(this) + "...";
+        modal_client.db.update(id, "set", { "conv_id": trimmed_id }).then(function () {
+            formUIforNote(ui_arr, data, modal_client, data.user_id, id, "append");
+        }, function () <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >            showNotification(modal_client, "Unexpected error occured, please try again later!", "danger");</span>
+        });
+    }
+    // existing Tickets UI
+    function formTicketUi(v, arr, i, c_data) {
+        var subject = v.subject, date_split = v.created_at.split("T")[0], convert = new Date(date_split);
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+        ];
+        var month_str = convert.getDate() + " " + monthNames[convert.getMonth()] + " " + convert.getFullYear();
+        arr.push(`&lt;div class="ticketShow"&gt;&lt;div&gt;&lt;input type="radio" name="optTicket" value="${v.id}"&gt;&lt;a rel="noreferrer" id="subject_${i}" href="https://${c_data.domain}/agent/tickets/${v.id}" target="_blank" class="m_subject"&gt;${xssTest(subject)}&lt;/a&gt;&lt;/div&gt;`);
+        if (v.due_at !== null) {
+            var date_split2 = v.due_at.split("T")[0], convert2 = new Date(date_split2);
+            var month_str2 = convert2.getDate() + " " + monthNames[convert2.getMonth()] + " " + convert2.getFullYear();
+            arr.push(`&lt;div&gt;${c_data.name} | Created at ${month_str} | Due at ${month_str2} &lt;/div&gt;&lt;/div&gt;`);
+        }
+        else {
+            var month_str2 = "~";
+            arr.push(`&lt;div&gt;${c_data.name} | Created at ${month_str} | Due at ${month_str2} &lt;/div&gt;&lt;/div&gt;`);
+        }
+        return arr;
+    }
+    // create ticket validation
+    function checkFieldValidation(subject, notes, obj) {
+        $("#m_button").attr("data-id", "valid");
+        var regex = /.(?=.{4})/mg, subst = 'X';
+        $("input[type='text'],input[type='number'],input[type='date']").each(function () {
+            if ($(this).val().trim() !== "") {
+                if ($(this).attr("id") !== "subject" &amp;&amp; $(this).attr("id") !== "notes" &amp;&amp; $(this).attr("id") !== "tags") {
+                    if ($(this).attr("class").includes("partialcreditcard")) {
+                        var value = $(this).val().trim();
+                        obj.body.custom_fields[$(this).attr("id")] = btoa(value.replace(regex, subst));
+                    } else
+                        obj.body.custom_fields[$(this).attr("id")] = btoa($(this).val().trim());
+                } else {
+                    if ($(this).attr("id") === "tags")
+                        obj.body["tags"] = btoa($(this).val().trim());
+                    obj.body["tags"] = btoa($(this).val().trim());
+                }
+            }
+        });
+        $("select").each(function () {
+            formSelectFieldBody(this, obj);
+        });
+        $("textarea").each(function () {
+            formTextareaBody(this, obj);
+        });
+        $("input[type='checkbox']").each(function () {
+            formCheckboxBody(this, obj);
+        });
+        obj.body["subject"] = btoa(subject);
+        obj.body["description"] = btoa(notes);
+    }
+    //form body for ticket creation for select fields
+    function formSelectFieldBody(ele, obj) {
+        if ($(ele).prop("multiple")) {
+            var array = $(ele).val();
+            if (array.length !== 0)
+                obj.body.custom_fields[$(ele).prop("id")] = btoa(array);
+        } else {
+            if ($(ele).val() !== "Select" &amp;&amp; $(ele).val() !== "")
+                otherSelects(ele, obj);
+        }
+    }
+    //for single select forming a body for ticket creation
+    function otherSelects(ele, obj) {
+        if ($(ele).attr("id") !== "agent" &amp;&amp; $(ele).attr("id") !== "status" &amp;&amp; $(ele).attr("id") !== "priority" &amp;&amp; $(ele).attr("id") !== "group")
+            obj.body.custom_fields[$(ele).attr("id")] = btoa($(ele).val());
+        else {
+            obj.body[$(ele).attr("id")] = btoa($(ele).val());
+&nbsp;
+        }
+    }
+    //for checkbox forming a body for ticket creation
+&nbsp;
+    function formCheckboxBody(ele, obj) {
+        if ($(ele).prop("checked")) {
+            obj.body.custom_fields[$(ele).attr("id")] = btoa(true);
+        }
+        else
+            obj.body.custom_fields[$(ele).attr("id")] = btoa(false);
+    }
+    //for textarea forming a body for ticket creation
+    function formTextareaBody(ele, obj) {
+        if ($(ele).attr("id") !== "notes" &amp;&amp; $(ele).val().trim() !== "") {
+            obj.body.custom_fields[$(ele).attr("id")] = btoa($(ele).val());
+        }
+    }
+    //for new user forming a body for ticket creation
+    function formNewRequester(subject, notes, c_data, modal_client, obj, origin, status) {
+        $("#m_button").attr("data-id", "valid");
+        if (subject !== "" &amp;&amp; notes !== "" &amp;&amp; c_data.email !== null &amp;&amp; status !== "Select" &amp;&amp; status !== "") {
+            checkFieldValidation(subject, notes, obj);
+            obj.body["name"] = btoa(c_data.name);
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (c_data.email !== null) obj.body["email"] = btoa(c_data.email)
+            checkOrigin(origin, modal_client, obj, c_data);
+        } else
+            showNotification(modal_client, "danger", "Please fill mandatory fields");
+    }
+    //for check validation for ticket creation
+    function checkValid(origin, modal_client, obj, data) {
+        <span class="missing-if-branch" title="else path not taken" >E</span>if ($("#m_button").attr("data-id") === "valid")
+            ticketCreate(modal_client, obj, data, origin);
+    }
+    //send origin for validtion of ticket creation data
+    function checkOrigin(origin, modal_client, obj, c_data) {
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (origin !== "resolved")
+            checkValid("new", modal_client, obj, c_data)
+    }
+    //iterate loop for agents list
+    function agentProcess(count, length, arr, client) {
+        if (count &lt; length)
+            searchAgent(client, count, length, arr);
+        else
+            $("#agent,.agentLabel,.agentSpan").show();
+    }
+    //search an agent for appending agents in list
+    function searchAgent(client, count, length, arr) {
+        var decodedUserId = atob(arr[count].user_id);
+        var options = {
+            "assignee_id": btoa(decodedUserId)
+        };
+        client.request.invoke("searchAssignee", options).then(function (data) {
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (data.response.message === undefined) {
+                $('#agent')
+                    .append($("&lt;option&gt;&lt;/option&gt;")
+                        .attr("value", atob(data.response.id))
+                        .text(atob(data.response.name)));
+                var new_count = count + 1;
+                agentProcess(new_count, length, arr, client);
+&nbsp;
+            }
+        }, function () <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >            showNotification(client, "danger", "Failed to Agent details");</span>
+        });
+    }
+&nbsp;
+    //get all fields in zendesk
+    function getTicketFields(client) {
+        var options = {};
+        client.request.invoke("getTicketFields", options).then(function (data) {
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (data.response.message === undefined) {
+                var arr = [];
+                $.each(data.response.ticket_fields, function (i, v) {
+                    if (v.type === "status") {
+                        $.each(v.system_field_options, function (i1, v2) {
+                            $('#status')
+                                .append($("&lt;option&gt;&lt;/option&gt;")
+                                    .attr("value", v2.value)
+                                    .text(v2.name));
+                        });
+                    }
+                    if (v.type === "priority") {
+                        $.each(v.system_field_options, function (i1, v2) {
+                            $('#priority')
+                                .append($("&lt;option&gt;&lt;/option&gt;")
+                                    .attr("value", v2.value)
+                                    .text(v2.name));
+                        });
+                    }
+                    formCustomFields(v, arr);
+                });
+                getGroups(client);
+                $("#partNew").append(arr.join('')).show();
+                formSelectFields(data);
+            }
+        }, function () {
+            showNotification(client, "danger", "Failed to fetch Ticket fields");
+        });
+    }
+    //for forming body for custom fields
+    function formCustomFields(v, arr) {
+        if (v.visible_in_portal &amp;&amp; v.active &amp;&amp; v.type !== "assignee" &amp;&amp; v.type !== "priority" &amp;&amp; v.type !== "description" &amp;&amp; v.type !== "subject")
+            formTextFields(v, arr);
+    }
+    //for forming body for text fields
+    function formTextFields(v, arr) {
+        if (v.type === "text" || v.type === "regexp") {
+            arr.push(`&lt;label&gt;${v.title}&lt;/label&gt;&lt;br/&gt;`);
+            arr.push(`&lt;input id="${v.id}" type="text" class="custom_fields custom_fields_${v.id} form-control" required&gt;
+&lt;/input&gt;`);
+        }
+        else if (v.type === "partialcreditcard") {
+            arr.push(`&lt;label&gt;${v.title}&lt;/label&gt;&lt;br/&gt;`);
+            arr.push(`&lt;input id="${v.id}" type="text" class="custom_fields custom_fields_${v.id} form-control partialcreditcard" required&gt;
+        &lt;/input&gt;`);
+        } else
+            appendUI(v, arr);
+    }
+    //for forming body for select fields
+    function formSelectFields(data) {
+        $.each(data.response.ticket_fields, function (i, v) {
+            if (v.type === "tagger" || v.type === "multiselect") {
+                if (v.type === "tagger")
+                    $(`#${v.id}`).append($("&lt;option&gt;&lt;/option&gt;").text("Select"));
+                $.each(v.custom_field_options, function (i1, v1) {
+                    $(`#${v.id}`).append($("&lt;option&gt;&lt;/option&gt;")
+                        .text(v1.value));
+                });
+            }
+            if (v.type === "multiselect") {
+                $(`#${v.id}`).select2({});
+            }
+        });
+    }
+    //append dynamic custom fields from zendesk
+    function appendUI(v, arr) {
+        if (v.type === "textarea") {
+            arr.push(`&lt;label&gt;${v.title}&lt;/label&gt;&lt;br/&gt;`);
+            arr.push(`&lt;textarea cols=98 rows=3 id="${v.id}" class="custom_fields custom_fields_${v.id} form-control" required&gt;
+          &lt;/textarea&gt;`);
+        }
+        else if (v.type === "integer" || v.type === "decimal") {
+            arr.push(`&lt;label&gt;${v.title}&lt;/label&gt;&lt;br/&gt;`);
+            arr.push(`&lt;input id="${v.id}" type="number" class="custom_fields custom_fields_${v.id} form-control" required&gt;
+    &lt;/input&gt;`);
+        } else if (v.type === "tagger") {
+            arr.push(`&lt;label&gt;${v.title}&lt;/label&gt;&lt;br/&gt;`);
+            arr.push(`&lt;select class="custom_fields custom_fields_${v.id} form-control" id="${v.id}"&gt;&lt;/select&gt;`);
+        } else
+            appendOtherFields(v, arr);
+    }
+    //append multiselect,checkbox,date fields from zendesk in ticket creation modal
+    function appendOtherFields(v, arr) {
+        if (v.type === "multiselect") {
+            arr.push(`&lt;label&gt;${v.title}&lt;/label&gt;&lt;br/&gt;`);
+            arr.push(`&lt;select class="custom_fields custom_fields_${v.id}" id="${v.id}" name="${v.title}[]" multiple="multiple"&gt;&lt;/select&gt;`);
+        } else if (v.type === "checkbox") {
+            arr.push(`&lt;div class="checkbox"&gt;
+            &lt;label&gt;&lt;input type="checkbox" id="${v.id}"&gt;${v.title}&lt;/label&gt;
+          &lt;/div&gt;`);
+        }
+        else <span class="missing-if-branch" title="else path not taken" >E</span>if (v.type === "date") {
+            arr.push(`&lt;label&gt;${v.title}&lt;/label&gt;&lt;br/&gt;
+            &lt;input class="form-control custom_fields custom_fields_${v.id}" type="date" id="${v.id}"&gt;
+            `);
+        }
+    }
+    //get groups list from zendesk
+    function getGroups(client) {
+        var options = {};
+        client.request.invoke("getGroups", options).then(function (data) {
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (data.response.message === undefined) {
+                $.each(data.response.groups, function (i, v) {
+                    $('#group')
+                        .append($("&lt;option&gt;&lt;/option&gt;")
+                            .attr("value", v.id)
+                            .text(v.name));
+                });
+                $(".spinner,#partExisting").hide();
+                $("#modal-body").show();
+            }
+        }, function () <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >            showNotification(client, "danger", "Failed to fetch Groups");</span>
+        });
+    }
+    //create ticket in zendesk
+    function ticketCreate(client, options, c_data, origin) {
+        client.request.invoke("createTicket", options).then(function (data) {
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (data.response.message === undefined) {
+                if (origin === "old")
+                    sendDataToInstance(client, c_data, origin);
+                else <span class="missing-if-branch" title="else path not taken" >E</span>if (origin === "new")
+                    sendInstaceForNewUser(c_data, client, origin);
+            }
+        }, function (error) {
+            if (error.status === 400 || error.status === 422)
+                showNotification(client, "danger", error.message.details.base[0].description);
+            else
+                showNotification(client, "danger", error.message);
+        });
+    }
+    //get instance data
+    function contextInfo(client, callback) {
+        client.instance.context().then(function (context) {
+            callback(context.data);
+        }, function (error) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >            showNotification(client, "danger", error);</span>
+        });
+    }
+});</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Aug 03 2021 06:02:49 GMT+0530 (India Standard Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

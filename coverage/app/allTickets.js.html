@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for app\allTickets.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">app/</a> allTickets.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">77.08% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>37/48</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">50% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>4/8</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">75% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>9/12</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">77.08% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>37/48</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line medium'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98</td><td class="line-coverage quiet"><span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">$(document).ready(function () {
+    app.initialized().then(function (_client) {
+        var all_ticket_client = _client;
+        $("#all_ticket_details").hide();
+        contextInfo(all_ticket_client);
+    }, function () <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        showNotification(all_ticket_client, "error", "Something went wrong, please try again");</span>
+    });
+    function contextInfo(client) {
+        client.instance.context().then(function (context) {
+            var page = 1;
+            getTickets(context.data, client, page);
+        }, function (error) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >            showNotification(client, "danger", error);</span>
+        });
+    }
+    function textTruncate(id) {
+        var name = $('#' + id).text();
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (name.length &gt; 51) {
+            var shortname = <span class="cstat-no" title="statement not covered" >name.substring(0, 51) + " ...";</span>
+<span class="cstat-no" title="statement not covered" >            $('#' + id).html(shortname);</span>
+        }
+    }
+    function getTickets(c_data, client, page) {
+        var options = {
+            "user_id": btoa(c_data.user_id), page: page
+        };
+        client.request.invoke("getAllTickets", options).then(function (data) {
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (data.response !== undefined) {
+                var resp = data.response;
+                var arr = [];
+                $.each(resp.tickets, function (i, v) {
+                    arr.push(`&lt;div id="ticket_${i}" class="ticket_modal"&gt;`);
+                    arr.push(`&lt;p id="subject_${i}" class="subject_modal" title="${v.subject}"&gt;${v.subject}&lt;/p&gt;`);
+                    arr.push(`&lt;a href="https://${c_data.getSubdomain}/agent/tickets/${v.id}" target="_blank" id="id_${i}" class="id_modal"&gt;#${v.id}&lt;/a&gt;`);
+                    arr.push(`&lt;p class="seperator_modal"&gt;&lt;/p&gt;`);
+                    var date_split = v.created_at.split("T")[0];
+                    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+                    ];
+                    var convert = new Date(date_split);
+                    var month_str = convert.getDate() + " " + monthNames[convert.getMonth()] + " " + convert.getFullYear();
+                    arr.push(`&lt;table border="0" class="ticket_info_modal"&gt;
+                    &lt;tr&gt;
+                      &lt;td class="label_info_modal"&gt;Created at&lt;/td&gt;
+                      &lt;td id=""&gt;
+                        &lt;div class="value_info"&gt;${month_str}&lt;/div&gt;
+                      &lt;/td&gt;
+                    &lt;/tr&gt;`);
+                    <span class="missing-if-branch" title="if path not taken" >I</span>if (v.due_at !== null) {
+                        var date_split2 = <span class="cstat-no" title="statement not covered" >v.due_at.split("T")[0];</span>
+                        var convert2 = <span class="cstat-no" title="statement not covered" >new Date(date_split2);</span>
+                        var month_str2 = <span class="cstat-no" title="statement not covered" >convert2.getDate() + " " + monthNames[convert2.getMonth()] + " " + convert2.getFullYear();</span>
+<span class="cstat-no" title="statement not covered" >                        arr.push(`&lt;tr&gt;</span>
+                                  &lt;td class="label_info_modal"&gt;Due at&lt;/td&gt;
+                                  &lt;td id=""&gt;
+                                    &lt;div class="value_info"&gt;${month_str2}&lt;/div&gt;
+                                  &lt;/td&gt;
+                                                      &lt;/tr&gt;`);
+                    }
+                    else {
+                        var month_str2 = "~";
+                        arr.push(`&lt;tr&gt;
+                        &lt;td class="label_info_modal"&gt;Due at&lt;/td&gt;
+                        &lt;td id=""&gt;
+                          &lt;div class="value_info"&gt;${month_str2}&lt;/div&gt;
+                        &lt;/td&gt;
+                                  &lt;/tr&gt;`);
+                    }
+&nbsp;
+                    arr.push(`&lt;tr&gt;
+                              &lt;td class="label_info_modal"&gt;
+                                Status
+                              &lt;/td&gt;
+                              &lt;td id=""&gt;
+                                &lt;div class="value_info"&gt;${v.status}&lt;/div&gt;
+                              &lt;/td&gt;
+                            &lt;/tr&gt;
+                          &lt;/table&gt;`);
+                    arr.push(`&lt;/div&gt;`);
+                });
+                $("#all_ticket_details").append(arr.join('')).show();
+                console.log(resp.tickets.length)
+                $.each(resp.tickets, function (i) {
+                    textTruncate(`subject_${i}`);
+                });
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (resp.next_page !== null) {
+<span class="cstat-no" title="statement not covered" >                    page++;</span>
+<span class="cstat-no" title="statement not covered" >                    getTickets(c_data, client, page);</span>
+                }
+                $("#all_ticket_details").show();
+                $(".loader").hide();
+            }
+        }, function (err) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >            showNotification(client, "alert", err.message);</span>
+        });
+    }
+});</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri May 07 2021 10:06:15 GMT+0530 (India Standard Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

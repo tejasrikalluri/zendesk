@@ -1,0 +1,914 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for app\dialog.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">app/</a> dialog.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">31.29% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>46/147</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">34.07% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>31/91</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">23.68% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>9/38</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">31.29% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>46/147</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">$(document).ready(function () {
+    app.initialized().then(function (_client) {
+        var modal_client = _client;
+        var getContextInfo = function (callback) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >            contextInfo(modal_client, callback);</span>
+        };
+        getTicketFields(modal_client);
+        $("#cancel").off().click(function () <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >            modal_client.instance.close();</span>
+        });
+        $(document).on('fwChange', 'fw-input,fw-checkbox,fw-datepiker,fw-textarea', function () <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >            $("#m_create_ticket").prop("disabled", false);</span>
+        });
+        $(document).on('change', 'select', function () <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >            $("#m_create_ticket").prop("disabled", false);</span>
+        });
+        $(document).on('click', '#m_create_ticket', function () <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >            $(this).prop("disabled", true);</span>
+            var subject = <span class="cstat-no" title="statement not covered" >$("#subject").val().trim();</span>
+            var description = <span class="cstat-no" title="statement not covered" >$("#description").val().trim();</span>
+<span class="cstat-no" title="statement not covered" >            getContextInfo(function (c_data) <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >                console.log(c_data)</span>
+<span class="cstat-no" title="statement not covered" >                if (c_data.source === "new_ticket") {</span>
+<span class="cstat-no" title="statement not covered" >                    if (subject !== "" &amp;&amp; description !== "") {</span>
+                        var obj = <span class="cstat-no" title="statement not covered" >{</span>
+                            "body": {
+                                "custom_fields": {
+                                }
+                            }
+                        };
+                        var valid = <span class="cstat-no" title="statement not covered" >true;</span>
+<span class="cstat-no" title="statement not covered" >                        $("fw-input").each(function () <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >                            formTextBoxBody(this, obj, valid);</span>
+                        });
+<span class="cstat-no" title="statement not covered" >                        $("fw-datepicker").each(function () <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >                            formDatePickerBody(this, obj, valid);</span>
+                        });
+<span class="cstat-no" title="statement not covered" >                        $("select").each(function () <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >                            formSelectFieldBody(this, obj, valid);</span>
+                        });
+<span class="cstat-no" title="statement not covered" >                        $("fw-textarea").each(function () <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >                            formTextareaBody(this, obj, valid);</span>
+                        });
+<span class="cstat-no" title="statement not covered" >                        $("fw-checkbox").each(function () <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >                            formCheckboxBody(this, obj);</span>
+                        });
+<span class="cstat-no" title="statement not covered" >                        obj.body["subject"] = subject;</span>
+<span class="cstat-no" title="statement not covered" >                        obj.body["description"] = description;</span>
+<span class="cstat-no" title="statement not covered" >                        obj.body["requester_id"] = btoa(c_data.user_id)</span>
+<span class="cstat-no" title="statement not covered" >                        checkValid(valid, modal_client, obj, c_data.user_id);</span>
+                    } else
+<span class="cstat-no" title="statement not covered" >                        showNotification(modal_client, "alert", "Please fill mandatory fields");</span>
+                } else {
+<span class="cstat-no" title="statement not covered" >                    formNewRequester(subject, description, c_data, modal_client);</span>
+                }
+            });
+        });
+    }, function () <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        showNotification(modal_client, "error", "Something went wrong, please try again");</span>
+    });
+    function formNewRequester(subject, description, c_data, modal_client) <span class="fstat-no" title="function not covered" >{</span>
+        var valid = <span class="cstat-no" title="statement not covered" >true;</span>
+<span class="cstat-no" title="statement not covered" >        if (subject !== "" &amp;&amp; description !== "" &amp;&amp; (c_data.email !== null || c_data.phone !== null)) {</span>
+            var obj = <span class="cstat-no" title="statement not covered" >{</span>
+                "body": {
+                    "custom_fields": {
+                    }
+                }
+            };
+<span class="cstat-no" title="statement not covered" >            $("fw-input").each(function () <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >                if ($(this).val().trim() !== "") {</span>
+<span class="cstat-no" title="statement not covered" >                    if ($(this).attr("id") !== "subject" &amp;&amp; $(this).attr("id") !== "description")</span>
+<span class="cstat-no" title="statement not covered" >                        obj.body.custom_fields[$(this).attr("id")] = $(this).val();</span>
+                }
+                else
+<span class="cstat-no" title="statement not covered" >                    valid = false;</span>
+            });
+<span class="cstat-no" title="statement not covered" >            $("fw-datepicker").each(function () <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >                if ($(this).val().trim() !== "")</span>
+<span class="cstat-no" title="statement not covered" >                    obj.body.custom_fields[$(this).attr("id")] = $(this).val();</span>
+                else
+<span class="cstat-no" title="statement not covered" >                    valid = false;</span>
+            });
+<span class="cstat-no" title="statement not covered" >            $("select").each(function () <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >                if ($(this).prop("multiple")) {</span>
+                    var array = <span class="cstat-no" title="statement not covered" >$(this).val();</span>
+<span class="cstat-no" title="statement not covered" >                    if (array.length === 0)</span>
+<span class="cstat-no" title="statement not covered" >                        valid = false;</span>
+                    else {
+<span class="cstat-no" title="statement not covered" >                        obj.body.custom_fields[$(this).prop("id")] = array;</span>
+                    }
+&nbsp;
+                } else {
+<span class="cstat-no" title="statement not covered" >                    obj.body.custom_fields[$(this).attr("id")] = $(this).val();</span>
+                }
+            });
+<span class="cstat-no" title="statement not covered" >            $("fw-textarea").each(function () <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >                if ($(this).val().trim() !== "") {</span>
+<span class="cstat-no" title="statement not covered" >                    obj.body.custom_fields[$(this).attr("id")] = $(this).val();</span>
+                } else <span class="cstat-no" title="statement not covered" >valid = false;</span>
+&nbsp;
+            });
+<span class="cstat-no" title="statement not covered" >            obj.body["subject"] = subject;</span>
+<span class="cstat-no" title="statement not covered" >            obj.body["description"] = description;</span>
+<span class="cstat-no" title="statement not covered" >            obj.body["name"] = btoa(c_data.name);</span>
+<span class="cstat-no" title="statement not covered" >            if (c_data.email !== null)</span>
+<span class="cstat-no" title="statement not covered" >                obj.body["email"] = btoa(c_data.email);</span>
+            else
+<span class="cstat-no" title="statement not covered" >                obj.body["email"] = null;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            obj.body["phone"] = btoa(c_data.phone);</span>
+<span class="cstat-no" title="statement not covered" >            if (valid)</span>
+<span class="cstat-no" title="statement not covered" >                ticketCreate(modal_client, obj, c_data, "new");</span>
+            else
+<span class="cstat-no" title="statement not covered" >                showNotification(modal_client, "alert", "Please fill mandatory fields");</span>
+        } else
+<span class="cstat-no" title="statement not covered" >            showNotification(modal_client, "alert", "Please fill mandatory fields");</span>
+    }
+    // other email forming a body for text box fields
+    function formTextBoxBody(ele, obj, valid) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        if ($(ele).val().trim() !== "") {</span>
+<span class="cstat-no" title="statement not covered" >            if ($(ele).attr("id") !== "subject" &amp;&amp; $(ele).attr("id") !== "description")</span>
+<span class="cstat-no" title="statement not covered" >                obj.body.custom_fields[$(ele).attr("id")] = $(ele).val();</span>
+        }
+        else {
+<span class="cstat-no" title="statement not covered" >            valid = false;</span>
+        }
+    }
+    function formDatePickerBody(ele, obj, valid) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        if ($(ele).val().trim() !== "")</span>
+<span class="cstat-no" title="statement not covered" >            obj.body.custom_fields[$(ele).attr("id")] = $(ele).val();</span>
+        else {
+<span class="cstat-no" title="statement not covered" >            valid = false;</span>
+        }
+    }
+    function formSelectFieldBody(ele, obj, valid) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        if ($(ele).prop("multiple")) {</span>
+            var array = <span class="cstat-no" title="statement not covered" >$(ele).val();</span>
+<span class="cstat-no" title="statement not covered" >            if (array.length !== 0)</span>
+<span class="cstat-no" title="statement not covered" >                valid = false;</span>
+            else
+<span class="cstat-no" title="statement not covered" >                obj.body.custom_fields[$(ele).prop("id")] = array;</span>
+&nbsp;
+        } else
+<span class="cstat-no" title="statement not covered" >            obj.body.custom_fields[$(ele).attr("id")] = $(ele).val();</span>
+    }
+    function formTextareaBody(ele, obj, valid) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        if ($(ele).val().trim() !== "") {</span>
+<span class="cstat-no" title="statement not covered" >            obj.body.custom_fields[$(ele).attr("id")] = $(ele).val();</span>
+        }
+        else
+<span class="cstat-no" title="statement not covered" >            valid = false;</span>
+    }
+    function formCheckboxBody(ele, obj) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        if ($(ele).prop("checked")) {</span>
+<span class="cstat-no" title="statement not covered" >            obj.body.custom_fields[$(ele).attr("id")] = true;</span>
+        }
+        else
+<span class="cstat-no" title="statement not covered" >            obj.body.custom_fields[$(ele).attr("id")] = false;</span>
+    }
+    function checkValid(valid, modal_client, obj, user_id) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        if (valid)</span>
+<span class="cstat-no" title="statement not covered" >            ticketCreate(modal_client, obj, user_id, "old");</span>
+        else
+<span class="cstat-no" title="statement not covered" >            showNotification(modal_client, "alert", "Please fill mandatory fields");</span>
+    }
+    function getTicketFields(client) {
+        var options = {};
+        client.request.invoke("getTicketFields", options).then(function (data) {
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (data.response !== undefined) {
+                var arr = [];
+                $.each(data.response.ticket_fields, function (i, v) {
+                    if (v.active === true &amp;&amp; v.required === true &amp;&amp; v.type !== "assignee") {
+                        if (v.type === "text") {
+                            arr.push(`&lt;fw-input label="${v.title}" id="${v.id}" placeholder="Please enter text" class="custom_fields custom_fields_${v.id}" required clear-input&gt;
+&lt;/fw-input&gt;`);
+                        }
+                        else if (v.type === "partialcreditcard") {
+                            arr.push(`&lt;fw-input label="${v.title}" id="${v.id}" placeholder="Please enter Credit card number" class="custom_fields custom_fields_${v.id}" required clear-input&gt;
+                        
+&lt;/fw-input&gt;`);
+                        } else {
+                            appendUI(v, arr);
+                        }
+&nbsp;
+                    }
+                });
+                $("#modal-body").append(arr);
+                $.each(data.response.ticket_fields, function (i, v) {
+                    if (v.type === "tagger" || v.type === "multiselect") {
+                        $.each(v.custom_field_options, function (i1, v1) {
+                            $(`#${v.id}`).append($("&lt;option&gt;&lt;/option&gt;")
+                                .text(v1.value));
+                        });
+                    }
+                    if (v.type === "multiselect") {
+                        $(`#${v.id}`).select2({});
+                    }
+                });
+            }
+        }, function () <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >            showNotification(client, "alert", "Failed to fetch Ticket fields");</span>
+        });
+    }
+    function appendUI(v, arr) {
+        if (v.type === "textarea") {
+            arr.push(`&lt;fw-textarea cols=98 rows=3
+            label="${v.title}"
+          placeholder="Please enter text" id="${v.id}" class="custom_fields custom_fields_${v.id}"&gt;
+          &lt;/fw-textarea&gt;`);
+        }
+        else if (v.type === "integer") {
+            arr.push(`&lt;fw-input label="${v.title}" id="${v.id}" type="number" placeholder="Please enter number" class="custom_fields custom_fields_${v.id}" required&gt;
+    &lt;/fw-input&gt;`);
+        } else if (v.type == "tagger") {
+            arr.push(`&lt;fw-label value="${v.title}" color="black"&gt;&lt;/fw-label&gt;&lt;br/&gt;`);
+            arr.push(`&lt;select class="custom_fields custom_fields_${v.id} form-control" id="${v.id}" &gt;&lt;/select&gt;`);
+        } else {
+            appendOtherFields(v, arr);
+        }
+    }
+    function appendOtherFields(v, arr) {
+        if (v.type === "multiselect") {
+            arr.push(`&lt;fw-label value="${v.title}" color="black"&gt;&lt;/fw-label&gt;&lt;br/&gt;`);
+            arr.push(`&lt;select class="custom_fields custom_fields_${v.id}" id="${v.id}" name="${v.title}[]" multiple="multiple"&gt;&lt;/select&gt;`);
+        } else if (v.type === "decimal") {
+            arr.push(`&lt;fw-input label="${v.title}" id="${v.id}" type="number" placeholder="Please enter Decimal value" class="custom_fields custom_fields_${v.id}" required clear-input&gt;
+            &lt;/fw-input&gt;`);
+        } else if (v.type === "checkbox") {
+            arr.push(`&lt;fw-checkbox id="${v.id}" class="custom_fields custom_fields_${v.id}" &gt;${v.title}&lt;/fw-checkbox&gt;`);
+        }
+        else if (v.type === "date") {
+            arr.push(`&lt;fw-label value="${v.title}" color="black"&gt;&lt;/fw-label&gt;&lt;br/&gt;
+            &lt;fw-datepicker date-format="YYYY-MM-DD" id="${v.id}" class="custom_fields custom_fields_${v.id}"&gt;&lt;/fw-datepicker&gt;`);
+        } else <span class="missing-if-branch" title="else path not taken" >E</span>if (v.type == "regexp") {
+            arr.push(`&lt;fw-input label="${v.title}" id="${v.id}" class="custom_fields custom_fields_${v.id}" required&gt;
+            &lt;/fw-input&gt;`);
+        }
+    }
+    function ticketCreate(client, options, c_data, origin) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        client.request.invoke("createTicket", options).then(function (data) <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >            if (data.response !== undefined &amp;&amp; data.response === 201) {</span>
+<span class="cstat-no" title="statement not covered" >                client.instance.close();</span>
+<span class="cstat-no" title="statement not covered" >                showNotification(client, "success", "Ticket sucessfully created.");</span>
+<span class="cstat-no" title="statement not covered" >                if (origin === "old") {</span>
+<span class="cstat-no" title="statement not covered" >                    client.instance.send({</span>
+                        message: {
+                            email: c_data
+                        }
+                    });
+                } else {
+<span class="cstat-no" title="statement not covered" >                    if (c_data.email !== null) {</span>
+<span class="cstat-no" title="statement not covered" >                        client.instance.send({</span>
+                            message: {
+                                email: c_data.email
+                            }
+                        });
+                    } else <span class="cstat-no" title="statement not covered" >if (c_data.phone !== null) {</span>
+<span class="cstat-no" title="statement not covered" >                        client.instance.send({</span>
+                            message: {
+                                email: c_data.phone
+                            }
+                        });
+                    }
+                }
+&nbsp;
+            }
+        }, function (error) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >            console.log(error)</span>
+<span class="cstat-no" title="statement not covered" >            showNotification(client, "alert", error.message.details.base[0].description);</span>
+        });
+    }
+    function contextInfo(client, callback) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        client.instance.context().then(function (context) <span class="fstat-no" title="function not covered" >{</span></span>
+            // var obj = {
+            //     email: context.data.email,
+            //     source: context.data.source,
+            //     user_id: context.data.user_id,
+            //     name: context.data.name
+            // };
+<span class="cstat-no" title="statement not covered" >            callback(context.data);</span>
+        });
+    }
+});</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Sep 30 2020 10:05:25 GMT+0530 (India Standard Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

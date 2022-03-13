@@ -1,0 +1,37 @@
+<html>
+
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://static.freshdev.io/fdk/2.0/assets/fresh_client.js"></script>
+  <script type="module" src="https://unpkg.com/@freshworks/crayons/dist/crayons/crayons.esm.js">
+  </script>
+  <script nomodule src="https://unpkg.com/@freshworks/crayons/dist/crayons/crayons.js">
+  </script>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="https://static.freshdev.io/fdk/2.0/assets/freshchat.css">
+  <script src="app.js"></script>
+  <script src="common.js"></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+  <div class="app-title">
+    <img src="zendesk_logo.png" width="24px" height="24px" class="logo" class="app-icon"></img>Zendesk
+  </div>
+  <fw-spinner id="msg" size="medium" class="spinner"></fw-spinner>
+  <div class="fw-widget-wrapper">
+    <p id="no_email">
+    </p>
+    <div class="create_ticket_div">
+      <i class="fa fa-ticket" aria-hidden="true"></i>
+      <a id="add_ticket" rel="noreferrer" class="new_ticket">Create Ticket</a>
+      <fw-icon class="chevron" name="chevron-right" size="8" color="blue"></fw-icon>
+    </div>
+    <div id="ticket_details" class="t_details">
+
+    </div>
+  </div>
+</body>
+
+</html>

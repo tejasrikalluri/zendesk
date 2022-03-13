@@ -1,0 +1,116 @@
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://static.freshdev.io/fdk/2.0/assets/fresh_client.js"></script>
+    <script type="module" src="https://unpkg.com/@freshworks/crayons/dist/crayons/crayons.esm.js">
+    </script>
+    <script nomodule src="https://unpkg.com/@freshworks/crayons/dist/crayons/crayons.js">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://static.freshdev.io/fdk/2.0/assets/freshchat.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="./assets/iparams.js"></script>
+    <link rel="stylesheet" href="./assets/iparams.css">
+
+</head>
+
+<body>
+    <div class="authentication align">
+        <div class="domain">
+            <fw-input id="domain" label="Freshchat Domain" placeholder="Ex: domain.freshchat.com" required clear-input>
+            </fw-input>
+        </div>
+        <div class="apiKey">
+            <fw-textarea id="apiKey" cols=116 rows=18 required label="Freshchat API Token">
+            </fw-textarea>
+        </div>
+        <div class="token_error red"></div>
+        <span class="trouble_fc"> <a
+                href="https://support.freshchat.com/support/solutions/articles/50000000011-api-tokens" rel="noreff"
+                target="_blank">Trouble
+                finding
+                API
+                key?</a></span>
+        <div class="error_div"></div>
+        <div class="authenticate">
+            <fw-button color="Primary" id="authBtn">Authenticate</fw-button>
+        </div>
+    </div>
+    <div class="ZD_authentication align">
+        <div class="email">
+            <fw-input id="email" label="Email" type="email" placeholder="Enter Zendesk Email" required clear-input>
+            </fw-input>
+        </div>
+        <div class="password">
+            <fw-input id="password" label="API Token" placeholder="Enter Zendesk API Token" required clear-input>
+            </fw-input>
+        </div>
+        <div class="subdomain">
+            <fw-input id="subdomain" label="Subdomain" placeholder="Enter Zendesk Subdomain Ex: myaccount.zendesk.com"
+                required clear-input>
+            </fw-input>
+        </div>
+        <div class="sliderWrapper">
+            <div>Convert 'Away Conversations' into tickets in Zendesk&nbsp;&nbsp;</div>
+            <fw-toggle size="medium">Mid-sized and selected</fw-toggle>
+        </div>
+        <div class="token_error_zd red"></div>
+        <div class="message_div text-success"></div>
+        <div class="ZD_authenticate">
+            <fw-button color="Primary" id="ZDauthBtn">Authenticate</fw-button>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function postConfigs() {
+            var domain = $("#domain").val();
+            var password = $("#password").val();
+            var subdomain = $("#subdomain").val();
+            var api_key = $("#apiKey").val();
+            var email = $("#email").val();
+            var offlineVal;
+            if ($('fw-toggle').prop("checked") === true) {
+                offlineVal = true;
+            }
+            else if ($('fw-toggle').prop("checked") === false) {
+                offlineVal = false;
+            }
+            return {
+                __meta: {
+                    secure: ["password,api_key"]
+                },
+                api_key: api_key,
+                password: password,
+                subdomain: subdomain,
+                email: email,
+                offlineVal: offlineVal, domain: domain
+            };
+        }
+        function getConfigs(configs) {
+            $("#apiKey").val(configs.api_key);
+            $("#password").val(configs.password);
+            $("#domain").val(configs.domain);
+            $("#subdomain").val(configs.subdomain);
+            $("#email").val(configs.email);
+            (configs.offlineVal) ?
+                $('fw-toggle').prop('checked', true) : $('fw-toggle').prop('checked', false);
+        }
+        function validate() {
+            let isValid = true;
+            var btnTextZD = $("#ZDauthBtn").text();
+            var btnText = $("#ZDauthBtn").text();
+            if ($(".authentication").is(":visible") === true && btnText !== "Authenticated") {
+                $(".error_div").html("Please click Authenticate button for further installation");
+                isValid = false;
+            } else if ($(".ZD_authentication").is(":visible") === true && btnTextZD !== "Authenticated") {
+                $(".token_error_zd").html("Please click Authenticate button for further installation");
+                isValid = false;
+            }
+            else
+                isValid = true;
+            return isValid;
+        }
+    </script>
+</body>
+
+</html>

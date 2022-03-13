@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for app\common.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">app/</a> common.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">97.06% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>66/68</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">90.32% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>28/31</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">89.47% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>17/19</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">96.92% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>63/65</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">82×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">217×</span>
+<span class="cline-any cline-yes">216×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">286×</span>
+<span class="cline-any cline-yes">111×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">111×</span>
+<span class="cline-any cline-yes">94×</span>
+<span class="cline-any cline-yes">94×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">121×</span>
+<span class="cline-any cline-yes">61×</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">121×</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-yes">29×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-yes">54×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">54×</span>
+<span class="cline-any cline-yes">54×</span>
+<span class="cline-any cline-yes">54×</span>
+<span class="cline-any cline-yes">54×</span>
+<span class="cline-any cline-yes">54×</span>
+<span class="cline-any cline-yes">54×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29×</span>
+<span class="cline-any cline-yes">29×</span>
+<span class="cline-any cline-yes">29×</span>
+<span class="cline-any cline-yes">29×</span>
+<span class="cline-any cline-yes">29×</span>
+<span class="cline-any cline-yes">21×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">340×</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">//show notifications
+function showNotification(client, type, message) {
+    client.interface.trigger("showNotify", {
+        type: type,
+        message: message
+    });
+}
+// get subdomain from iparams
+function getSubdomainData(client, callback) {
+    client.iparams.get("subdomain").then(function (data) {
+        callback(data.subdomain);
+    }, function () <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        showNotification(client, "danger", "Failed to fetch Iparams Subdomain.");</span>
+    });
+}
+//search assignee in zendesk
+var checkAssignee = function (assignee_id, client, callback) {
+    var options = {
+        "assignee_id": btoa(assignee_id)
+    };
+    client.request.invoke("searchAssignee", options).then(function (data) {
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (data.response.message === undefined)
+            callback(data.response);
+    }, function (err) {
+        showNotification(client, "danger", err.message);
+    });
+}
+//form UI for Internal note in zendesk while appending existing ticket
+function formUIforNote(array, c_data, client, requester_id, id, origin) {
+    var arr = [];
+    $.each(array, function (k, v) {
+        if (v.actor_type === "agent" &amp;&amp; v.message_type === "normal") {
+            $.each(v.message_parts, function (k2, v2) {
+                forAgentMessages(v2, arr, c_data, v.actor_id);
+            });
+        }
+        if (v.actor_type === "user") {
+            $.each(v.message_parts, function (k3, v3) {
+                forReceiverMessages(v3, c_data, arr, v.actor_id);
+            });
+        }
+    });
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (arr.length !== 0)
+        createInternalNote(client, arr, requester_id, id, c_data, origin);
+}
+//Create a Internal note in zendesk
+function createInternalNote(client, array, requester_id, id, c_data, origin) {
+    var options = {
+        body: {
+            "author_id": btoa(requester_id),
+            "array": array,
+            "ticket_id": btoa(id),
+            "conv_id": btoa(c_data.conversation.conv_id), origin: btoa(origin)
+        }
+    };
+    client.request.invoke("createTicketComment", options).then(function () <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        console.log("ccccccccc")</span>
+    }, function () {
+        showNotification(client, "error", "Failed to create a note");
+    });
+}
+&nbsp;
+//get agent messages from conversation
+function forAgentMessages(v2, arr, data, actor_id) {
+    var firstLetter = data.agent_obj[actor_id].charAt(0), capital_letter = firstLetter.toUpperCase();
+    if ("text" in v2) {
+        checkOtherStrings(v2, arr, capital_letter, data, actor_id);
+    }
+    forImageAndFile(v2, arr, capital_letter, data, actor_id);
+}
+//form other messages types 
+function checkOtherStrings(v2, arr, capital_letter, data, actor_id) {
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (!v2.text.content.includes("Conversation was reopened by") &amp;&amp; !v2.text.content.includes("Conversation was assigned to") &amp;&amp; !v2.text.content.includes("Unassigned from group by") &amp;&amp; !v2.text.content.includes("Assigned to") &amp;&amp; !v2.text.content.includes("...requests")) {
+        arr.push(`&lt;br/&gt;&lt;div style="margin-bottom: 45px"&gt;`);
+        arr.push(`&lt;div style="font-size:12px;font-weight:500;margin-left:70%;color:#6f7071;margin-right:36px"&gt;${data.agent_obj[actor_id]}&lt;/div&gt;`);
+        arr.push(`&lt;img src="https://images.freshchat.com/30x30/fresh-chat-names/Alphabets/${capital_letter}.png" style="width:30px;height: 30px;border-radius:6px 50% 50% 50%;margin-left:5px;float:right;margin-right:17%" class="inline-image"/&gt;`);
+        arr.push(`&lt;div style="float:right;border-radius:20px 4px 20px 20px;background-color:#ffffff;max-width:390px;padding:12px"&gt;&lt;div&gt;${xssTest(v2.text.content)}&lt;/div&gt;&lt;/div&gt;`);
+        arr.push(`&lt;/div&gt;&lt;br/&gt;`);
+    }
+}
+//form image,url button and file messages from conversation
+function forImageAndFile(v2, arr, capital_letter, data, actor_id) {
+    if ("image" in v2) {
+        var image_name_index = v2.image.url.lastIndexOf("/"), image_name = v2.image.url.substring(image_name_index + 1);
+        arr.push(`&lt;br/&gt;&lt;div style="margin-bottom: 45px"&gt;`);
+        arr.push(`&lt;div style="font-size:12px;font-weight:500;margin-left:70%;color:#6f7071;margin-right:36px"&gt;${data.agent_obj[actor_id]}&lt;/div&gt;`);
+        arr.push(`&lt;img src="https://images.freshchat.com/30x30/fresh-chat-names/Alphabets/${capital_letter}.png" style="width:30px;height:30px;border-radius:6px 50% 50% 50%;margin-left:5px;float:right;margin-right:17%" class="inline-image"/&gt;`);
+        arr.push(`&lt;div style="float:right;border-radius:20px 4px 20px 20px;background-color:#ffffff;max-width:390px;padding:12px"&gt;&lt;div&gt;&lt;b&gt;Click to open the image: &lt;/b&gt;&lt;a rel="noreferrer" href="${v2.image.url}" target="_blank"&gt;${image_name}&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;`);
+        arr.push(`&lt;/div&gt;&lt;br/&gt;`);
+    }
+    if ("file" in v2) {
+        arr.push(`&lt;br/&gt;&lt;div style="margin-bottom: 45px"&gt;`);
+        arr.push(`&lt;div style="font-size:12px;font-weight:500;margin-left:70%;color:#6f7071;margin-right:36px"&gt;${data.agent_obj[actor_id]}&lt;/div&gt;`);
+        arr.push(`&lt;img src="https://images.freshchat.com/30x30/fresh-chat-names/Alphabets/${capital_letter}.png" style="width:30px;height:30px;border-radius:6px 50% 50% 50%;margin-left:5px;float:right;margin-right:17%" class="inline-image"/&gt;`);
+        arr.push(`&lt;div style="float:right;border-radius:20px 4px 20px 20px;background-color:#ffffff;max-width:390px;padding:12px"&gt;&lt;div&gt;* File attached - &lt;b&gt;${v2.file.name}&lt;/b&gt;&lt;/div&gt;&lt;/div&gt;`);
+        arr.push(`&lt;/div&gt;&lt;br/&gt;`);
+    }
+    if ("url_button" in v2) {
+        arr.push(`&lt;br/&gt;&lt;div style="margin-bottom: 45px"&gt;`);
+        arr.push(`&lt;div style="font-size:12px;font-weight:500;margin-left:70%;color:#6f7071;margin-right:36px"&gt;${data.agent_obj[actor_id]}&lt;/div&gt;`);
+        arr.push(`&lt;img src="https://images.freshchat.com/30x30/fresh-chat-names/Alphabets/${capital_letter}.png" style="width:30px;height:30px;border-radius:6px 50% 50% 50%;margin-left:5px;float:right;margin-right:17%" class="inline-image"/&gt;`);
+        arr.push(`&lt;div style="float:right;border-radius:20px 4px 20px 20px;background-color:#ffffff;max-width:390px;padding:12px"&gt;&lt;b&gt;${v2.url_button.label}&lt;/b&gt;&lt;/div&gt;`);
+        arr.push(`&lt;/div&gt;&lt;br/&gt;`);
+    }
+}
+//form customer messages from conversation
+function forReceiverMessages(v3, data, arr) {
+    arr.push(`&lt;br/&gt;&lt;div style="margin-bottom: 45px"&gt;`);
+    var first_letter = data.name.charAt(0), capital_letter = first_letter.toUpperCase();
+    arr.push(`&lt;div style="font-size: 12px;font-weight: 500;color: #6f7071;margin-left: 33px"&gt;${data.name}&lt;/div&gt;`);
+    arr.push(`&lt;img src="https://images.freshchat.com/30x30/fresh-chat-names/Alphabets/${capital_letter}.png" style="width: 30px;height: 30px;border-radius: 6px 50% 50% 50%;margin-left: 5px;float: left;clear: right" class="inline-image"/&gt;`);
+    if ("text" in v3) {
+        arr.push(`&lt;div  style="float: left;border-radius: 20px 4px 20px 20px;background-color: #ffffff;max-width:390px;padding:12px"&gt;&lt;div&gt;${xssTest(v3.text.content)}&lt;/div&gt;&lt;/div&gt;`);
+    }
+    if ("image" in v3) {
+        arr.push(`&lt;div style="float: left;border-radius: 20px 4px 20px 20px;background-color: #ffffff;max-width:390px;padding:12px"&gt;&lt;div&gt;&lt;b&gt;Click to open the image: &lt;/b&gt;a&lt;a href="${v3.image.url}" rel="noreferrer" target="_blank"&gt;${v3.image.url}&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;`);
+    }
+    if ("file" in v3) {
+        arr.push(`&lt;div style="float: left;border-radius: 20px 4px 20px 20px;background-color: #ffffff;max-width:390px;padding:12px"&gt;&lt;div&gt;* File attached - &lt;b&gt;${v3.file.name}&lt;/b&gt;&lt;/div&gt;&lt;/div&gt;`);
+    }
+    arr.push(`&lt;/div&gt;&lt;br/&gt;`);
+}
+//for XSS
+function xssTest(name) {
+    return $("&lt;span&gt;&lt;/span&gt;").text(name)[0].innerHTML;
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Aug 03 2021 06:02:49 GMT+0530 (India Standard Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>
