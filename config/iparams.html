@@ -55,6 +55,9 @@
             <div>Convert 'Away Conversations' into tickets in Zendesk&nbsp;&nbsp;</div>
             <fw-toggle size="medium">Mid-sized and selected</fw-toggle>
         </div>
+        <div class="additionField">
+            <fw-spinner class="ml11" size="medium" color="blue"></fw-spinner>
+        </div>
         <div class="token_error_zd red"></div>
         <div class="message_div text-success"></div>
         <div class="ZD_authenticate">
@@ -62,6 +65,7 @@
         </div>
     </div>
     <script type="text/javascript">
+        let selectField, fetchConfigs, selectFieldText;
         function postConfigs() {
             var domain = $("#domain").val();
             var password = $("#password").val();
@@ -75,23 +79,27 @@
             else if ($('fw-toggle').prop("checked") === false) {
                 offlineVal = false;
             }
+            console.log(selectField)
             return {
                 __meta: {
                     secure: ["password,api_key"]
                 },
-                api_key: api_key,
-                password: password,
-                subdomain: subdomain,
-                email: email,
-                offlineVal: offlineVal, domain: domain
+                api_key,
+                password,
+                subdomain,
+                email,
+                offlineVal, domain, selectField
             };
         }
         function getConfigs(configs) {
+            fetchConfigs = configs;
+            console.log(configs)
             $("#apiKey").val(configs.api_key);
             $("#password").val(configs.password);
             $("#domain").val(configs.domain);
             $("#subdomain").val(configs.subdomain);
             $("#email").val(configs.email);
+            selectField = configs.selectField;
             (configs.offlineVal) ?
                 $('fw-toggle').prop('checked', true) : $('fw-toggle').prop('checked', false);
         }

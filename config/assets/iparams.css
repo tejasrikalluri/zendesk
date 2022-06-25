@@ -2,6 +2,14 @@ fw-input {
     width: 71%;
 }
 
+fw-select {
+    width: 25%;
+}
+
+.ml11 {
+    margin-left: 11%;
+}
+
 .domain {
     width: 134%
 }
@@ -11,7 +19,9 @@ fw-input {
     margin-top: 12px;
 }
 
-.message_div, .token_error_zd, .token_error {
+.message_div,
+.token_error_zd,
+.token_error {
     margin-bottom: 6px;
 }
 
@@ -19,7 +29,8 @@ fw-input {
     margin-top: 3px;
 }
 
-.red, .error_div {
+.red,
+.error_div {
     color: red;
 }
 

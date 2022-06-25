@@ -51,8 +51,8 @@
     }
   },
   "engines": {
-    "node": "12.22.9",
-    "fdk": "7.4.1"
+    "node": "14.17.3",
+    "fdk": "8.3.3"
   },
   "whitelisted-domains": [
     "https://*.freshchat.com",

@@ -335,8 +335,6 @@ function searchUser(content, payload) {
     actor_email = payload.data.actor.email;
   payload.email = base64.encode(actor_email);
   request(reqData.searchUser(payload), function (err, resp, body) {
-    if (err)
-      console.error(err);
     if (resp !== undefined) {
       if (resp.statusCode === 200) {
         try {

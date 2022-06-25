@@ -6,7 +6,7 @@ $(document).ready(function () {
         var getContextInfo = function (callback) {
             contextInfo(modal_client, callback);
         };
-        getTicketFields(modal_client);
+        getTicketFields(modal_client, getContextInfo);
         $("#cancel").off().click(function () {
             modal_client.instance.close();
         });
@@ -81,29 +81,31 @@ $(document).ready(function () {
         $(document).on('click', '#m_button', function () {
             $(this).prop("disabled", true);
             getContextInfo(function (c_data) {
-                if ($('#m_button').text() === "Append to ticket") {
-                    var arr = [], radioValue = $("input[name='optTicket']:checked").val();
-                    c_data.conversation.messages.reverse();
-                    $.each(c_data.conversation.messages, function (i, v) {
-                        var obj = {};
-                        obj["created_at"] = v.created_time;
-                        obj["actor_id"] = (v.actor_id !== undefined) ? atob(v.actor_id) : atob(v.org_actor_id);
-                        obj["message_parts"] = v.message_parts;
-                        obj["message_type"] = atob(v.message_type);
-                        obj["actor_type"] = atob(v.actor_type);
-                        obj["id"] = atob(v.id);
-                        arr.push(obj);
-                    });
-                    var parse_id = parseInt(radioValue);
-                    searchInDb(modal_client, parse_id, arr, c_data);
-                } else {
-                    clickWithNewTicket(c_data, modal_client);
-                }
+                ($('#m_button').text() === "Append to ticket") ? formExportConv(c_data) : clickWithNewTicket(c_data, modal_client);
             });
         });
     }, function () {
         showNotification(modal_client, "danger", "Something went wrong, please try again");
     });
+    let formExportConv = function (c_data) {
+        var arr = [], radioValue = $("input[name='optTicket']:checked").val();
+        c_data.conversation.messages.reverse();
+        $.each(c_data.conversation.messages, function (i, v) {
+            formConvUI(v, arr);
+        });
+        var parse_id = parseInt(radioValue);
+        searchInDb(modal_client, parse_id, arr, c_data);
+    }
+    let formConvUI = function (v, arr) {
+        var obj = {};
+        obj["created_at"] = v.created_time;
+        obj["actor_id"] = (v.actor_id !== undefined) ? atob(v.actor_id) : atob(v.org_actor_id);
+        obj["message_parts"] = v.message_parts;
+        obj["message_type"] = atob(v.message_type);
+        obj["actor_type"] = atob(v.actor_type);
+        obj["id"] = atob(v.id);
+        arr.push(obj);
+    }
     //for new user ticket create fetching the values
     function clickWithNewTicket(c_data, modal_client) {
         var subject = $("#subject").val().trim(), notes = $("#notes").val().trim(), status = $("#status").val();
@@ -150,28 +152,12 @@ $(document).ready(function () {
         else {
             var index = $.inArray(db_id, arr);
             $.each(messages, function (i, v) {
-                var obj = {};
                 if (index > 0) {
-                    if (i > index) {
-                        obj["created_at"] = v.created_time;
-                        obj["actor_id"] = (v.actor_id !== undefined) ? atob(v.actor_id) : atob(v.org_actor_id);
-                        obj["message_parts"] = v.message_parts;
-                        obj["actor_type"] = atob(v.actor_type);
-                        obj["message_type"] = atob(v.message_type);
-                        obj["id"] = atob(v.id);
-                        ui_arr.push(obj);
-                    }
+                    if (i > index)
+                        formConvUI(v, ui_arr);
                 }
-                if (index === -1) {
-                    var obj = {};
-                    obj["created_at"] = v.created_time;
-                    obj["actor_id"] = (v.actor_id !== undefined) ? atob(v.actor_id) : atob(v.org_actor_id);
-                    obj["message_parts"] = v.message_parts;
-                    obj["message_type"] = atob(v.message_type);
-                    obj["actor_type"] = atob(v.actor_type);
-                    obj["id"] = atob(v.id);
-                    ui_arr.push(obj);
-                }
+                if (index === -1)
+                    formConvUI(v, ui_arr);
             });
             if (index != -1)
                 updateDb(client, id, trimmed_id, ui_arr, data, ui_arr, data);
@@ -409,7 +395,7 @@ $(document).ready(function () {
     }
 
     //get all fields in zendesk
-    function getTicketFields(client) {
+    function getTicketFields(client, getContextInfo) {
         var options = {};
         client.request.invoke("getTicketFields", options).then(function (data) {
             if (data.response.message === undefined) {
@@ -421,6 +407,9 @@ $(document).ready(function () {
                                 .append($("<option></option>")
                                     .attr("value", v2.value)
                                     .text(v2.name));
+                            console.log(v2.value)
+                            if (v2.value === 'open')
+                                $('#status').val(v2.name);
                         });
                     }
                     if (v.type === "priority") {
@@ -435,11 +424,26 @@ $(document).ready(function () {
                 });
                 getGroups(client);
                 $("#partNew").append(arr.join('')).show();
+                console.log("****************")
+                getContextInfo(function (c_info) {
+                    console.log(c_info)
+                    console.log($("#partNew :input").filter(`#${c_info.selectField}`));
+                    if (!$("#partNew :input").filter(`#${c_info.selectField}`).length)
+                        appendSelectedField(c_info);
+                    (c_info.conversation.assigned_agent_id) ?
+                        $("#subject").val(`Fortnox chattärende - ${c_info.agent_obj[c_info.conversation.assigned_agent_id]}`) : $("#subject").val("Fortnox chattärende");
+                    $(`#${c_info.selectField}`).val(c_info.tenantId);
+                })
                 formSelectFields(data);
             }
         }, function () {
             showNotification(client, "danger", "Failed to fetch Ticket fields");
         });
+    }
+    const appendSelectedField = function (c_info) {
+        (c_info.tenantId) ?
+            $("#partNew").append(`<label>Selected Abonnemangs-ID</label><br/><input id="${c_info.selectField}" type="text" value="${c_info.tenantId}" class="form-control" required></input>`) : $("#partNew").append(`<label>Selected Abonnemangs-ID</label><br/><input id="${c_info.selectField}" type="text" class="form-control" required></input>`);
+
     }
     //for forming body for custom fields
     function formCustomFields(v, arr) {
@@ -484,9 +488,9 @@ $(document).ready(function () {
           </textarea>`);
         }
         else if (v.type === "integer" || v.type === "decimal") {
-            arr.push(`<label>${v.title}</label><br/>`);
-            arr.push(`<input id="${v.id}" type="number" class="custom_fields custom_fields_${v.id} form-control" required>
-    </input>`);
+                    arr.push(`<label>${v.title}</label><br/>`);
+                    arr.push(`<input id="${v.id}" type="number" class="custom_fields custom_fields_${v.id} form-control" required>
+            </input>`);
         } else if (v.type === "tagger") {
             arr.push(`<label>${v.title}</label><br/>`);
             arr.push(`<select class="custom_fields custom_fields_${v.id} form-control" id="${v.id}"></select>`);
@@ -508,6 +512,7 @@ $(document).ready(function () {
             <input class="form-control custom_fields custom_fields_${v.id}" type="date" id="${v.id}">
             `);
         }
+
     }
     //get groups list from zendesk
     function getGroups(client) {
@@ -546,6 +551,7 @@ $(document).ready(function () {
     //get instance data
     function contextInfo(client, callback) {
         client.instance.context().then(function (context) {
+            console.log(context.data)
             callback(context.data);
         }, function (error) {
             showNotification(client, "danger", error);

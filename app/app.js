@@ -10,7 +10,9 @@ $(document).ready(function () {
             getSubdomainData(client, callback);
         }, getConversation = function (callback) {
             getConversationDetails(client, callback);
-        };
+        }, getSelectedField = function (callback) {
+            getAbonnemangsId(client, callback);
+        }
         client.events.on('app.activated', function () {
             $("#no_email,#ticket_details,.fw-widget-wrapper,.create_ticket_div").hide();
             $("#ticket_details").html("");
@@ -26,15 +28,18 @@ $(document).ready(function () {
             getSubdomain(function (s_data) {
                 userData(function (u_data) {
                     getConversation(function (c_data) {
-                        if ($("#add_ticket").attr("data-id") === "new_requester") {
-                            var obj = {
-                                email: u_data.email,
-                                source: "new_requester",
-                                name: u_data.name, "domain": s_data, conversation: c_data, agent_obj: agent_obj
-                            };
-                            showModal("Create a Zendesk ticket", "createTicket.html", obj, client);
-                        } else
-                            createTicketUser(getUserId, u_data, client, getSubdomain, c_data, agent_obj);
+                        getSelectedField(function (selectField) {
+                            if ($("#add_ticket").attr("data-id") === "new_requester") {
+                                var obj = {
+                                    email: u_data.email,
+                                    source: "new_requester",
+                                    name: u_data.name, "domain": s_data, conversation: c_data, agent_obj: agent_obj, selectField, tenantId: u_data.tenantId
+                                };
+                                showModal("Create a Zendesk ticket", "createTicket.html", obj, client);
+                            } else
+                                createTicketUser(getUserId, u_data, client, getSubdomain, c_data, agent_obj, selectField);
+                        });
+
                     });
                 });
             });
@@ -64,13 +69,13 @@ $(document).ready(function () {
         });
     }
     // create ticket show modal
-    function createTicketUser(getUserId, u_data, client, getSubdomain, c_data, agent_obj) {
+    function createTicketUser(getUserId, u_data, client, getSubdomain, c_data, agent_obj, selectField) {
         getSubdomain(function (s_data) {
             getUserId(function (ui_data) {
                 var obj = {
                     source: "new_ticket",
                     user_id: ui_data,
-                    email: u_data.email, name: u_data.name, "domain": s_data, conversation: c_data, agent_obj: agent_obj
+                    email: u_data.email, name: u_data.name, "domain": s_data, conversation: c_data, agent_obj: agent_obj, selectField, tenantId: u_data.tenantId
                 };
                 showModal("Create a Zendesk ticket", "createTicket.html", obj, client);
             });
@@ -79,6 +84,7 @@ $(document).ready(function () {
     //get chat conversation details
     function getConversationDetails(client, callback) {
         client.data.get("conversation").then(function (data) {
+            console.log(data)
             getConversationData(client, callback, data);
         }, function () {
             showNotification(client, "danger", "Unable to fetch Conversation data, please try again");
@@ -95,7 +101,8 @@ $(document).ready(function () {
                 var obj = {
                     conv_id: d_conv.conversation.conversation_id,
                     user: d_conv.conversation.users[0].first_name,
-                    messages: resp
+                    messages: resp,
+                    assigned_agent_id: d_conv.conversation.assigned_agent_id
                 };
                 callback(obj);
             }
@@ -109,7 +116,7 @@ $(document).ready(function () {
         client.request.invoke("getAgents", options).then(function (data) {
             if (data.response.message === undefined) {
                 $.each(data.response.agents, function (k, v) {
-                    agent_obj[v.id] = v.first_name;
+                    agent_obj[v.id] = (v.last_name) ? v.first_name + " " + v.last_name : v.first_name;
                 });
                 if (data.response.pagination.total_pages > 1) {
                     var options = {
@@ -118,7 +125,7 @@ $(document).ready(function () {
                     client.request.invoke("getAgents", options).then(function (data) {
                         if (data.response.message === undefined) {
                             $.each(data.response.agents, function (k, v) {
-                                agent_obj[v.id] = xssTest(v.first_name);
+                                agent_obj[v.id] =  (v.last_name) ? v.first_name + " " + v.last_name : v.first_name;
                             });
                         }
                     }, function (err) {
@@ -169,12 +176,19 @@ $(document).ready(function () {
     //get user email using callback
     function getEmailData(client, callback) {
         client.data.get("user").then(function (data) {
+            console.log(data)
             if (data.user.email !== null && data.user.first_name !== null) {
+                console.log("ttttttttttttttt")
                 var obj = {
                     email: data.user.email
                 };
                 if (data.user.last_name !== null)
                     obj["name"] = data.user.first_name + " " + data.user.last_name; else obj["name"] = data.user.first_name;
+                let props = data.user.properties;
+                let tenantProp = props.filter(v => v.name === "tenantId");
+                if (tenantProp.length)
+                    obj['tenantId'] = tenantProp[0].value;
+                console.log(tenantProp)
                 callback(obj);
             }
         }, function () {

@@ -19,6 +19,14 @@ app.initialized().then(function (client) {
             getAgents(client);
         } else buttonEnable("authBtn");
     });
+    $(document).on('fwChange', 'fw-select', function (e) {
+        console.log("*******************")
+        selectField = $(this).val();
+        selectFieldText = $(this).text();
+        console.log(e.target.value,e.target.text)
+        console.log($(e.currentTarget).text())
+        console.log(selectFieldText)
+    });
     $(document).on('click', '#ZDauthBtn', function () {
         $(this).prop("disabled", true);
         var emailPattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
@@ -44,20 +52,27 @@ app.initialized().then(function (client) {
         else {
             idRemoveAtrr("subdomain");
         }
-        if ($("#password").val().trim() !== "" && emailPattern.test($("#email").val().trim()) && $("#subdomain").val().trim() !== "") {
+        if (!selectField) {
+            addIdAttr("aid", "Please select Abonnemangs-ID");
+        }
+        else {
+            idRemoveAtrr("aid");
+        }
+        if ($("#password").val().trim() !== "" && emailPattern.test($("#email").val().trim()) && $("#subdomain").val().trim() !== "" && !!selectField) {
             $("#ZDauthBtn").text("Authenticating...");
             getTicketDetails();
         } else {
             buttonEnable("ZDauthBtn");
         }
     });
-    $(document).on('fwChange', '#subdomain,#password,#email,#domain,#apiKey', function () {
+    $(document).on('fwChange', '#subdomain,#password,#email,#domain,#apiKey,fw-select', function () {
         buttonEnable("ZDauthBtn");
         idRemoveAtrr("subdomain");
         idRemoveAtrr("email");
         idRemoveAtrr("password");
         idRemoveAtrr("domain");
         idRemoveAtrr("apiKey");
+        idRemoveAtrr("aid");
         $(".token_error_zd,.message_div,.error_div").html("");
     });
     $(document).on('change', 'textarea', function () {
@@ -90,9 +105,41 @@ function getAgents(client) {
         $("#authBtn").text("Authenticated");
         $(".ZD_authentication").show();
         $(".authentication").hide();
+        getZendeskFields();
     }, function (error) {
         handleError(error, "error_div");
         buttonEnable("authBtn");
+    });
+}
+const getZendeskFields = function () {
+    const sudomain = $("#subdomain").val().trim(), email = $("#email").val().trim(), password = $("#password").val().trim();
+    var url = `https://${sudomain}/api/v2/ticket_fields.json`;
+    var headers = { "Authorization": `Basic ` + btoa(`${email}/token:${password}`) };
+    var options = { headers: headers };
+    var selectElement = `<fw-select label="Abonnemangs-ID" id="aid" required placeholder="Select Abonnemangs-ID field from Zendesk"/>`;
+    $('fw-button').prop("disabled", true);
+    client.request.get(url, options).then(function (data) {
+        try {
+            let ticket_fields = JSON.parse(data.response).ticket_fields;
+            console.log(ticket_fields)
+            let customFields = ticket_fields.filter(field => field.type === 'text' || field.type === 'integer');
+            console.log(customFields)
+            $.each(customFields, function (k, v) {
+                selectElement += `<fw-select-option value="${v.id}">${v.title}</fw-select-option>`;
+            });
+            selectElement += `</fw-select>`;
+            $('.additionField').append(selectElement);
+            if (!!fetchConfigs) {
+                $('fw-select').val(fetchConfigs.selectField);
+            }
+            $('fw-spinner').hide();
+            buttonEnable("ZDauthBtn");
+        } catch (error) {
+            console.error(error)
+        }
+    }, function () {
+        $('.token_error_zd').html("Failed to get zendesk fields");
+        buttonEnable("ZDauthBtn");
     });
 }
 function getTicketDetails() {
