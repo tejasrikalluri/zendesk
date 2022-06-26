@@ -52,6 +52,7 @@ function formUIforNote(array, c_data, client, requester_id, id, origin) {
 }
 //Create a Internal note in zendesk
 function createInternalNote(client, array, requester_id, id, c_data, origin) {
+    console.log(origin)
     var options = {
         body: {
             "author_id": btoa(requester_id),
@@ -61,6 +62,7 @@ function createInternalNote(client, array, requester_id, id, c_data, origin) {
         }
     };
     client.request.invoke("createTicketComment", options).then(function () {
+        console.log("note created succu")
         sendInstaceForNewUser(c_data, client, origin);
     }, function () {
         showNotification(client, "error", "Failed to create a note");
