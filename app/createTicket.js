@@ -80,21 +80,23 @@ $(document).ready(function () {
 
         $(document).on('click', '#m_button', function () {
             $(this).prop("disabled", true);
+            let radioValue = $("input[name='optTicket']:checked").val();
             getContextInfo(function (c_data) {
-                ($('#m_button').text() === "Append to ticket") ? formExportConv(c_data) : clickWithNewTicket(c_data, modal_client);
+                ($('#m_button').text() === "Append to ticket") ? formExportConv(c_data, radioValue, modal_client, "append") : clickWithNewTicket(c_data, modal_client);
             });
         });
     }, function () {
         showNotification(modal_client, "danger", "Something went wrong, please try again");
     });
-    let formExportConv = function (c_data) {
-        var arr = [], radioValue = $("input[name='optTicket']:checked").val();
+    let formExportConv = function (c_data, ticket_id, modal_client, origin) {
+        var arr = [];
         c_data.conversation.messages.reverse();
         $.each(c_data.conversation.messages, function (i, v) {
             formConvUI(v, arr);
         });
-        var parse_id = parseInt(radioValue);
-        searchInDb(modal_client, parse_id, arr, c_data);
+        var parse_id = parseInt(ticket_id);
+        console.log(origin)
+        searchInDb(modal_client, parse_id, arr, c_data, origin);
     }
     let formConvUI = function (v, arr) {
         var obj = {};
@@ -119,27 +121,29 @@ $(document).ready(function () {
             if (subject !== "" && notes !== "" && status !== "Select" && status !== "") {
                 checkFieldValidation(subject, notes, obj);
                 obj.body["requester_id"] = btoa(c_data.user_id);
-                checkValid("old", modal_client, obj, c_data.email);
+                checkValid(modal_client, obj, c_data);
             } else
                 showNotification(modal_client, "danger", "Please fill mandatory fields");
         } else if (c_data.source === "new_requester")
             formNewRequester(subject, notes, c_data, modal_client, obj, "not_resolve", status);
     }
     //search zendesk id from db
-    function searchInDb(modal_client, id, arr, c_data) {
+    function searchInDb(modal_client, id, arr, c_data, origin) {
         var trimmed_id = jQuery.trim(c_data.conversation.messages[c_data.conversation.messages.length - 1].id).substring(0, 30).trim(this) + "...";
         modal_client.db.get(id).then(function (d_data) {
             var db_id = d_data.conv_id;
-            formAUI(modal_client, c_data, id, db_id);
+            formAUI(modal_client, c_data, id, db_id, origin);
         }, function (error) {
             if (error.status === 404) {
-                setDb(modal_client, id, trimmed_id, arr, c_data, c_data.user_id);
+                console.log("record not")
+                setDb(modal_client, id, trimmed_id, arr, c_data, c_data.user_id, origin);
             } else
                 showNotification(client, "danger", "Unable to fetch DB data");
         });
     }
     //check the db and conversation id form an object form a UI for internal note
-    function formAUI(client, data, id, db_id) {
+    function formAUI(client, data, id, db_id, origin) {
+        console.log(origin)
         var messages = data.conversation.messages, last_conv_id = messages[messages.length - 1].id;
         var arr = [], ui_arr = [];
         $.each(messages, function (i, v) {
@@ -160,16 +164,17 @@ $(document).ready(function () {
                     formConvUI(v, ui_arr);
             });
             if (index != -1)
-                updateDb(client, id, trimmed_id, ui_arr, data, ui_arr, data);
+                updateDb(client, id, trimmed_id, ui_arr, data, origin);
             else if (index === -1) {
-                setDb(client, id, trimmed_id, ui_arr, data, data.user_id);
+                setDb(client, id, trimmed_id, ui_arr, data, data.user_id, origin);
             }
         }
     }
     //set zendesk id in db
-    function setDb(client, id, trimmed_id, arr, c_data, user_id) {
+    function setDb(client, id, trimmed_id, arr, c_data, user_id, origin) {
         client.db.set(id, { conv_id: trimmed_id }).then(function () {
-            formUIforNote(arr, c_data, client, user_id, id, "append");
+            console.log("setted")
+            formUIforNote(arr, c_data, client, user_id, id, origin);
         }, function (error) {
             if (error.status !== 404)
                 showNotification(client, "danger", error.message);
@@ -254,10 +259,11 @@ $(document).ready(function () {
         });
     }
     //when new messages are in db update db when create a internal note
-    function updateDb(modal_client, id, conv_id, ui_arr, data) {
+    function updateDb(modal_client, id, conv_id, ui_arr, data, origin) {
+        console.log(origin)
         var trimmed_id = jQuery.trim(conv_id).substring(0, 30).trim(this) + "...";
         modal_client.db.update(id, "set", { "conv_id": trimmed_id }).then(function () {
-            formUIforNote(ui_arr, data, modal_client, data.user_id, id, "append");
+            formUIforNote(ui_arr, data, modal_client, data.user_id, id, origin);
         }, function () {
             showNotification(modal_client, "Unexpected error occured, please try again later!", "danger");
         });
@@ -358,14 +364,14 @@ $(document).ready(function () {
             showNotification(modal_client, "danger", "Please fill mandatory fields");
     }
     //for check validation for ticket creation
-    function checkValid(origin, modal_client, obj, data) {
+    function checkValid(modal_client, obj, data) {
         if ($("#m_button").attr("data-id") === "valid")
-            ticketCreate(modal_client, obj, data, origin);
+            ticketCreate(modal_client, obj, data);
     }
     //send origin for validtion of ticket creation data
     function checkOrigin(origin, modal_client, obj, c_data) {
         if (origin !== "resolved")
-            checkValid("new", modal_client, obj, c_data);
+            checkValid(modal_client, obj, c_data);
     }
     //iterate loop for agents list
     function agentProcess(count, length, arr, client) {
@@ -407,7 +413,6 @@ $(document).ready(function () {
                                 .append($("<option></option>")
                                     .attr("value", v2.value)
                                     .text(v2.name));
-                            console.log(v2.value)
                             if (v2.value === 'open')
                                 $('#status').val(v2.name);
                         });
@@ -426,7 +431,6 @@ $(document).ready(function () {
                 $("#partNew").append(arr.join('')).show();
                 console.log("****************")
                 getContextInfo(function (c_info) {
-                    console.log(c_info)
                     console.log($("#partNew :input").filter(`#${c_info.selectField}`));
                     if (!$("#partNew :input").filter(`#${c_info.selectField}`).length)
                         appendSelectedField(c_info);
@@ -488,8 +492,8 @@ $(document).ready(function () {
           </textarea>`);
         }
         else if (v.type === "integer" || v.type === "decimal") {
-                    arr.push(`<label>${v.title}</label><br/>`);
-                    arr.push(`<input id="${v.id}" type="number" class="custom_fields custom_fields_${v.id} form-control" required>
+            arr.push(`<label>${v.title}</label><br/>`);
+            arr.push(`<input id="${v.id}" type="number" class="custom_fields custom_fields_${v.id} form-control" required>
             </input>`);
         } else if (v.type === "tagger") {
             arr.push(`<label>${v.title}</label><br/>`);
@@ -533,13 +537,12 @@ $(document).ready(function () {
         });
     }
     //create ticket in zendesk
-    function ticketCreate(client, options, c_data, origin) {
+    function ticketCreate(client, options, c_data) {
+        console.log(c_data)
         client.request.invoke("createTicket", options).then(function (data) {
             if (data.response.message === undefined) {
-                if (origin === "old")
-                    sendDataToInstance(client, c_data, origin);
-                else if (origin === "new")
-                    sendInstaceForNewUser(c_data, client, origin);
+                console.log(data.response)
+                formExportConv(c_data, data.response, client, "ticket");
             }
         }, function (error) {
             if (error.status === 400 || error.status === 422)
@@ -551,7 +554,6 @@ $(document).ready(function () {
     //get instance data
     function contextInfo(client, callback) {
         client.instance.context().then(function (context) {
-            console.log(context.data)
             callback(context.data);
         }, function (error) {
             showNotification(client, "danger", error);
