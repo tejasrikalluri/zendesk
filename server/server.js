@@ -72,8 +72,12 @@ exports = {
         renderData(err);
       }
       if (resp !== undefined) {
-        if (resp.statusCode === 201)
-          renderData(null, resp.body.ticket.id);
+        if (resp.statusCode === 201) {
+          let respObj = {};
+          respObj["id"] = resp.body.ticket.id;
+          respObj["requester_id"] = resp.body.ticket.requester_id;
+          renderData(null, respObj);
+        }
         else {
           var error = {
             status: resp.statusCode,

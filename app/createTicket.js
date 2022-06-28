@@ -89,6 +89,7 @@ $(document).ready(function () {
         showNotification(modal_client, "danger", "Something went wrong, please try again");
     });
     let formExportConv = function (c_data, ticket_id, modal_client, origin) {
+        console.log(c_data)
         var arr = [];
         c_data.conversation.messages.reverse();
         $.each(c_data.conversation.messages, function (i, v) {
@@ -538,11 +539,13 @@ $(document).ready(function () {
     }
     //create ticket in zendesk
     function ticketCreate(client, options, c_data) {
+        console.log("BEFORE")
         console.log(c_data)
         client.request.invoke("createTicket", options).then(function (data) {
             if (data.response.message === undefined) {
                 console.log(data.response)
-                formExportConv(c_data, data.response, client, "ticket");
+                c_data.user_id = data.response.requester_id;
+                formExportConv(c_data, data.response.id, client, "ticket");
             }
         }, function (error) {
             if (error.status === 400 || error.status === 422)
