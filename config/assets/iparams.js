@@ -1,6 +1,6 @@
 app.initialized().then(function (client) {
     window.client = client;
-    $(".ZD_authentication").hide();
+    $(".ZD_authentication,#fieldPart").hide();
     $(document).on('click', '#authBtn', function () {
         $(".error_div").html("");
         $("#authBtn").prop("disabled", true);
@@ -17,17 +17,28 @@ app.initialized().then(function (client) {
         if ($("#apiKey").val().trim() !== "" && $("#domain").val().trim() !== "") {
             $("#authBtn").text("Authenticating...");
             getAgents(client);
-        } else buttonEnable("authBtn");
+        } else {
+            $("#authBtn").text("Authenticate");
+            buttonEnable("authBtn");
+        }
     });
     $(document).on('fwChange', 'fw-select', function (e) {
         console.log("*******************")
         selectField = $(this).val();
-        selectFieldText = $(this).text();
-        console.log(e.target.value,e.target.text)
-        console.log($(e.currentTarget).text())
-        console.log(selectFieldText)
+        console.log(e.target.value, e.target.text)
     });
-    $(document).on('click', '#ZDauthBtn', function () {
+    $("#ZDauthBtn").click(function () {
+        $(".token_error_zd").html("");
+        if (!selectField) {
+            addIdAttr("aid", "Please select Abonnemangs-ID");
+        }
+        else {
+            idRemoveAtrr("aid");
+            $("#ZDauthBtn").prop("disabled", true).text("Validated");
+        }
+    });
+    $(document).on('click', '#getZendeskFields', function () {
+        $(".token_error_zd").html("");
         $(this).prop("disabled", true);
         var emailPattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
         if ($("#password").val().trim() === "") {
@@ -52,20 +63,14 @@ app.initialized().then(function (client) {
         else {
             idRemoveAtrr("subdomain");
         }
-        if (!selectField) {
-            addIdAttr("aid", "Please select Abonnemangs-ID");
-        }
-        else {
-            idRemoveAtrr("aid");
-        }
-        if ($("#password").val().trim() !== "" && emailPattern.test($("#email").val().trim()) && $("#subdomain").val().trim() !== "" && !!selectField) {
-            $("#ZDauthBtn").text("Authenticating...");
+        if ($("#password").val().trim() !== "" && emailPattern.test($("#email").val().trim()) && $("#subdomain").val().trim() !== "") {
             getTicketDetails();
         } else {
-            buttonEnable("ZDauthBtn");
+            buttonEnable("getZendeskFields");
         }
     });
     $(document).on('fwChange', '#subdomain,#password,#email,#domain,#apiKey,fw-select', function () {
+        buttonEnable("getZendeskFields");
         buttonEnable("ZDauthBtn");
         idRemoveAtrr("subdomain");
         idRemoveAtrr("email");
@@ -78,6 +83,7 @@ app.initialized().then(function (client) {
     $(document).on('change', 'textarea', function () {
         $(".token_error,.error_div").html("");
         buttonEnable("authBtn");
+        $("#authBtn").text("Authenticate");
     });
 }, function (error) {
     handleError(error, token_error);
@@ -87,7 +93,6 @@ function addIdAttr(id, message) {
     $("#" + id).attr("state-text", message);
 }
 function buttonEnable(id) {
-    $("#" + id).text("Authenticate");
     $("#" + id).prop("disabled", false);
 }
 function idRemoveAtrr(id) {
@@ -102,12 +107,11 @@ function getAgents(client) {
     var url = `https://${domain}/v2/agents?items_per_page=2`;
     client.request.get(url, options).then(function () {
         $(".error_div").html("");
-        $("#authBtn").text("Authenticated");
         $(".ZD_authentication").show();
         $(".authentication").hide();
-        getZendeskFields();
     }, function (error) {
         handleError(error, "error_div");
+        $("#authBtn").text("Authenticate");
         buttonEnable("authBtn");
     });
 }
@@ -117,7 +121,7 @@ const getZendeskFields = function () {
     var headers = { "Authorization": `Basic ` + btoa(`${email}/token:${password}`) };
     var options = { headers: headers };
     var selectElement = `<fw-select label="Abonnemangs-ID" id="aid" required placeholder="Select Abonnemangs-ID field from Zendesk"/>`;
-    $('fw-button').prop("disabled", true);
+    $('#ZDauthBtn').prop("disabled", true);
     client.request.get(url, options).then(function (data) {
         try {
             let ticket_fields = JSON.parse(data.response).ticket_fields;
@@ -139,7 +143,9 @@ const getZendeskFields = function () {
         }
     }, function () {
         $('.token_error_zd').html("Failed to get zendesk fields");
-        buttonEnable("ZDauthBtn");
+        buttonEnable("getZendeskFields");
+        $("#fieldPart").hide();
+        $(".ZD_authentication").show();
     });
 }
 function getTicketDetails() {
@@ -150,12 +156,13 @@ function getTicketDetails() {
     var headers = { "Authorization": `Basic ` + btoa(`${email}/token:${password}`) };
     var options = { headers: headers };
     client.request.get(url, options).then(function () {
-        $("#ZDauthBtn").text("Authenticated");
-        $('.message_div').html("Integration setup successful");
         $(".token_error_zd").html("");
+        $(".ZD_authentication").hide();
+        $("#fieldPart").show();
+        getZendeskFields();
     }, function () {
-        $('.token_error_zd').html("Integration setup failed. Please try again.");
-        buttonEnable("ZDauthBtn");
+        $('.token_error_zd').html("Something went wrong to proceed. Please try again.");
+        buttonEnable("getZendeskFields");
     });
 }
 function handleError(error, errorid) {

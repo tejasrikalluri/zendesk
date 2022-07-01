@@ -1,5 +1,9 @@
-fw-input {
+.authentication fw-input {
     width: 71%;
+}
+
+.ZD_authentication fw-input {
+    width: 40%;
 }
 
 fw-select {
@@ -22,7 +26,7 @@ fw-select {
 .message_div,
 .token_error_zd,
 .token_error {
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 
 #authBtn {
@@ -31,7 +35,7 @@ fw-select {
 
 .red,
 .error_div {
-    color: red;
+    color: #d72d30;
 }
 
 .trouble_fc {
