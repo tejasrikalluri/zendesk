@@ -132,7 +132,7 @@ exports = {
     },
     getAgents: function (args) {
         if ("link" in args === false) {
-            var url = `https://api.freshchat.com/v2/agents?items_per_page=100&page=1`;
+            var url = `https://api.eu.freshchat.com/v2/agents?items_per_page=100&page=1`;
             var headers = { "Authorization": "Bearer " + args.iparams.api_key };
             return {
                 method: 'GET',
@@ -140,7 +140,7 @@ exports = {
             };
         } else {
             var link = base64.decode(args.link);
-            var url = `https://api.freshchat.com${link}`;
+            var url = `https://api.eu.freshchat.com${link}`;
             var headers = { "Authorization": "Bearer " + args.iparams.api_key };
             return {
                 method: 'GET',
@@ -198,7 +198,7 @@ exports = {
         }
     }, searchConversation: function (args) {
         var conversation_id = base64.decode(args.conversation_id);
-        var url = `https://api.freshchat.com/v2/conversations/${conversation_id}/messages?page=1&items_per_page=50`;
+        var url = `https://api.eu.freshchat.com/v2/conversations/${conversation_id}/messages?page=1&items_per_page=50`;
         var headers = { "Authorization": `Bearer ${args.iparams.api_key}` };
         return {
             method: 'GET',
