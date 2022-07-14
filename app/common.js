@@ -14,8 +14,11 @@ function getSubdomainData(client, callback) {
     });
 }
 const getAbonnemangsId = function (client, callback) {
-    client.iparams.get("selectField").then(function (data) {
-        callback(data.selectField);
+    client.iparams.get().then(function (data) {
+        let obj = {
+            selectField: data.selectField, selectFieldText: data.selectFieldText
+        };
+        callback(obj);
     }, function () {
         showNotification(client, "danger", "Failed to fetch Iparams Subdomain.");
     });

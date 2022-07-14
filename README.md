@@ -36,3 +36,7 @@ The Primary Features of the app are:
         ├── server.js
         └── test_data               Sample payloads for local testing
             ├── onMessageCreate.json
+
+in this version changed id prepended with db
+ subject with group name,
+ added regex fields in custom app

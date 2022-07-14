@@ -435,9 +435,10 @@ $(document).ready(function () {
                     console.log($("#partNew :input").filter(`#${c_info.selectField}`));
                     if (!$("#partNew :input").filter(`#${c_info.selectField}`).length)
                         appendSelectedField(c_info);
-                    (c_info.conversation.assigned_agent_id) ?
-                        $("#subject").val(`Fortnox chattärende - ${c_info.agent_obj[c_info.conversation.assigned_agent_id]}`) : $("#subject").val("Fortnox chattärende");
-                    $(`#${c_info.selectField}`).val(c_info.tenantId);
+                    console.log(c_info, c_info.conversation.assigned_group_id);
+                    (c_info.conversation.assigned_group_id) ?
+                        $("#subject").val(`Fortnox chattärende - ${c_info.group_obj[c_info.conversation.assigned_group_id]}`) : $("#subject").val("Fortnox chattärende");
+                    $(`#${c_info.selectField}`).val(`db${c_info.tenantId}`);
                 })
                 formSelectFields(data);
             }
@@ -447,7 +448,7 @@ $(document).ready(function () {
     }
     const appendSelectedField = function (c_info) {
         (c_info.tenantId) ?
-            $("#partNew").append(`<label>Selected Abonnemangs-ID</label><br/><input id="${c_info.selectField}" type="text" value="${c_info.tenantId}" class="form-control" required></input>`) : $("#partNew").append(`<label>Selected Abonnemangs-ID</label><br/><input id="${c_info.selectField}" type="text" class="form-control" required></input>`);
+            $("#partNew").append(`<label>${c_info.selectFieldText}</label><br/><input id="${c_info.selectField}" type="text" value="db${c_info.tenantId}" class="form-control" required></input>`) : $("#partNew").append(`<label>${c_info.selectFieldText}</label><br/><input id="${c_info.selectField}" type="text" class="form-control" required></input>`);
 
     }
     //for forming body for custom fields

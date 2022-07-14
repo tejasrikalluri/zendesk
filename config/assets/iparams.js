@@ -22,11 +22,6 @@ app.initialized().then(function (client) {
             buttonEnable("authBtn");
         }
     });
-    $(document).on('fwChange', 'fw-select', function (e) {
-        console.log("*******************")
-        selectField = $(this).val();
-        console.log(e.target.value, e.target.text)
-    });
     $("#ZDauthBtn").click(function () {
         $(".token_error_zd").html("");
         if (!selectField) {
@@ -126,9 +121,10 @@ const getZendeskFields = function () {
         try {
             let ticket_fields = JSON.parse(data.response).ticket_fields;
             console.log(ticket_fields)
-            let customFields = ticket_fields.filter(field => field.type === 'text' || field.type === 'integer');
+            let customFields = ticket_fields.filter(field => field.type === 'text' || field.type === 'integer' || field.type === 'regexp');
             console.log(customFields)
             $.each(customFields, function (k, v) {
+                mapText[v.id] = v.title;
                 selectElement += `<fw-select-option value="${v.id}">${v.title}</fw-select-option>`;
             });
             selectElement += `</fw-select>`;

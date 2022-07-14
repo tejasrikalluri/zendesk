@@ -175,6 +175,29 @@ exports = {
       }
     });
   },
+  getFcGroups: function (args) {
+    request(reqData.getFcGroups(args), function (err, resp, body) {
+      if (err) {
+        renderData(err);
+      }
+      if (resp !== undefined) {
+        if (resp.statusCode === 200) {
+          try {
+            var respObj = JSON.parse(body);
+            renderData(null, respObj);
+          } catch (c_err) {
+            renderData(c_err);
+          }
+        } else {
+          var error = {
+            status: resp.statusCode,
+            message: body
+          };
+          renderData(error);
+        }
+      }
+    });
+  },
   searchAssignee: function (args) {
     request(reqData.searchAssignee(args), function (err, resp, body) {
       if (err) {

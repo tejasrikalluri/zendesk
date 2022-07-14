@@ -73,7 +73,7 @@
     </div>
 
     <script type="text/javascript">
-        let selectField, fetchConfigs, selectFieldText;
+        let selectField, fetchConfigs, selectFieldText, mapText = {};
         function postConfigs() {
             var domain = $("#domain").val();
             var password = $("#password").val();
@@ -87,7 +87,9 @@
             else if ($('fw-toggle').prop("checked") === false) {
                 offlineVal = false;
             }
-            console.log(selectField)
+            selectField = $('fw-select').val();
+            console.log(mapText, mapText[selectField])
+            selectFieldText = mapText[selectField];
             return {
                 __meta: {
                     secure: ["password,api_key"]
@@ -96,7 +98,7 @@
                 password,
                 subdomain,
                 email,
-                offlineVal, domain, selectField
+                offlineVal, domain, selectField, selectFieldText
             };
         }
         function getConfigs(configs) {

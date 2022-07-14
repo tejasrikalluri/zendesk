@@ -35,6 +35,9 @@
         "getAgents": {
           "timeout": 10
         },
+        "getFcGroups": {
+          "timeout": 10
+        },
         "searchAssignee": {
           "timeout": 10
         },
