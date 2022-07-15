@@ -17,10 +17,6 @@
 
 <body>
     <div class="authentication align">
-        <div class="domain">
-            <fw-input id="domain" label="Freshchat Domain" placeholder="Ex: domain.freshchat.com" required clear-input>
-            </fw-input>
-        </div>
         <div class="apiKey">
             <fw-textarea id="apiKey" cols=116 rows=18 required label="Freshchat API Token">
             </fw-textarea>
@@ -32,6 +28,14 @@
                 finding
                 API
                 key?</a></span>
+        <div>
+            <fw-select label="Freshchat Region" id="region" required="true" value="1" placeholder="Your choice">
+                <fw-select-option value="us">US</fw-select-option>
+                <fw-select-option value="in">IN</fw-select-option>
+                <fw-select-option value="eu">EU</fw-select-option>
+                <fw-select-option value="au">AU</fw-select-option>
+            </fw-select>
+        </div>
         <div class="error_div"></div>
         <div class="authenticate">
             <fw-button color="Primary" id="authBtn">Authenticate</fw-button>
@@ -73,9 +77,8 @@
     </div>
 
     <script type="text/javascript">
-        let selectField, fetchConfigs, selectFieldText, mapText = {};
+        let selectField, fetchConfigs, selectFieldText, mapText = {}, region;
         function postConfigs() {
-            var domain = $("#domain").val();
             var password = $("#password").val();
             var subdomain = $("#subdomain").val();
             var api_key = $("#apiKey").val();
@@ -87,7 +90,7 @@
             else if ($('fw-toggle').prop("checked") === false) {
                 offlineVal = false;
             }
-            selectField = $('fw-select').val();
+            selectField = $('#aid').val();
             console.log(mapText, mapText[selectField])
             selectFieldText = mapText[selectField];
             return {
@@ -98,7 +101,7 @@
                 password,
                 subdomain,
                 email,
-                offlineVal, domain, selectField, selectFieldText
+                offlineVal, selectField, selectFieldText, region
             };
         }
         function getConfigs(configs) {
@@ -106,9 +109,9 @@
             console.log(configs)
             $("#apiKey").val(configs.api_key);
             $("#password").val(configs.password);
-            $("#domain").val(configs.domain);
             $("#subdomain").val(configs.subdomain);
             $("#email").val(configs.email);
+            $("#region").val(configs.region);
             selectField = configs.selectField;
             (configs.offlineVal) ?
                 $('fw-toggle').prop('checked', true) : $('fw-toggle').prop('checked', false);

@@ -58,8 +58,10 @@
     "fdk": "8.3.3"
   },
   "whitelisted-domains": [
-    "https://*.freshchat.com",
+    "https://api.in.freshchat.com",
     "https://api.eu.freshchat.com",
+    "https://api.au.freshchat.com",
+    "https://api.freshchat.com",
     "https://*.zendesk.com"
   ],
   "dependencies": {

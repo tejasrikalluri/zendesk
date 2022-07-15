@@ -131,17 +131,18 @@ exports = {
         }
     },
     getAgents: function (args) {
-        if ("link" in args === false) {
-            var url = `https://api.freshchat.com/v2/agents?items_per_page=100&page=1`;
-            var headers = { "Authorization": "Bearer " + args.iparams.api_key };
+        var headers = { "Authorization": "Bearer " + args.iparams.api_key };
+        var freshchatDomain = (args.iparams.region === "us") ? `api.freshchat.com` :
+            `api.${args.iparams.region}.freshchat.com`;
+        if ("link" in args) {
+            var link = base64.decode(args.link);
+            var url = `https://${freshchatDomain}${link}`;
             return {
                 method: 'GET',
                 url: url, headers: headers
             };
         } else {
-            var link = base64.decode(args.link);
-            var url = `https://api.freshchat.com${link}`;
-            var headers = { "Authorization": "Bearer " + args.iparams.api_key };
+            var url = `https://${freshchatDomain}/v2/agents?items_per_page=100&page=1`;
             return {
                 method: 'GET',
                 url: url, headers: headers
@@ -150,7 +151,9 @@ exports = {
     },
     getFcGroups: function (args) {
         console.log("***************************")
-        var url = `https://api.freshchat.com/v2/groups`;
+        var freshchatDomain = (args.iparams.region === "us") ? `api.freshchat.com` :
+            `api.${args.iparams.region}.freshchat.com`;
+        var url = `https://${freshchatDomain}/v2/groups`;
         var headers = { "Authorization": "Bearer " + args.iparams.api_key };
         return {
             method: 'GET',
@@ -207,7 +210,9 @@ exports = {
         }
     }, searchConversation: function (args) {
         var conversation_id = base64.decode(args.conversation_id);
-        var url = `https://api.freshchat.com/v2/conversations/${conversation_id}/messages?page=1&items_per_page=50`;
+        var freshchatDomain = (args.iparams.region === "us") ? `api.freshchat.com` :
+            `api.${args.iparams.region}.freshchat.com`;
+        var url = `https://${freshchatDomain}/v2/conversations/${conversation_id}/messages?page=1&items_per_page=50`;
         var headers = { "Authorization": `Bearer ${args.iparams.api_key}` };
         return {
             method: 'GET',

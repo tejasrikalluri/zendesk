@@ -8,13 +8,14 @@ app.initialized().then(function (client) {
             addIdAttr("apiKey", "Please enter Freshchat API Key");
         else
             idRemoveAtrr("apiKey");
-        if ($("#domain").val().trim() === "") {
-            addIdAttr("domain", "Please enter Freshchat Domain");
+        if (!$("#region").val()) {
+            addIdAttr("region", "Please select Freshchat Region");
         }
         else {
             idRemoveAtrr("domain");
+            idRemoveAtrr("region");
         }
-        if ($("#apiKey").val().trim() !== "" && $("#domain").val().trim() !== "") {
+        if ($("#apiKey").val().trim() !== "" && $("#region").val()) {
             $("#authBtn").text("Authenticating...");
             getAgents(client);
         } else {
@@ -64,15 +65,15 @@ app.initialized().then(function (client) {
             buttonEnable("getZendeskFields");
         }
     });
-    $(document).on('fwChange', '#subdomain,#password,#email,#domain,#apiKey,fw-select', function () {
+    $(document).on('fwChange', '#subdomain,#password,#email,#apiKey,#aid,#region', function () {
         buttonEnable("getZendeskFields");
         buttonEnable("ZDauthBtn");
         idRemoveAtrr("subdomain");
         idRemoveAtrr("email");
         idRemoveAtrr("password");
-        idRemoveAtrr("domain");
         idRemoveAtrr("apiKey");
         idRemoveAtrr("aid");
+        idRemoveAtrr("region");
         $(".token_error_zd,.message_div,.error_div").html("");
     });
     $(document).on('change', 'textarea', function () {
@@ -96,10 +97,12 @@ function idRemoveAtrr(id) {
 }
 function getAgents(client) {
     var api_key = $("#apiKey").val();
-    var domain = $("#domain").val();
+    region = $("#region").val();
     var headers = { "Authorization": "Bearer " + api_key };
     var options = { headers: headers };
-    var url = `https://${domain}/v2/agents?items_per_page=2`;
+    const url = ($("#region").val() === "us") ? `https://api.freshchat.com/v2/agents?items_per_page=2` :
+        `https://api.${$("#region").val()}.freshchat.com/v2/agents?items_per_page=2`;
+    console.log(url)
     client.request.get(url, options).then(function () {
         $(".error_div").html("");
         $(".ZD_authentication").show();

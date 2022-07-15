@@ -6,16 +6,10 @@
     width: 40%;
 }
 
-fw-select {
-    width: 34%;
-}
+
 
 .ml11 {
     margin-left: 11%;
-}
-
-.domain {
-    width: 134%
 }
 
 .align {
@@ -116,4 +110,8 @@ input:checked+.slider:before {
 
 .slider.round:before {
     border-radius: 50%;
+}
+
+fw-select {
+    width: 20%;
 }
