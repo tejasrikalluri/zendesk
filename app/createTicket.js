@@ -120,7 +120,7 @@ $(document).ready(function () {
         };
         if (c_data.source === "new_ticket") {
             if (subject !== "" && notes !== "" && status !== "Select" && status !== "") {
-                checkFieldValidation(subject, notes, obj);
+                checkFieldValidation(subject, notes, obj, c_data);
                 obj.body["requester_id"] = btoa(c_data.user_id);
                 checkValid(modal_client, obj, c_data);
             } else
@@ -289,7 +289,7 @@ $(document).ready(function () {
         return arr;
     }
     // create ticket validation
-    function checkFieldValidation(subject, notes, obj) {
+    function checkFieldValidation(subject, notes, obj, c_data) {
         $("#m_button").attr("data-id", "valid");
         var regex = /.(?=.{4})/mg, subst = 'X';
         $("input[type='text'],input[type='number'],input[type='date']").each(function () {
@@ -317,7 +317,7 @@ $(document).ready(function () {
             formCheckboxBody(this, obj);
         });
         obj.body["subject"] = btoa(subject);
-        obj.body["description"] = btoa(notes);
+        obj.body["description"] = btoa(`${notes} - ${c_data.group_obj[c_data.conversation.assigned_group_id]}`);
     }
     //form body for ticket creation for select fields
     function formSelectFieldBody(ele, obj) {
@@ -357,7 +357,7 @@ $(document).ready(function () {
     function formNewRequester(subject, notes, c_data, modal_client, obj, origin, status) {
         $("#m_button").attr("data-id", "valid");
         if (subject !== "" && notes !== "" && c_data.email !== null && status !== "Select" && status !== "") {
-            checkFieldValidation(subject, notes, obj);
+            checkFieldValidation(subject, notes, obj, c_data);
             obj.body["name"] = btoa(c_data.name);
             if (c_data.email !== null) obj.body["email"] = btoa(c_data.email);
             checkOrigin(origin, modal_client, obj, c_data);
@@ -435,9 +435,7 @@ $(document).ready(function () {
                     console.log($("#partNew :input").filter(`#${c_info.selectField}`));
                     if (!$("#partNew :input").filter(`#${c_info.selectField}`).length)
                         appendSelectedField(c_info);
-                    console.log(c_info, c_info.conversation.assigned_group_id);
-                    (c_info.conversation.assigned_group_id) ?
-                        $("#subject").val(`Fortnox chattärende - ${c_info.group_obj[c_info.conversation.assigned_group_id]}`) : $("#subject").val("Fortnox chattärende");
+                    $("#subject").val("Fortnox chattärende");
                     $(`#${c_info.selectField}`).val(`db${c_info.tenantId}`);
                 })
                 formSelectFields(data);

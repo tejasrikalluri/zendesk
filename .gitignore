@@ -1,3 +1,5 @@
 server/node_modules
-coverage/*
 
+log/*.log
+
+coverage
