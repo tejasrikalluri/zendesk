@@ -70,6 +70,8 @@
         <div class="additionField align">
             <fw-spinner class="ml11" size="medium" color="blue"></fw-spinner>
         </div>
+        <div class="align ticketFieldContainer">
+        </div>
         <div class="ZD_authenticate">
             <fw-button color="Primary" id="ZDauthBtn">Validate</fw-button>
         </div>
@@ -77,7 +79,7 @@
     </div>
 
     <script type="text/javascript">
-        let selectField, fetchConfigs, selectFieldText, mapText = {}, region;
+        let selectField, fetchConfigs, selectFieldText, mapText = {}, region, ticketFields;
         function postConfigs() {
             var password = $("#password").val();
             var subdomain = $("#subdomain").val();
@@ -91,6 +93,7 @@
                 offlineVal = false;
             }
             selectField = $('#aid').val();
+            ticketFields = $('#ticketFields').val();
             console.log(mapText, mapText[selectField])
             selectFieldText = mapText[selectField];
             return {
@@ -101,7 +104,7 @@
                 password,
                 subdomain,
                 email,
-                offlineVal, selectField, selectFieldText, region
+                offlineVal, selectField, selectFieldText, region, ticketFields
             };
         }
         function getConfigs(configs) {

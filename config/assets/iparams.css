@@ -112,6 +112,14 @@ input:checked+.slider:before {
     border-radius: 50%;
 }
 
-fw-select {
+#region {
     width: 20%;
+}
+
+#aid {
+    width: 22%;
+}
+
+#ticketFields {
+    width: 36%;
 }

@@ -28,6 +28,9 @@ app.initialized().then(function (client) {
         if (!selectField) {
             addIdAttr("aid", "Please select Abonnemangs-ID");
         }
+        if (!ticketFields) {
+            addIdAttr("ticketFields", "Please select one ticket field");
+        }
         else {
             idRemoveAtrr("aid");
             $("#ZDauthBtn").prop("disabled", true).text("Validated");
@@ -119,21 +122,29 @@ const getZendeskFields = function () {
     var headers = { "Authorization": `Basic ` + btoa(`${email}/token:${password}`) };
     var options = { headers: headers };
     var selectElement = `<fw-select label="Abonnemangs-ID" id="aid" required placeholder="Select Abonnemangs-ID field from Zendesk"/>`;
+    var ticketSelectElement = `<fw-select label="Ticket Fields" id="ticketFields" required="true"
+    placeholder="Please select fields which need to display in ticket create modal" multiple>`;
     $('#ZDauthBtn').prop("disabled", true);
     client.request.get(url, options).then(function (data) {
         try {
             let ticket_fields = JSON.parse(data.response).ticket_fields;
             console.log(ticket_fields)
-            let customFields = ticket_fields.filter(field => field.type === 'text' || field.type === 'integer' || field.type === 'regexp');
+            let customFields = ticket_fields.filter(field => field.type === 'text' || field.type === 'regexp');
             console.log(customFields)
             $.each(customFields, function (k, v) {
                 mapText[v.id] = v.title;
                 selectElement += `<fw-select-option value="${v.id}">${v.title}</fw-select-option>`;
             });
+            $.each(ticket_fields, function (k, v) {
+                ticketSelectElement += `<fw-select-option value="${v.id}">${v.title}</fw-select-option>`;
+            });
             selectElement += `</fw-select>`;
+            ticketSelectElement += `</fw-select>`;
             $('.additionField').append(selectElement);
+            $('.ticketFieldContainer').append(ticketSelectElement);
             if (!!fetchConfigs) {
-                $('fw-select').val(fetchConfigs.selectField);
+                $('#aid').val(fetchConfigs.selectField);
+                $('#ticketFields').val(fetchConfigs.selectField);
             }
             $('fw-spinner').hide();
             buttonEnable("ZDauthBtn");
