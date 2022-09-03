@@ -89,14 +89,12 @@ $(document).ready(function () {
         showNotification(modal_client, "danger", "Something went wrong, please try again");
     });
     let formExportConv = function (c_data, ticket_id, modal_client, origin) {
-        console.log(c_data)
         var arr = [];
         c_data.conversation.messages.reverse();
         $.each(c_data.conversation.messages, function (i, v) {
             formConvUI(v, arr);
         });
         var parse_id = parseInt(ticket_id);
-        console.log(origin)
         searchInDb(modal_client, parse_id, arr, c_data, origin);
     }
     let formConvUI = function (v, arr) {
@@ -136,7 +134,6 @@ $(document).ready(function () {
             formAUI(modal_client, c_data, id, db_id, origin);
         }, function (error) {
             if (error.status === 404) {
-                console.log("record not")
                 setDb(modal_client, id, trimmed_id, arr, c_data, c_data.user_id, origin);
             } else
                 showNotification(client, "danger", "Unable to fetch DB data");
@@ -144,7 +141,6 @@ $(document).ready(function () {
     }
     //check the db and conversation id form an object form a UI for internal note
     function formAUI(client, data, id, db_id, origin) {
-        console.log(origin)
         var messages = data.conversation.messages, last_conv_id = messages[messages.length - 1].id;
         var arr = [], ui_arr = [];
         $.each(messages, function (i, v) {
@@ -174,7 +170,6 @@ $(document).ready(function () {
     //set zendesk id in db
     function setDb(client, id, trimmed_id, arr, c_data, user_id, origin) {
         client.db.set(id, { conv_id: trimmed_id }).then(function () {
-            console.log("setted")
             formUIforNote(arr, c_data, client, user_id, id, origin);
         }, function (error) {
             if (error.status !== 404)
@@ -261,7 +256,6 @@ $(document).ready(function () {
     }
     //when new messages are in db update db when create a internal note
     function updateDb(modal_client, id, conv_id, ui_arr, data, origin) {
-        console.log(origin)
         var trimmed_id = jQuery.trim(conv_id).substring(0, 30).trim(this) + "...";
         modal_client.db.update(id, "set", { "conv_id": trimmed_id }).then(function () {
             formUIforNote(ui_arr, data, modal_client, data.user_id, id, origin);
@@ -406,8 +400,9 @@ $(document).ready(function () {
         var options = {};
         client.request.invoke("getTicketFields", options).then(function (data) {
             if (data.response.message === undefined) {
-                var arr = [];
+                var arr = [], fieldsResponse = {};
                 $.each(data.response.ticket_fields, function (i, v) {
+                    fieldsResponse[v.id] = v;
                     if (v.type === "status") {
                         $.each(v.system_field_options, function (i1, v2) {
                             $('#status')
@@ -426,19 +421,23 @@ $(document).ready(function () {
                                     .text(v2.name));
                         });
                     }
-                    formCustomFields(v, arr);
                 });
+                console.log(fieldsResponse)
                 getGroups(client);
-                $("#partNew").append(arr.join('')).show();
-                console.log("****************")
                 getContextInfo(function (c_info) {
+                    console.log(c_info.ticketFields)
+                    $.each(c_info.ticketFields, function (i, v) {
+                        formTextFields(fieldsResponse[v], arr);
+                    });
                     console.log($("#partNew :input").filter(`#${c_info.selectField}`));
                     if (!$("#partNew :input").filter(`#${c_info.selectField}`).length)
                         appendSelectedField(c_info);
                     $("#subject").val("Fortnox chattärende");
                     $(`#${c_info.selectField}`).val(`db${c_info.tenantId}`);
-                })
-                formSelectFields(data);
+                    $("#partNew").append(arr.join('')).show();
+                    formSelectFields(data);
+                });
+
             }
         }, function () {
             showNotification(client, "danger", "Failed to fetch Ticket fields");
@@ -448,11 +447,6 @@ $(document).ready(function () {
         (c_info.tenantId) ?
             $("#partNew").append(`<label>${c_info.selectFieldText}</label><br/><input id="${c_info.selectField}" type="text" value="db${c_info.tenantId}" class="form-control" required></input>`) : $("#partNew").append(`<label>${c_info.selectFieldText}</label><br/><input id="${c_info.selectField}" type="text" class="form-control" required></input>`);
 
-    }
-    //for forming body for custom fields
-    function formCustomFields(v, arr) {
-        if (v.visible_in_portal && v.active && v.type !== "assignee" && v.type !== "priority" && v.type !== "description" && v.type !== "subject")
-            formTextFields(v, arr);
     }
     //for forming body for text fields
     function formTextFields(v, arr) {
@@ -538,11 +532,8 @@ $(document).ready(function () {
     }
     //create ticket in zendesk
     function ticketCreate(client, options, c_data) {
-        console.log("BEFORE")
-        console.log(c_data)
         client.request.invoke("createTicket", options).then(function (data) {
             if (data.response.message === undefined) {
-                console.log(data.response)
                 c_data.user_id = data.response.requester_id;
                 formExportConv(c_data, data.response.id, client, "ticket");
             }

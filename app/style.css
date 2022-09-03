@@ -6,12 +6,11 @@
 }
 
 .create_ticket_div {
-  width: 241px;
+  width: 226px;
   height: 36px;
   position: absolute;
   left: 1.57%;
-  right: 8.57%;
-  top: 28px;
+  top: 0px;
   bottom: 83.33%;
   background: #F5F7F9;
   border-radius: 8px;
@@ -144,7 +143,7 @@ input[type='checkbox']:checked {
 
 .ticket {
   border: 1px solid #ebeff3;
-  width: 241px;
+  width: 226px;
   height: 124px;
   box-sizing: border-box;
   border-radius: 4px;

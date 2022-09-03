@@ -11,7 +11,7 @@ $(document).ready(function () {
         }, getConversation = function (callback) {
             getConversationDetails(client, callback);
         }, getSelectedField = function (callback) {
-            getAbonnemangsId(client, callback);
+            getIparamsFields(client, callback);
         }, group_obj = {}
         client.events.on('app.activated', function () {
             $("#no_email,#ticket_details,.fw-widget-wrapper,.create_ticket_div").hide();
@@ -34,7 +34,7 @@ $(document).ready(function () {
                                 var obj = {
                                     email: u_data.email,
                                     source: "new_requester",
-                                    name: u_data.name, "domain": s_data, conversation: c_data, agent_obj: agent_obj, selectField: selectField.selectField, tenantId: u_data.tenantId, selectFieldText: selectField.selectFieldText, group_obj
+                                    name: u_data.name, "domain": s_data, conversation: c_data, agent_obj: agent_obj, selectField: selectField.selectField, tenantId: u_data.tenantId, selectFieldText: selectField.selectFieldText, group_obj, ticketFields: selectField.ticketFields, selectedTicketFieldText: selectField.selectedTicketFieldText
                                 };
                                 showModal("Create a Zendesk ticket", "createTicket.html", obj, client);
                             } else
@@ -76,7 +76,7 @@ $(document).ready(function () {
                 var obj = {
                     source: "new_ticket",
                     user_id: ui_data,
-                    email: u_data.email, name: u_data.name, "domain": s_data, conversation: c_data, agent_obj: agent_obj, selectField: selectField.selectField, tenantId: u_data.tenantId, selectFieldText: selectField.selectFieldText, group_obj
+                    email: u_data.email, name: u_data.name, "domain": s_data, conversation: c_data, agent_obj: agent_obj, selectField: selectField.selectField, tenantId: u_data.tenantId, selectFieldText: selectField.selectFieldText, group_obj, ticketFields: selectField.ticketFields, selectedTicketFieldText: selectField.selectedTicketFieldText
                 };
                 showModal("Create a Zendesk ticket", "createTicket.html", obj, client);
             });

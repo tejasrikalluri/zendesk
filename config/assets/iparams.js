@@ -28,9 +28,6 @@ app.initialized().then(function (client) {
         if (!selectField) {
             addIdAttr("aid", "Please select Abonnemangs-ID");
         }
-        if (!ticketFields) {
-            addIdAttr("ticketFields", "Please select one ticket field");
-        }
         else {
             idRemoveAtrr("aid");
             $("#ZDauthBtn").prop("disabled", true).text("Validated");
@@ -105,7 +102,6 @@ function getAgents(client) {
     var options = { headers: headers };
     const url = ($("#region").val() === "us") ? `https://api.freshchat.com/v2/agents?items_per_page=2` :
         `https://api.${$("#region").val()}.freshchat.com/v2/agents?items_per_page=2`;
-    console.log(url)
     client.request.get(url, options).then(function () {
         $(".error_div").html("");
         $(".ZD_authentication").show();
@@ -122,20 +118,24 @@ const getZendeskFields = function () {
     var headers = { "Authorization": `Basic ` + btoa(`${email}/token:${password}`) };
     var options = { headers: headers };
     var selectElement = `<fw-select label="Abonnemangs-ID" id="aid" required placeholder="Select Abonnemangs-ID field from Zendesk"/>`;
-    var ticketSelectElement = `<fw-select label="Ticket Fields" id="ticketFields" required="true"
-    placeholder="Please select fields which need to display in ticket create modal" multiple>`;
+    var ticketSelectElement = `<fw-select label="Ticket Fields" id="ticketFields" placeholder="Please select fields which need to display in ticket create modal" multiple>`;
     $('#ZDauthBtn').prop("disabled", true);
     client.request.get(url, options).then(function (data) {
         try {
             let ticket_fields = JSON.parse(data.response).ticket_fields;
             console.log(ticket_fields)
+            ticket_fields = ticket_fields.filter(field => field.visible_in_portal && field.active);
+            console.log('after filter')
+            console.log(ticket_fields)
             let customFields = ticket_fields.filter(field => field.type === 'text' || field.type === 'regexp');
-            console.log(customFields)
             $.each(customFields, function (k, v) {
                 mapText[v.id] = v.title;
                 selectElement += `<fw-select-option value="${v.id}">${v.title}</fw-select-option>`;
             });
-            $.each(ticket_fields, function (k, v) {
+            let selectionTicketFields = ticket_fields.filter(field => field.type !== 'subject' && field.type !== 'description' && field.type !== 'priority' && field.type !== 'status' && field.type !== 'group' && field.type !== 'assignee');
+
+            $.each(selectionTicketFields, function (k, v) {
+                mapText[v.id] = v.title;
                 ticketSelectElement += `<fw-select-option value="${v.id}">${v.title}</fw-select-option>`;
             });
             selectElement += `</fw-select>`;
@@ -144,7 +144,8 @@ const getZendeskFields = function () {
             $('.ticketFieldContainer').append(ticketSelectElement);
             if (!!fetchConfigs) {
                 $('#aid').val(fetchConfigs.selectField);
-                $('#ticketFields').val(fetchConfigs.selectField);
+                let multiSelect = document.getElementById('ticketFields');
+                multiSelect.setSelectedValues(fetchConfigs.ticketFields);
             }
             $('fw-spinner').hide();
             buttonEnable("ZDauthBtn");

@@ -13,10 +13,11 @@ function getSubdomainData(client, callback) {
         showNotification(client, "danger", "Failed to fetch Iparams Subdomain.");
     });
 }
-const getAbonnemangsId = function (client, callback) {
+const getIparamsFields = function (client, callback) {
     client.iparams.get().then(function (data) {
         let obj = {
-            selectField: data.selectField, selectFieldText: data.selectFieldText
+            selectField: data.selectField, selectFieldText: data.selectFieldText,
+            ticketFields: data.ticketFields, selectedTicketFieldText: data.selectedTicketFieldText
         };
         callback(obj);
     }, function () {

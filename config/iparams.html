@@ -79,7 +79,7 @@
     </div>
 
     <script type="text/javascript">
-        let selectField, fetchConfigs, selectFieldText, mapText = {}, region, ticketFields;
+        let selectField, fetchConfigs, selectFieldText, mapText = {}, region, ticketFields = [], selectedTicketFieldText = [];
         function postConfigs() {
             var password = $("#password").val();
             var subdomain = $("#subdomain").val();
@@ -94,8 +94,10 @@
             }
             selectField = $('#aid').val();
             ticketFields = $('#ticketFields').val();
-            console.log(mapText, mapText[selectField])
             selectFieldText = mapText[selectField];
+            $.each(ticketFields, function (index, value) {
+                selectedTicketFieldText.push(mapText[value]);
+            });
             return {
                 __meta: {
                     secure: ["password,api_key"]
@@ -104,7 +106,7 @@
                 password,
                 subdomain,
                 email,
-                offlineVal, selectField, selectFieldText, region, ticketFields
+                offlineVal, selectField, selectFieldText, region, ticketFields, selectedTicketFieldText
             };
         }
         function getConfigs(configs) {
