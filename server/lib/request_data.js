@@ -123,6 +123,7 @@ exports = {
                     }, "status": base64.decode(args.body.status)
                 }
             };
+            body.ticket.comment["public"] = false;
             formOtherDefaultFields(args, body);
             createTicketForNewUser(args, body);
             return {

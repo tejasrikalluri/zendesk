@@ -25,7 +25,7 @@ app.initialized().then(function (client) {
     });
     $("#ZDauthBtn").click(function () {
         $(".token_error_zd").html("");
-        if (!selectField) {
+        if (!$("#aid").val()) {
             addIdAttr("aid", "Please select Abonnemangs-ID");
         }
         else {

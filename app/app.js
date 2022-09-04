@@ -53,7 +53,7 @@ $(document).ready(function () {
                     ticket_id: ticket_id,
                     domain: s_data
                 };
-                showModal("Zendesk Tikect details", "viewTicketDetails.html", obj, client);
+                showModal("Zendesk Ticket details", "viewTicketDetails.html", obj, client);
             });
             e.stopImmediatePropagation();
             e.preventDefault();
