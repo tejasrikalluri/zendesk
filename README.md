@@ -37,6 +37,4 @@ The Primary Features of the app are:
         └── test_data               Sample payloads for local testing
             ├── onMessageCreate.json
 
-in this version changed id prepended with db
- subject with group name,
- added regex fields in custom app
+in this version added latest date messages & for URL button type sending url of the button & logs for server errors

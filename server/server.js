@@ -14,8 +14,11 @@ exports = {
     }
   },
   searchUser: function (args) {
+    console.log("USER SEARCH")
     request(reqData.searchUser(args), function (err, resp, body) {
       if (err) {
+        console.log("err")
+        console.log(err)
         renderData(err);
       }
       if (resp !== undefined) {
@@ -28,6 +31,8 @@ exports = {
             if (respObj.users.length !== 0) obj["id"] = base64.encode(respObj.users[0].id);
             renderData(null, obj);
           } catch (c_err) {
+            console.log("catch error")
+            console.log(c_err)
             renderData(c_err);
           }
         } else {
@@ -35,6 +40,8 @@ exports = {
             status: resp.statusCode,
             message: body
           };
+          console.log("error")
+          console.log(error)
           renderData(error);
         }
       }
@@ -42,8 +49,11 @@ exports = {
     });
   },
   searchTickets: function (args) {
+    console.log("SEARCH TICKETS")
     request(reqData.searchTickets(args), function (err, resp, body) {
       if (err) {
+        console.log("err")
+        console.log(err)
         renderData(err);
       }
       if (resp !== undefined) {
@@ -54,6 +64,8 @@ exports = {
             getTickets(respObj, ticketArr);
             renderData(null, ticketArr);
           } catch (c_err) {
+            console.log("catch error")
+            console.log(c_err)
             renderData(c_err);
           }
         } else {
@@ -61,14 +73,19 @@ exports = {
             status: resp.statusCode,
             message: body
           };
+          console.log("error")
+          console.log(error)
           renderData(error);
         }
       }
     });
   },
   createTicket: function (args) {
+    console.log("CREATE TICKETS")
     request(reqData.createTicket(args), function (err, resp, body) {
       if (err) {
+        console.log("err")
+        console.log(err)
         renderData(err);
       }
       if (resp !== undefined) {
@@ -83,14 +100,19 @@ exports = {
             status: resp.statusCode,
             message: body
           };
+          console.log("error")
+          console.log(error)
           renderData(error);
         }
       }
     });
   },
   getTicketFields: function (args) {
+    console.log("GET TICKET FIELDS")
     request(reqData.getTicketFields(args), function (err, resp, body) {
       if (err) {
+        console.log("err")
+        console.log(err)
         renderData(err);
       }
       if (resp !== undefined && resp.statusCode === 200) {
@@ -98,6 +120,8 @@ exports = {
           var respObj = JSON.parse(body);
           renderData(null, respObj);
         } catch (c_err) {
+          console.log("catch error")
+          console.log(c_err)
           renderData(c_err);
         }
       } else {
@@ -105,13 +129,18 @@ exports = {
           status: resp.statusCode,
           message: body
         };
+        console.log("error")
+        console.log(error)
         renderData(error);
       }
     });
   },
   createTicketComment: function (args) {
+    console.log("CREATE TICKET COMMENT")
     request(reqData.createTicketComment(args), function (err, resp, body) {
       if (err) {
+        console.log("err")
+        console.log(err)
         renderData(err);
       }
       if (resp !== undefined) {
@@ -122,14 +151,19 @@ exports = {
             status: resp.statusCode,
             message: body
           };
+          console.log("error")
+          console.log(error)
           renderData(error);
         }
       }
     });
   },
   searchConversation: function (args) {
+    console.log("SEARCH CONVERSATION")
     request(reqData.searchConversation(args), function (err, resp, body) {
       if (err) {
+        console.log("err")
+        console.log(err)
         renderData(err);
       }
       if (resp !== undefined) {
@@ -140,6 +174,8 @@ exports = {
             getMessages(respObj.messages, messagesArray);
             renderData(null, messagesArray);
           } catch (c_err) {
+            console.log("catch error")
+            console.log(c_err)
             renderData(c_err);
           }
         } else {
@@ -147,14 +183,19 @@ exports = {
             status: resp.statusCode,
             message: body
           };
+          console.log("error")
+          console.log(error)
           renderData(error);
         }
       }
     });
   },
   getAgents: function (args) {
+    console.log("GET AGENTS")
     request(reqData.getAgents(args), function (err, resp, body) {
       if (err) {
+        console.log("err")
+        console.log(err)
         renderData(err);
       }
       if (resp !== undefined) {
@@ -163,6 +204,8 @@ exports = {
             var respObj = JSON.parse(body);
             renderData(null, respObj);
           } catch (c_err) {
+            console.log("catch error")
+            console.log(c_err)
             renderData(c_err);
           }
         } else {
@@ -170,14 +213,19 @@ exports = {
             status: resp.statusCode,
             message: body
           };
+          console.log("error")
+          console.log(error)
           renderData(error);
         }
       }
     });
   },
   getFcGroups: function (args) {
+    console.log("GET FC GROUPS")
     request(reqData.getFcGroups(args), function (err, resp, body) {
       if (err) {
+        console.log("err")
+        console.log(err)
         renderData(err);
       }
       if (resp !== undefined) {
@@ -186,6 +234,8 @@ exports = {
             var respObj = JSON.parse(body);
             renderData(null, respObj);
           } catch (c_err) {
+            console.log("catch error")
+            console.log(c_err)
             renderData(c_err);
           }
         } else {
@@ -193,14 +243,19 @@ exports = {
             status: resp.statusCode,
             message: body
           };
+          console.log("error")
+          console.log(error)
           renderData(error);
         }
       }
     });
   },
   searchAssignee: function (args) {
+    console.log("SEARCH ASSIGNEE")
     request(reqData.searchAssignee(args), function (err, resp, body) {
       if (err) {
+        console.log("err")
+        console.log(err)
         renderData(err);
       }
       if (resp !== undefined) {
@@ -213,6 +268,8 @@ exports = {
             };
             renderData(null, obj);
           } catch (c_err) {
+            console.log("catch error")
+            console.log(c_err)
             renderData(c_err);
           }
         } else {
@@ -220,14 +277,19 @@ exports = {
             status: resp.statusCode,
             message: body
           };
+          console.log("error")
+          console.log(error)
           renderData(error);
         }
       }
     });
   },
   getTicket: function (args) {
+    console.log("GET TICKET")
     request(reqData.getTicket(args), function (err, resp, body) {
       if (err) {
+        console.log("err")
+        console.log(err)
         renderData(err);
       }
       if (resp !== undefined) {
@@ -245,6 +307,8 @@ exports = {
             };
             renderData(null, ticketObj);
           } catch (c_err) {
+            console.log("catch error")
+            console.log(c_err)
             renderData(c_err);
           }
         } else {
@@ -252,14 +316,19 @@ exports = {
             status: resp.statusCode,
             message: body
           };
+          console.log("error")
+          console.log(error)
           renderData(error);
         }
       }
     });
   },
   getGroups: function (args) {
+    console.log("GET GROUPS")
     request(reqData.getGroups(args), function (err, resp, body) {
       if (err) {
+        console.log("err")
+        console.log(err)
         renderData(err);
       }
       if (resp !== undefined) {
@@ -268,6 +337,8 @@ exports = {
             var respObj = JSON.parse(body);
             renderData(null, respObj);
           } catch (c_err) {
+            console.log("catch error")
+            console.log(c_err)
             renderData(c_err);
           }
         } else {
@@ -275,14 +346,19 @@ exports = {
             status: resp.statusCode,
             message: body
           };
+          console.log("error")
+          console.log(error)
           renderData(error);
         }
       }
     });
   },
   getAssinableAgents: function (args) {
+    console.log("GET ASSIGNABLE AGENTS")
     request(reqData.getAssinableAgents(args), function (err, resp, body) {
       if (err) {
+        console.log("err")
+        console.log(err)
         renderData(err);
       }
       if (resp !== undefined) {
@@ -296,6 +372,8 @@ exports = {
             };
             renderData(null, obj);
           } catch (c_err) {
+            console.log("catch error")
+            console.log(c_err)
             renderData(c_err);
           }
         } else {
@@ -303,6 +381,8 @@ exports = {
             status: resp.statusCode,
             message: body
           };
+          console.log("error")
+          console.log(error)
           renderData(error);
         }
       }
@@ -356,6 +436,7 @@ function getTickets(respObj, ticketArr) {
 }
 //search user in zendesk offline message is created
 function searchUser(content, payload) {
+  console.log("IN FUNC SEARCH USER")
   var actor_email, bodyObj = {}
   payload["body"] = bodyObj;
   if (payload.data.actor.email !== null)
@@ -379,6 +460,8 @@ function searchUser(content, payload) {
           payload.body.status = base64.encode("Open");
           createTicketInZendesk(payload);
         } catch (c_err) {
+          console.log("catch error")
+          console.log(c_err)
           console.error(c_err);
         }
       } else {
@@ -394,8 +477,11 @@ function searchUser(content, payload) {
 }
 //create offline message as zendesk ticket
 function createTicketInZendesk(args) {
+  console.log("IN FUNC CREATE TICKET IN ZENDESK")
   request(reqData.createTicket(args), function (err, resp, body) {
     if (err) {
+      console.log("err")
+      console.log(err)
       console.error(err);
     }
     if (resp !== undefined) {
@@ -406,6 +492,8 @@ function createTicketInZendesk(args) {
           status: resp.statusCode,
           message: body
         };
+        console.log("error")
+        console.log(error)
         console.error(error);
       }
     }

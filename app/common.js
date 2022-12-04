@@ -128,10 +128,11 @@ function forImageAndFile(v2, arr, capital_letter, data, actor_id) {
         arr.push(`</div><br/>`);
     }
     if ("url_button" in v2) {
+        console.log(v2.url_button.url)
         arr.push(`<br/><div style="margin-bottom: 45px">`);
         arr.push(`<div style="font-size:12px;font-weight:500;margin-left:70%;color:#6f7071;margin-right:36px">${data.agent_obj[actor_id]}</div>`);
         arr.push(`<img src="https://images.freshchat.com/30x30/fresh-chat-names/Alphabets/${capital_letter}.png" style="width:30px;height:30px;border-radius:6px 50% 50% 50%;margin-left:5px;float:right;margin-right:17%" class="inline-image"/>`);
-        arr.push(`<div style="float:right;border-radius:20px 4px 20px 20px;background-color:#ffffff;max-width:390px;padding:12px"><b>${v2.url_button.label}</b></div>`);
+        arr.push(`<div style="float:right;border-radius:20px 4px 20px 20px;background-color:#ffffff;max-width:390px;padding:12px"><b>${v2.url_button.url}</b></div>`);
         arr.push(`</div><br/>`);
     }
 }

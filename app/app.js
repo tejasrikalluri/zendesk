@@ -85,7 +85,6 @@ $(document).ready(function () {
     //get chat conversation details
     function getConversationDetails(client, callback) {
         client.data.get("conversation").then(function (data) {
-            console.log(data)
             getConversationData(client, callback, data);
         }, function () {
             showNotification(client, "danger", "Unable to fetch Conversation data, please try again");
@@ -100,6 +99,10 @@ $(document).ready(function () {
         client.request.invoke("searchConversation", options).then(function (data) {
             if (data.response.message === undefined) {
                 var resp = data.response;
+                console.log(resp)
+                resp = filterLatestDate(resp);
+                console.log("AFTER LATEST DATE FILTER")
+                console.log(resp)
                 var obj = {
                     conv_id: d_conv.conversation.conversation_id,
                     user: d_conv.conversation.users[0].first_name,
@@ -113,6 +116,11 @@ $(document).ready(function () {
             showNotification(client, "danger", err.message);
         });
     }
+    let filterLatestDate = (resp) => {
+        let latestDate = resp[0].created_at.split("T")[0];
+        const found_date_messages = resp.filter(v => v.created_at.split("T")[0] === latestDate); return found_date_messages;
+    };
+
     //get agents list in freshchat
     function getAgentsData(client, agent_obj) {
         var options = {};
