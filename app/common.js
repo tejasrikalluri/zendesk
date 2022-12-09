@@ -42,6 +42,7 @@ function formUIforNote(array, c_data, client, requester_id, id, origin) {
     $.each(array, function (k, v) {
         if (v.actor_type === "agent" && v.message_type === "normal") {
             $.each(v.message_parts, function (k2, v2) {
+                console.log(v2)
                 forAgentMessages(v2, arr, c_data, v.actor_id);
             });
         }
@@ -56,7 +57,6 @@ function formUIforNote(array, c_data, client, requester_id, id, origin) {
 }
 //Create a Internal note in zendesk
 function createInternalNote(client, array, requester_id, id, c_data, origin) {
-    console.log(origin)
     var options = {
         body: {
             "author_id": btoa(requester_id),
@@ -66,7 +66,6 @@ function createInternalNote(client, array, requester_id, id, c_data, origin) {
         }
     };
     client.request.invoke("createTicketComment", options).then(function () {
-        console.log("note created succu")
         sendInstaceForNewUser(c_data, client, origin);
     }, function () {
         showNotification(client, "error", "Failed to create a note");
@@ -112,6 +111,7 @@ function checkOtherStrings(v2, arr, capital_letter, data, actor_id) {
 }
 //form image,url button and file messages from conversation
 function forImageAndFile(v2, arr, capital_letter, data, actor_id) {
+    console.log(v2)
     if ("image" in v2) {
         var image_name_index = v2.image.url.lastIndexOf("/"), image_name = v2.image.url.substring(image_name_index + 1);
         arr.push(`<br/><div style="margin-bottom: 45px">`);
@@ -150,6 +150,10 @@ function forReceiverMessages(v3, data, arr) {
     }
     if ("file" in v3) {
         arr.push(`<div style="float: left;border-radius: 20px 4px 20px 20px;background-color: #ffffff;max-width:390px;padding:12px"><div>* File attached - <b>${v3.file.name}</b></div></div>`);
+    }
+    if ("url_button" in v3) {
+        console.log(v3.url_button)
+        arr.push(`<div style="float: left;border-radius: 20px 4px 20px 20px;background-color: #ffffff;max-width:390px;padding:12px"><div><b>${v3.url_button.url}</b></div></div>`);
     }
     arr.push(`</div><br/>`);
 }
