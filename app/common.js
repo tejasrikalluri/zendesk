@@ -42,7 +42,6 @@ function formUIforNote(array, c_data, client, requester_id, id, origin) {
     $.each(array, function (k, v) {
         if (v.actor_type === "agent" && v.message_type === "normal") {
             $.each(v.message_parts, function (k2, v2) {
-                console.log(v2)
                 forAgentMessages(v2, arr, c_data, v.actor_id);
             });
         }
@@ -52,6 +51,7 @@ function formUIforNote(array, c_data, client, requester_id, id, origin) {
             });
         }
     });
+    console.log(arr.length)
     if (arr.length !== 0)
         createInternalNote(client, arr, requester_id, id, c_data, origin);
 }

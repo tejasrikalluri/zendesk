@@ -91,20 +91,22 @@ $(document).ready(function () {
     let formExportConv = function (c_data, ticket_id, modal_client, origin) {
         var arr = [];
         c_data.conversation.messages.reverse();
+        console.log(c_data.conversation.messages)
         $.each(c_data.conversation.messages, function (i, v) {
             formConvUI(v, arr);
         });
         var parse_id = parseInt(ticket_id);
+        console.log(arr)
         searchInDb(modal_client, parse_id, arr, c_data, origin);
     }
     let formConvUI = function (v, arr) {
         var obj = {};
-        obj["created_at"] = v.created_time;
-        obj["actor_id"] = (v.actor_id !== undefined) ? atob(v.actor_id) : atob(v.org_actor_id);
+        obj["created_at"] = v.created_at;
+        obj["actor_id"] = (v.actor_id) ? v.actor_id : v.org_actor_id;
         obj["message_parts"] = v.message_parts;
-        obj["message_type"] = atob(v.message_type);
-        obj["actor_type"] = atob(v.actor_type);
-        obj["id"] = atob(v.id);
+        obj["message_type"] = v.message_type;
+        obj["actor_type"] = v.actor_type;
+        obj["id"] = v.id;
         arr.push(obj);
     }
     //for new user ticket create fetching the values
@@ -170,6 +172,8 @@ $(document).ready(function () {
     //set zendesk id in db
     function setDb(client, id, trimmed_id, arr, c_data, user_id, origin) {
         client.db.set(id, { conv_id: trimmed_id }).then(function () {
+            console.log("setting the db")
+            console.log(arr)
             formUIforNote(arr, c_data, client, user_id, id, origin);
         }, function (error) {
             if (error.status !== 404)
@@ -422,14 +426,11 @@ $(document).ready(function () {
                         });
                     }
                 });
-                console.log(fieldsResponse)
                 getGroups(client);
                 getContextInfo(function (c_info) {
-                    console.log(c_info.ticketFields)
                     $.each(c_info.ticketFields, function (i, v) {
                         formTextFields(fieldsResponse[v], arr);
                     });
-                    console.log($("#partNew :input").filter(`#${c_info.selectField}`));
                     if (!$("#partNew :input").filter(`#${c_info.selectField}`).length)
                         appendSelectedField(c_info);
                     $("#subject").val("Fortnox chattärende");

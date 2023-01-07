@@ -19,8 +19,8 @@ $(document).ready(function () {
             $("#msg").show();
             getUserDetails(client, getSubdomain);
             instanceReceive(client, getSubdomain);
-            getAgentsData(client, agent_obj);
-            getGroupsData(client, group_obj);
+            getAgentsData(client, agent_obj, 1);
+            getGroupsData(client, group_obj, 1);
         }, function () {
             showNotification(client, "danger", "Something went wrong,please try again");
         });
@@ -44,7 +44,7 @@ $(document).ready(function () {
                     });
                 });
             });
-
+            console.log(group_obj)
         });
         $(document).on("click", ".subject,.tchevron", function (e) {
             var ticket_id = $(this).attr('data-id');
@@ -99,10 +99,7 @@ $(document).ready(function () {
         client.request.invoke("searchConversation", options).then(function (data) {
             if (data.response.message === undefined) {
                 var resp = data.response;
-                console.log(resp)
                 resp = filterLatestDate(resp);
-                console.log("AFTER LATEST DATE FILTER")
-                console.log(resp)
                 var obj = {
                     conv_id: d_conv.conversation.conversation_id,
                     user: d_conv.conversation.users[0].first_name,
@@ -110,6 +107,7 @@ $(document).ready(function () {
                     assigned_agent_id: d_conv.conversation.assigned_agent_id,
                     assigned_group_id: d_conv.conversation.assigned_group_id
                 };
+                console.log(obj)
                 callback(obj);
             }
         }, function (err) {
@@ -122,45 +120,38 @@ $(document).ready(function () {
     };
 
     //get agents list in freshchat
-    function getAgentsData(client, agent_obj) {
-        var options = {};
+    function getAgentsData(client, agent_obj, page) {
+        var options = { page };
         client.request.invoke("getAgents", options).then(function (data) {
             if (data.response.message === undefined) {
                 $.each(data.response.agents, function (k, v) {
                     agent_obj[v.id] = (v.last_name) ? v.first_name + " " + v.last_name : v.first_name;
                 });
-                if (data.response.pagination.total_pages > 1) {
-                    var options = {
-                        "link": btoa(data.response.links.last_page.href)
-                    };
-                    client.request.invoke("getAgents", options).then(function (data) {
-                        if (data.response.message === undefined) {
-                            $.each(data.response.agents, function (k, v) {
-                                agent_obj[v.id] = (v.last_name) ? v.first_name + " " + v.last_name : v.first_name;
-                            });
-                        }
-                    }, function (err) {
-                        showNotification(client, "danger", err.message);
-                    });
+                if (data.response.pagination.total_pages !== data.response.pagination.current_page) {
+                    let new_page = page + 1;
+                    getAgentsData(client, agent_obj, new_page);
                 }
             }
-
         }, function (err) {
             showNotification(client, "danger", err.message);
         });
     }
-    let getGroupsData = function (client, group_obj) {
-        var options = {};
+    let getGroupsData = function (client, group_obj, page) {
+        var options = { page };
         client.request.invoke("getFcGroups", options).then(function (data) {
             if (data.response.message === undefined) {
                 $.each(data.response.groups, function (k, v) {
                     group_obj[v.id] = v.name;
                 });
+                if (data.response.pagination.total_pages !== data.response.pagination.current_page) {
+                    let new_page = page + 1;
+                    getGroupsData(client, group_obj, new_page);
+                }
             }
-
         }, function (err) {
             showNotification(client, "danger", err.message);
         });
+
     };
     //get user id using call back function
     function getUserIdData(client, userData, callback) {
@@ -200,9 +191,7 @@ $(document).ready(function () {
     //get user email using callback
     function getEmailData(client, callback) {
         client.data.get("user").then(function (data) {
-            console.log(data)
             if (data.user.email !== null && data.user.first_name !== null) {
-                console.log("ttttttttttttttt")
                 var obj = {
                     email: data.user.email
                 };
@@ -212,7 +201,6 @@ $(document).ready(function () {
                 let tenantProp = props.filter(v => v.name === "tenantId");
                 if (tenantProp.length)
                     obj['tenantId'] = tenantProp[0].value;
-                console.log(tenantProp)
                 callback(obj);
             }
         }, function () {
