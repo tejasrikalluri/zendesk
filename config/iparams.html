@@ -98,6 +98,8 @@
             $.each(ticketFields, function (index, value) {
                 selectedTicketFieldText.push(mapText[value]);
             });
+            let freshchatDomain = (region === "us") ? `api.freshchat.com` :
+            `api.${region}.freshchat.com`;
             return {
                 __meta: {
                     secure: ["password,api_key"]
@@ -106,12 +108,11 @@
                 password,
                 subdomain,
                 email,
-                offlineVal, selectField, selectFieldText, region, ticketFields, selectedTicketFieldText
+                offlineVal, selectField, selectFieldText, region, ticketFields, selectedTicketFieldText,freshchatDomain
             };
         }
         function getConfigs(configs) {
             fetchConfigs = configs;
-            console.log(configs)
             $("#apiKey").val(configs.api_key);
             $("#password").val(configs.password);
             $("#subdomain").val(configs.subdomain);

@@ -1,5 +1,5 @@
 {
-  "platform-version": "2.2",
+  "platform-version": "2.3",
   "product": {
     "freshchat": {
       "location": {
@@ -50,20 +50,16 @@
         "getAssinableAgents": {
           "timeout": 10
         }
+      },
+      "requests": {
+        "searchConversation": {}
       }
     }
   },
   "engines": {
     "node": "14.17.3",
-    "fdk": "8.3.3"
+    "fdk": "9.0.0"
   },
-  "whitelisted-domains": [
-    "https://api.in.freshchat.com",
-    "https://api.eu.freshchat.com",
-    "https://api.au.freshchat.com",
-    "https://api.freshchat.com",
-    "https://*.zendesk.com"
-  ],
   "dependencies": {
     "request": "2.88.2",
     "base-64": "0.1.0"

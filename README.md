@@ -37,4 +37,4 @@ The Primary Features of the app are:
         └── test_data               Sample payloads for local testing
             ├── onMessageCreate.json
 
-in this version added latest date messages & for URL button type sending url of the button & logs for server errors
+in this version resolved agents & groups API pagination issue

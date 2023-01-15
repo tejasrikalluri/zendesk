@@ -91,28 +91,36 @@ $(document).ready(function () {
         });
     }
     //get fifty conversation messages in freshchat
-    function getConversationData(client, callback, d_conv) {
+    async function getConversationData(client, callback, d_conv) {
         console.log(d_conv)
-        var options = {
-            "conversation_id": btoa(d_conv.conversation.conversation_id)
-        };
-        client.request.invoke("searchConversation", options).then(function (data) {
-            if (data.response.message === undefined) {
-                var resp = data.response;
-                resp = filterLatestDate(resp);
-                var obj = {
-                    conv_id: d_conv.conversation.conversation_id,
-                    user: d_conv.conversation.users[0].first_name,
-                    messages: resp,
-                    assigned_agent_id: d_conv.conversation.assigned_agent_id,
-                    assigned_group_id: d_conv.conversation.assigned_group_id
-                };
-                console.log(obj)
-                callback(obj);
-            }
-        }, function (err) {
-            showNotification(client, "danger", err.message);
-        });
+        let err, reply;
+        [err, reply] = await to(client.request.invokeTemplate("searchConversation", { "conversation_id": d_conv.conversation.conversation_id }));
+        console.log(reply);
+        if (err) showNotification(client, "danger", err.message);
+        let { response } = reply;
+        if (response) {
+            let rep = JSON.parse(response);
+            rep = filterLatestDate(rep);
+            var obj = {
+                conv_id: d_conv.conversation.conversation_id,
+                user: d_conv.conversation.users[0].first_name,
+                messages: rep,
+                assigned_agent_id: d_conv.conversation.assigned_agent_id,
+                assigned_group_id: d_conv.conversation.assigned_group_id
+            };
+            console.log(obj)
+            callback(obj);
+        }
+    }
+    let to = (promise, improved) => {
+        return promise
+            .then((data) => [null, data])
+            .catch((err) => {
+                if (improved) {
+                    Object.assign(err, improved);
+                }
+                return [err];
+            });
     }
     let filterLatestDate = (resp) => {
         let latestDate = resp[0].created_at.split("T")[0];
