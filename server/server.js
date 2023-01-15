@@ -408,11 +408,11 @@ function getMessages(messages, messagesArray) {
   for (let i = 0; i < messages.length; i++) {
     var obj = {};
     obj["created_at"] = messages[i].created_time;
-    obj["actor_id"] = (messages[i].actor_id !== undefined) ? base64.encode(messages[i].actor_id) : base64.encode(messages[i].org_actor_id);
+    obj["actor_id"] = (messages[i].actor_id !== undefined) ? messages[i].actor_id : messages[i].org_actor_id;
     obj["message_parts"] = messages[i].message_parts;
-    obj["message_type"] = base64.encode(messages[i].message_type);
-    obj["actor_type"] = base64.encode(messages[i].actor_type);
-    obj["id"] = base64.encode(messages[i].id);
+    obj["message_type"] = messages[i].message_type;
+    obj["actor_type"] = messages[i].actor_type;
+    obj["id"] = messages[i].id;
     messagesArray.push(obj);
   }
   return messagesArray;

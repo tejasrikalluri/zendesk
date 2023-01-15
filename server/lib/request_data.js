@@ -136,26 +136,16 @@ exports = {
         var headers = { "Authorization": "Bearer " + args.iparams.api_key };
         var freshchatDomain = (args.iparams.region === "us") ? `api.freshchat.com` :
             `api.${args.iparams.region}.freshchat.com`;
-        if ("link" in args) {
-            var link = base64.decode(args.link);
-            var url = `https://${freshchatDomain}${link}`;
-            return {
-                method: 'GET',
-                url: url, headers: headers
-            };
-        } else {
-            var url = `https://${freshchatDomain}/v2/agents?items_per_page=100&page=1`;
-            return {
-                method: 'GET',
-                url: url, headers: headers
-            };
-        }
+        var url = `https://${freshchatDomain}/v2/agents?items_per_page=100&page=${args.page}`;
+        return {
+            method: 'GET',
+            url: url, headers: headers
+        };
     },
     getFcGroups: function (args) {
-        console.log("***************************")
         var freshchatDomain = (args.iparams.region === "us") ? `api.freshchat.com` :
             `api.${args.iparams.region}.freshchat.com`;
-        var url = `https://${freshchatDomain}/v2/groups`;
+        var url = `https://${freshchatDomain}/v2/groups?page=${args.page}&items_per_page=100`;
         var headers = { "Authorization": "Bearer " + args.iparams.api_key };
         return {
             method: 'GET',
