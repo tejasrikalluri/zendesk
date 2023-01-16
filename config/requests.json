@@ -3,7 +3,7 @@
         "schema": {
             "method": "GET",
             "host": "<%= iparams.freshchatDomain %>",
-            "path": "/v2/conversations/ <%= conversation_id %> /messages?page=1&items_per_page=50",
+            "path": "/v2/conversations/<%= conversation_id %>/messages?page=1&items_per_page=50",
             "headers": {
                 "Authorization": "Bearer <%= encode(iparam.api_key) %>"
             }

@@ -97,8 +97,8 @@ $(document).ready(function () {
         [err, reply] = await to(client.request.invokeTemplate("searchConversation", { "conversation_id": d_conv.conversation.conversation_id }));
         console.log(reply);
         if (err) showNotification(client, "danger", err.message);
-        let { response } = reply;
-        if (response) {
+        if (reply) {
+            let { response } = reply;
             let rep = JSON.parse(response);
             rep = filterLatestDate(rep);
             var obj = {
