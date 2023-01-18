@@ -95,69 +95,88 @@ function idRemoveAtrr(id) {
     $("#" + id).removeAttr("state");
     $("#" + id).removeAttr("state-text");
 }
-function getAgents(client) {
-    var api_key = $("#apiKey").val();
-    region = $("#region").val();
-    var headers = { "Authorization": "Bearer " + api_key };
-    var options = { headers: headers };
+function to(promise, improved) {
+    return promise
+        .then((data) => [null, data])
+        .catch((err) => {
+            if (improved) {
+                Object.assign(err, improved);
+            }
+            return [err];
+        });
+}
+async function getAgents(client) {
+    let err, reply;
     const url = ($("#region").val() === "us") ? `https://api.freshchat.com/v2/agents?items_per_page=2` :
         `https://api.${$("#region").val()}.freshchat.com/v2/agents?items_per_page=2`;
-    client.request.get(url, options).then(function () {
+    [err, reply] = await to(client.request.invokeTemplate("searchAgent", { url }));
+    console.log(reply);
+    if (err) {
+        handleError(err, "error_div");
+        $("#authBtn").text("Authenticate");
+        buttonEnable("authBtn");
+    }
+    if (reply) {
         $(".error_div").html("");
         $(".ZD_authentication").show();
         $(".authentication").hide();
-    }, function (error) {
-        handleError(error, "error_div");
-        $("#authBtn").text("Authenticate");
-        buttonEnable("authBtn");
-    });
+    }
 }
-const getZendeskFields = function () {
+const getZendeskFields = async function () {
     const sudomain = $("#subdomain").val().trim(), email = $("#email").val().trim(), password = $("#password").val().trim();
     var url = `https://${sudomain}/api/v2/ticket_fields.json`;
     var headers = { "Authorization": `Basic ` + btoa(`${email}/token:${password}`) };
-    var options = { headers: headers };
     var selectElement = `<fw-select label="Abonnemangs-ID" id="aid" required placeholder="Select Abonnemangs-ID field from Zendesk"/>`;
     var ticketSelectElement = `<fw-select label="Ticket Fields" id="ticketFields" placeholder="Please select fields which need to display in ticket create modal" multiple>`;
     $('#ZDauthBtn').prop("disabled", true);
-    client.request.get(url, options).then(function (data) {
+    let err, reply;
+    [err, reply] = await to(client.request.invokeTemplate("searchAgent", { url, email, password }));
+    console.log(reply);
+    if (err) {
+        $('.token_error_zd').html("Failed to get zendesk fields");
+        buttonEnable("getZendeskFields");
+        $("#fieldPart").hide();
+        $(".ZD_authentication").show();        
+    }
+    if (reply) {
+        let ticket_fields = JSON.parse(reply.response).ticket_fields;
+        ticket_fields = ticket_fields.filter(field => field.visible_in_portal && field.active);
+        console.log('after filter')
+        console.log(ticket_fields)
+        let customFields = ticket_fields.filter(field => field.type === 'text' || field.type === 'regexp');
+        $.each(customFields, function (k, v) {
+            mapText[v.id] = v.title;
+            selectElement += `<fw-select-option value="${v.id}">${v.title}</fw-select-option>`;
+        });
+        let selectionTicketFields = ticket_fields.filter(field => field.type !== 'subject' && field.type !== 'description' && field.type !== 'priority' && field.type !== 'status' && field.type !== 'group' && field.type !== 'assignee');
+
+        $.each(selectionTicketFields, function (k, v) {
+            mapText[v.id] = v.title;
+            ticketSelectElement += `<fw-select-option value="${v.id}">${v.title}</fw-select-option>`;
+        });
+        selectElement += `</fw-select>`;
+        ticketSelectElement += `</fw-select>`;
+        $('.additionField').append(selectElement);
+        $('.ticketFieldContainer').append(ticketSelectElement);
+        if (!!fetchConfigs) {
+            $('#aid').val(fetchConfigs.selectField);
+            let multiSelect = document.getElementById('ticketFields');
+            multiSelect.setSelectedValues(fetchConfigs.ticketFields);
+        }
+        $('fw-spinner').hide();
+        buttonEnable("ZDauthBtn");
+    }
+    /* client.request.get(url, options).then(function (data) {
         try {
             let ticket_fields = JSON.parse(data.response).ticket_fields;
             console.log(ticket_fields)
-            ticket_fields = ticket_fields.filter(field => field.visible_in_portal && field.active);
-            console.log('after filter')
-            console.log(ticket_fields)
-            let customFields = ticket_fields.filter(field => field.type === 'text' || field.type === 'regexp');
-            $.each(customFields, function (k, v) {
-                mapText[v.id] = v.title;
-                selectElement += `<fw-select-option value="${v.id}">${v.title}</fw-select-option>`;
-            });
-            let selectionTicketFields = ticket_fields.filter(field => field.type !== 'subject' && field.type !== 'description' && field.type !== 'priority' && field.type !== 'status' && field.type !== 'group' && field.type !== 'assignee');
-
-            $.each(selectionTicketFields, function (k, v) {
-                mapText[v.id] = v.title;
-                ticketSelectElement += `<fw-select-option value="${v.id}">${v.title}</fw-select-option>`;
-            });
-            selectElement += `</fw-select>`;
-            ticketSelectElement += `</fw-select>`;
-            $('.additionField').append(selectElement);
-            $('.ticketFieldContainer').append(ticketSelectElement);
-            if (!!fetchConfigs) {
-                $('#aid').val(fetchConfigs.selectField);
-                let multiSelect = document.getElementById('ticketFields');
-                multiSelect.setSelectedValues(fetchConfigs.ticketFields);
-            }
-            $('fw-spinner').hide();
-            buttonEnable("ZDauthBtn");
+            
         } catch (error) {
             console.error(error)
         }
     }, function () {
-        $('.token_error_zd').html("Failed to get zendesk fields");
-        buttonEnable("getZendeskFields");
-        $("#fieldPart").hide();
-        $(".ZD_authentication").show();
-    });
+        ;
+    }); */
 }
 function getTicketDetails() {
     var sudomain = $("#subdomain").val().trim();

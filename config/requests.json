@@ -2,10 +2,32 @@
     "searchConversation": {
         "schema": {
             "method": "GET",
-            "host": "<%= iparams.freshchatDomain %>",
+            "host": "api.eu.freshchat.com",
             "path": "/v2/conversations/<%= conversation_id %>/messages?page=1&items_per_page=50",
             "headers": {
                 "Authorization": "Bearer <%= encode(iparam.api_key) %>"
+            }
+        }
+    },
+    "searchAgent": {
+        "schema": {
+            "method": "GET",
+            "host": "<%= url %>",
+            "path": "/v2/agents?items_per_page=2",
+            "headers": {
+                "Authorization": "Bearer <%= encode(iparam.api_key) %>",
+                "Content-Type": "application/json"
+            }
+        }
+    },
+    "getZendeskFields": {
+        "schema": {
+            "method": "GET",
+            "host": "<%= url %>",
+            "path": "/v2/agents?items_per_page=2",
+            "headers": {
+                "Authorization": "Bearer <%= encode(iparam.api_key) %>",
+                "Content-Type": "application/json"
             }
         }
     }
