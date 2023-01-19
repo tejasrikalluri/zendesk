@@ -95,22 +95,31 @@ function idRemoveAtrr(id) {
     $("#" + id).removeAttr("state");
     $("#" + id).removeAttr("state-text");
 }
-function getAgents(client) {
-    var api_key = $("#apiKey").val();
-    region = $("#region").val();
-    var headers = { "Authorization": "Bearer " + api_key };
-    var options = { headers: headers };
-    const url = ($("#region").val() === "us") ? `https://api.freshchat.com/v2/agents?items_per_page=2` :
-        `https://api.${$("#region").val()}.freshchat.com/v2/agents?items_per_page=2`;
-    client.request.get(url, options).then(function () {
+function to(promise, improved) {
+    return promise
+        .then((data) => [null, data])
+        .catch((err) => {
+            if (improved) {
+                Object.assign(err, improved);
+            }
+            return [err];
+        });
+}
+async function getAgents(client) {
+    let err, reply;
+    const url = ($("#region").val() === "us") ? `api.freshchat.com` :
+        `api.${$("#region").val()}.freshchat.com`;
+    console.log(btoa($("#apiKey").val()), $("#apiKey").val());
+    [err, reply] = await to(client.request.invokeTemplate("get_agents", { "context": { url, "apiKey": btoa($("#apiKey").val()) } }));
+    console.log(err);
+    if (err) {handleError(err, "error_div");
+    $("#authBtn").text("Authenticate");
+    buttonEnable("authBtn");}
+    if (reply) {
         $(".error_div").html("");
         $(".ZD_authentication").show();
         $(".authentication").hide();
-    }, function (error) {
-        handleError(error, "error_div");
-        $("#authBtn").text("Authenticate");
-        buttonEnable("authBtn");
-    });
+    }
 }
 const getZendeskFields = function () {
     const sudomain = $("#subdomain").val().trim(), email = $("#email").val().trim(), password = $("#password").val().trim();
