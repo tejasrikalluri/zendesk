@@ -110,80 +110,85 @@ async function getAgents(client) {
     const url = ($("#region").val() === "us") ? `api.freshchat.com` :
         `api.${$("#region").val()}.freshchat.com`;
     console.log(btoa($("#apiKey").val()), $("#apiKey").val());
-    [err, reply] = await to(client.request.invokeTemplate("get_agents", { "context": { url, "apiKey": btoa($("#apiKey").val()) } }));
-    console.log(err);
-    if (err) {handleError(err, "error_div");
-    $("#authBtn").text("Authenticate");
-    buttonEnable("authBtn");}
+    [err, reply] = await to(client.request.invokeTemplate("get_agents", { "context": { url, "apiKey": $("#apiKey").val() } }));
+    if (err) {
+        console.log(err);
+        handleError(err, "error_div");
+        $("#authBtn").text("Authenticate");
+        buttonEnable("authBtn");
+    }
     if (reply) {
         $(".error_div").html("");
         $(".ZD_authentication").show();
         $(".authentication").hide();
     }
 }
-const getZendeskFields = function () {
+const getZendeskFields = async function () {
     const sudomain = $("#subdomain").val().trim(), email = $("#email").val().trim(), password = $("#password").val().trim();
-    var url = `https://${sudomain}/api/v2/ticket_fields.json`;
-    var headers = { "Authorization": `Basic ` + btoa(`${email}/token:${password}`) };
-    var options = { headers: headers };
     var selectElement = `<fw-select label="Abonnemangs-ID" id="aid" required placeholder="Select Abonnemangs-ID field from Zendesk"/>`;
     var ticketSelectElement = `<fw-select label="Ticket Fields" id="ticketFields" placeholder="Please select fields which need to display in ticket create modal" multiple>`;
     $('#ZDauthBtn').prop("disabled", true);
-    client.request.get(url, options).then(function (data) {
-        try {
-            let ticket_fields = JSON.parse(data.response).ticket_fields;
-            console.log(ticket_fields)
-            ticket_fields = ticket_fields.filter(field => field.visible_in_portal && field.active);
-            console.log('after filter')
-            console.log(ticket_fields)
-            let customFields = ticket_fields.filter(field => field.type === 'text' || field.type === 'regexp');
-            $.each(customFields, function (k, v) {
-                mapText[v.id] = v.title;
-                selectElement += `<fw-select-option value="${v.id}">${v.title}</fw-select-option>`;
-            });
-            let selectionTicketFields = ticket_fields.filter(field => field.type !== 'subject' && field.type !== 'description' && field.type !== 'priority' && field.type !== 'status' && field.type !== 'group' && field.type !== 'assignee');
-
-            $.each(selectionTicketFields, function (k, v) {
-                mapText[v.id] = v.title;
-                ticketSelectElement += `<fw-select-option value="${v.id}">${v.title}</fw-select-option>`;
-            });
-            selectElement += `</fw-select>`;
-            ticketSelectElement += `</fw-select>`;
-            $('.additionField').append(selectElement);
-            $('.ticketFieldContainer').append(ticketSelectElement);
-            if (!!fetchConfigs) {
-                $('#aid').val(fetchConfigs.selectField);
-                let multiSelect = document.getElementById('ticketFields');
-                multiSelect.setSelectedValues(fetchConfigs.ticketFields);
-            }
-            $('fw-spinner').hide();
-            buttonEnable("ZDauthBtn");
-        } catch (error) {
-            console.error(error)
-        }
-    }, function () {
+    let err, reply;
+    [err, reply] = await to(client.request.invokeTemplate("fetch_zendesk_fields", { "context": { "auth": btoa(`${email}/token:${password}`), sudomain } }));
+    if (err) {
+        console.log(err);
         $('.token_error_zd').html("Failed to get zendesk fields");
         buttonEnable("getZendeskFields");
         $("#fieldPart").hide();
         $(".ZD_authentication").show();
-    });
+    }
+    if (reply) {
+        getZdFieldsResponse(reply, ticketSelectElement, selectElement);
+    }
 }
-function getTicketDetails() {
+const getZdFieldsResponse = function (reply, ticketSelectElement, selectElement) {
+    try {
+        let ticket_fields = JSON.parse(reply.response).ticket_fields;
+        ticket_fields = ticket_fields.filter(field => field.visible_in_portal && field.active);
+        console.log('after filter')
+        console.log(ticket_fields)
+        let customFields = ticket_fields.filter(field => field.type === 'text' || field.type === 'regexp');
+        $.each(customFields, function (k, v) {
+            mapText[v.id] = v.title;
+            selectElement += `<fw-select-option value="${v.id}">${v.title}</fw-select-option>`;
+        });
+        let selectionTicketFields = ticket_fields.filter(field => field.type !== 'subject' && field.type !== 'description' && field.type !== 'priority' && field.type !== 'status' && field.type !== 'group' && field.type !== 'assignee');
+
+        $.each(selectionTicketFields, function (k, v) {
+            mapText[v.id] = v.title;
+            ticketSelectElement += `<fw-select-option value="${v.id}">${v.title}</fw-select-option>`;
+        });
+        selectElement += `</fw-select>`;
+        ticketSelectElement += `</fw-select>`;
+        $('.additionField').append(selectElement);
+        $('.ticketFieldContainer').append(ticketSelectElement);
+        if (!!fetchConfigs) {
+            $('#aid').val(fetchConfigs.selectField);
+            let multiSelect = document.getElementById('ticketFields');
+            multiSelect.setSelectedValues(fetchConfigs.ticketFields);
+        }
+        $('fw-spinner').hide();
+        buttonEnable("ZDauthBtn");
+    } catch (error) {
+        console.error(error)
+    }
+}
+async function getTicketDetails() {
     var sudomain = $("#subdomain").val().trim();
     var email = $("#email").val().trim();
     var password = $("#password").val().trim();
-    var url = `https://${sudomain}/api/v2/tickets.json?page[size]=1`;
-    var headers = { "Authorization": `Basic ` + btoa(`${email}/token:${password}`) };
-    var options = { headers: headers };
-    client.request.get(url, options).then(function () {
+    let err, reply;
+    [err, reply] = await to(client.request.invokeTemplate("fetch_zd_tickets", { "context": { "auth": btoa(`${email}/token:${password}`), sudomain } }));
+    if (err) {
+        $('.token_error_zd').html("Something went wrong to proceed. Please try again.");
+        buttonEnable("getZendeskFields");
+    }
+    if (reply) {
         $(".token_error_zd").html("");
         $(".ZD_authentication").hide();
         $("#fieldPart").show();
         getZendeskFields();
-    }, function () {
-        $('.token_error_zd').html("Something went wrong to proceed. Please try again.");
-        buttonEnable("getZendeskFields");
-    });
+    }
 }
 function handleError(error, errorid) {
     if (error.status === 400) {
