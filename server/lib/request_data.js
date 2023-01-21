@@ -132,16 +132,6 @@ exports = {
             };
         }
     },
-    getAgents: function (args) {
-        var headers = { "Authorization": "Bearer " + args.iparams.api_key };
-        var freshchatDomain = (args.iparams.region === "us") ? `api.freshchat.com` :
-            `api.${args.iparams.region}.freshchat.com`;
-        var url = `https://${freshchatDomain}/v2/agents?items_per_page=100&page=${args.page}`;
-        return {
-            method: 'GET',
-            url: url, headers: headers
-        };
-    },
     getFcGroups: function (args) {
         var freshchatDomain = (args.iparams.region === "us") ? `api.freshchat.com` :
             `api.${args.iparams.region}.freshchat.com`;

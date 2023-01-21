@@ -120,38 +120,66 @@ $(document).ready(function () {
     };
 
     //get agents list in freshchat
-    function getAgentsData(client, agent_obj, page) {
-        var options = { page };
-        client.request.invoke("getAgents", options).then(function (data) {
-            if (data.response.message === undefined) {
-                $.each(data.response.agents, function (k, v) {
-                    agent_obj[v.id] = (v.last_name) ? v.first_name + " " + v.last_name : v.first_name;
-                });
-                if (data.response.pagination.total_pages !== data.response.pagination.current_page) {
-                    let new_page = page + 1;
-                    getAgentsData(client, agent_obj, new_page);
-                }
-            }
-        }, function (err) {
+    async function getAgentsData(client, agent_obj, page) {
+        let err, reply;
+        [err, reply] = await to(client.request.invokeTemplate("fetch_agents_pagination", { "context": { page } }));
+        console.log(err)
+        if (err) {
             showNotification(client, "danger", err.message);
-        });
+        }
+        if (reply) {
+            reply = JSON.parse(reply.response);
+            $.each(reply.agents, function (k, v) {
+                agent_obj[v.id] = (v.last_name) ? v.first_name + " " + v.last_name : v.first_name;
+            });
+            if (reply.pagination.total_pages !== reply.pagination.current_page) {
+                let new_page = page + 1;
+                getAgentsData(client, agent_obj, new_page);
+            }
+        }
     }
-    let getGroupsData = function (client, group_obj, page) {
-        var options = { page };
-        client.request.invoke("getFcGroups", options).then(function (data) {
-            if (data.response.message === undefined) {
-                $.each(data.response.groups, function (k, v) {
-                    group_obj[v.id] = v.name;
-                });
-                if (data.response.pagination.total_pages !== data.response.pagination.current_page) {
-                    let new_page = page + 1;
-                    getGroupsData(client, group_obj, new_page);
+    let to = (promise, improved) => {
+        return promise
+            .then((data) => [null, data])
+            .catch((err) => {
+                if (improved) {
+                    Object.assign(err, improved);
                 }
-            }
-        }, function (err) {
+                return [err];
+            });
+    }
+    let getGroupsData = async (client, group_obj, page) => {
+        /*  var options = { page };
+         client.request.invoke("getFcGroups", options).then(function (data) {
+             if (data.response.message === undefined) {
+                 $.each(data.response.groups, function (k, v) {
+                     group_obj[v.id] = v.name;
+                 });
+                 if (data.response.pagination.total_pages !== data.response.pagination.current_page) {
+                     let new_page = page + 1;
+                     getGroupsData(client, group_obj, new_page);
+                 }
+             }
+         }, function (err) {
+             showNotification(client, "danger", err.message);
+         });
+  */
+        let err, reply;
+    [err, reply] = await to(client.request.invokeTemplate("fetch_fc_groups", { "context": { page } }));
+        console.log(err)
+        if (err) {
             showNotification(client, "danger", err.message);
-        });
-
+        }
+        if (reply) {
+            reply = JSON.parse(reply.response);
+            $.each(reply.groups, function (k, v) {
+                group_obj[v.id] = v.name;
+            });
+            if (reply.pagination.total_pages !== reply.pagination.current_page) {
+                let new_page = page + 1;
+                getGroupsData(client, group_obj, new_page);
+            }
+        }
     };
     //get user id using call back function
     function getUserIdData(client, userData, callback) {
