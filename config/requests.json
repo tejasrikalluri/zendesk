@@ -5,7 +5,7 @@
             "host": "<%= context.url %>",
             "path": "/v2/agents?items_per_page=2",
             "headers": {
-                "Authorization": "Bearer eyJraWQiOiJjdXN0b20tb2F1dGgta2V5aWQiLCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmcmVzaGNoYXQiLCJzdWIiOiI2OGNmYmRmYi1kYjExLTQxMDctYTVkMC01NDIwNTkxYjhiY2QiLCJjbGllbnRJZCI6ImZjLTNiODUwNzVlLTc0MTYtNDVmNS1iZWJkLTdkMDM3MDQ2Njk1NCIsInNjb3BlIjoiYWdlbnQ6cmVhZCBhZ2VudDpjcmVhdGUgYWdlbnQ6dXBkYXRlIGFnZW50OmRlbGV0ZSBjb252ZXJzYXRpb246Y3JlYXRlIGNvbnZlcnNhdGlvbjpyZWFkIGNvbnZlcnNhdGlvbjp1cGRhdGUgbWVzc2FnZTpjcmVhdGUgbWVzc2FnZTpnZXQgYmlsbGluZzp1cGRhdGUgcmVwb3J0czpmZXRjaCByZXBvcnRzOmV4dHJhY3QgcmVwb3J0czpyZWFkIHJlcG9ydHM6ZXh0cmFjdDpyZWFkIGFjY291bnQ6cmVhZCBkYXNoYm9hcmQ6cmVhZCB1c2VyOnJlYWQgdXNlcjpjcmVhdGUgdXNlcjp1cGRhdGUgdXNlcjpkZWxldGUgb3V0Ym91bmRtZXNzYWdlOnNlbmQgb3V0Ym91bmRtZXNzYWdlOmdldCBtZXNzYWdpbmctY2hhbm5lbHM6bWVzc2FnZTpzZW5kIG1lc3NhZ2luZy1jaGFubmVsczptZXNzYWdlOmdldCBtZXNzYWdpbmctY2hhbm5lbHM6dGVtcGxhdGU6Y3JlYXRlIG1lc3NhZ2luZy1jaGFubmVsczp0ZW1wbGF0ZTpnZXQgZmlsdGVyaW5ib3g6cmVhZCBmaWx0ZXJpbmJveDpjb3VudDpyZWFkIHJvbGU6cmVhZCBpbWFnZTp1cGxvYWQiLCJpc3MiOiJmcmVzaGNoYXQiLCJ0eXAiOiJCZWFyZXIiLCJleHAiOjE5NjY3NjA3MTAsImlhdCI6MTY1MTE0MTUxMCwianRpIjoiY2E3NzBhNDctYWY3OS00NzQxLWE2NzktM2Q5OTZmYTY0OTQxIn0.Beqkkbh7GTRcDO6-mKNGLjzLXBmW4ihsW_pLMqINrXU",
+                "Authorization": "Bearer <%= context.apiKey %>",
                 "Content-Type": "application/json"
             }
         }
@@ -35,7 +35,7 @@
             "method": "GET",
             "host": "<%=iparam.freshchatDomain %>",
             "headers": {
-                "Authorization": "Bearer eyJraWQiOiJjdXN0b20tb2F1dGgta2V5aWQiLCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmcmVzaGNoYXQiLCJzdWIiOiI2OGNmYmRmYi1kYjExLTQxMDctYTVkMC01NDIwNTkxYjhiY2QiLCJjbGllbnRJZCI6ImZjLTNiODUwNzVlLTc0MTYtNDVmNS1iZWJkLTdkMDM3MDQ2Njk1NCIsInNjb3BlIjoiYWdlbnQ6cmVhZCBhZ2VudDpjcmVhdGUgYWdlbnQ6dXBkYXRlIGFnZW50OmRlbGV0ZSBjb252ZXJzYXRpb246Y3JlYXRlIGNvbnZlcnNhdGlvbjpyZWFkIGNvbnZlcnNhdGlvbjp1cGRhdGUgbWVzc2FnZTpjcmVhdGUgbWVzc2FnZTpnZXQgYmlsbGluZzp1cGRhdGUgcmVwb3J0czpmZXRjaCByZXBvcnRzOmV4dHJhY3QgcmVwb3J0czpyZWFkIHJlcG9ydHM6ZXh0cmFjdDpyZWFkIGFjY291bnQ6cmVhZCBkYXNoYm9hcmQ6cmVhZCB1c2VyOnJlYWQgdXNlcjpjcmVhdGUgdXNlcjp1cGRhdGUgdXNlcjpkZWxldGUgb3V0Ym91bmRtZXNzYWdlOnNlbmQgb3V0Ym91bmRtZXNzYWdlOmdldCBtZXNzYWdpbmctY2hhbm5lbHM6bWVzc2FnZTpzZW5kIG1lc3NhZ2luZy1jaGFubmVsczptZXNzYWdlOmdldCBtZXNzYWdpbmctY2hhbm5lbHM6dGVtcGxhdGU6Y3JlYXRlIG1lc3NhZ2luZy1jaGFubmVsczp0ZW1wbGF0ZTpnZXQgZmlsdGVyaW5ib3g6cmVhZCBmaWx0ZXJpbmJveDpjb3VudDpyZWFkIHJvbGU6cmVhZCBpbWFnZTp1cGxvYWQiLCJpc3MiOiJmcmVzaGNoYXQiLCJ0eXAiOiJCZWFyZXIiLCJleHAiOjE5NjY3NjA3MTAsImlhdCI6MTY1MTE0MTUxMCwianRpIjoiY2E3NzBhNDctYWY3OS00NzQxLWE2NzktM2Q5OTZmYTY0OTQxIn0.Beqkkbh7GTRcDO6-mKNGLjzLXBmW4ihsW_pLMqINrXU",
+                "Authorization": "Bearer <%=  iparam.api_key %>",
                 "Content-Type": "application/json"
             },
             "path": "/v2/agents?items_per_page=100&page=<%= context.page %>"
@@ -46,10 +46,20 @@
             "method": "GET",
             "host": "<%=iparam.freshchatDomain %>",
             "headers": {
-                "Authorization": "Bearer eyJraWQiOiJjdXN0b20tb2F1dGgta2V5aWQiLCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmcmVzaGNoYXQiLCJzdWIiOiI2OGNmYmRmYi1kYjExLTQxMDctYTVkMC01NDIwNTkxYjhiY2QiLCJjbGllbnRJZCI6ImZjLTNiODUwNzVlLTc0MTYtNDVmNS1iZWJkLTdkMDM3MDQ2Njk1NCIsInNjb3BlIjoiYWdlbnQ6cmVhZCBhZ2VudDpjcmVhdGUgYWdlbnQ6dXBkYXRlIGFnZW50OmRlbGV0ZSBjb252ZXJzYXRpb246Y3JlYXRlIGNvbnZlcnNhdGlvbjpyZWFkIGNvbnZlcnNhdGlvbjp1cGRhdGUgbWVzc2FnZTpjcmVhdGUgbWVzc2FnZTpnZXQgYmlsbGluZzp1cGRhdGUgcmVwb3J0czpmZXRjaCByZXBvcnRzOmV4dHJhY3QgcmVwb3J0czpyZWFkIHJlcG9ydHM6ZXh0cmFjdDpyZWFkIGFjY291bnQ6cmVhZCBkYXNoYm9hcmQ6cmVhZCB1c2VyOnJlYWQgdXNlcjpjcmVhdGUgdXNlcjp1cGRhdGUgdXNlcjpkZWxldGUgb3V0Ym91bmRtZXNzYWdlOnNlbmQgb3V0Ym91bmRtZXNzYWdlOmdldCBtZXNzYWdpbmctY2hhbm5lbHM6bWVzc2FnZTpzZW5kIG1lc3NhZ2luZy1jaGFubmVsczptZXNzYWdlOmdldCBtZXNzYWdpbmctY2hhbm5lbHM6dGVtcGxhdGU6Y3JlYXRlIG1lc3NhZ2luZy1jaGFubmVsczp0ZW1wbGF0ZTpnZXQgZmlsdGVyaW5ib3g6cmVhZCBmaWx0ZXJpbmJveDpjb3VudDpyZWFkIHJvbGU6cmVhZCBpbWFnZTp1cGxvYWQiLCJpc3MiOiJmcmVzaGNoYXQiLCJ0eXAiOiJCZWFyZXIiLCJleHAiOjE5NjY3NjA3MTAsImlhdCI6MTY1MTE0MTUxMCwianRpIjoiY2E3NzBhNDctYWY3OS00NzQxLWE2NzktM2Q5OTZmYTY0OTQxIn0.Beqkkbh7GTRcDO6-mKNGLjzLXBmW4ihsW_pLMqINrXU",
+                "Authorization": "Bearer <%=  iparam.api_key %>",
                 "Content-Type": "application/json"
             },
             "path": "/v2/groups?items_per_page=100&page=<%= context.page %>"
+        }
+    },
+    "look_for_conversation": {
+        "schema": {
+            "method": "GET",
+            "host": "<%= iparam.freshchatDomain %>",
+            "headers": {
+                "Authorization": "Bearer <%=  iparam.api_key %>"
+            },
+            "path": "/v2/conversations/<%= context.conversation_id %>/messages?page=1&items_per_page=50"
         }
     }
 }

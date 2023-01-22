@@ -29,15 +29,6 @@
         "createTicketComment": {
           "timeout": 10
         },
-        "searchConversation": {
-          "timeout": 10
-        },
-        "getAgents": {
-          "timeout": 10
-        },
-        "getFcGroups": {
-          "timeout": 10
-        },
         "searchAssignee": {
           "timeout": 10
         },
@@ -54,7 +45,10 @@
       "requests": {
         "get_agents": {},
         "fetch_zendesk_fields": {},
-        "fetch_zd_tickets": {}
+        "fetch_zd_tickets": {},
+        "fetch_agents_pagination": {},
+        "fetch_fc_groups": {},
+        "look_for_conversation": {}
       }
     }
   },

@@ -91,28 +91,43 @@ $(document).ready(function () {
         });
     }
     //get fifty conversation messages in freshchat
-    function getConversationData(client, callback, d_conv) {
+    async function getConversationData(client, callback, d_conv) {
         console.log(d_conv)
-        var options = {
-            "conversation_id": btoa(d_conv.conversation.conversation_id)
-        };
-        client.request.invoke("searchConversation", options).then(function (data) {
-            if (data.response.message === undefined) {
-                var resp = data.response;
-                resp = filterLatestDate(resp);
-                var obj = {
-                    conv_id: d_conv.conversation.conversation_id,
-                    user: d_conv.conversation.users[0].first_name,
-                    messages: resp,
-                    assigned_agent_id: d_conv.conversation.assigned_agent_id,
-                    assigned_group_id: d_conv.conversation.assigned_group_id
-                };
-                console.log(obj)
-                callback(obj);
-            }
-        }, function (err) {
+        let err, reply;
+        [err, reply] = await to(client.request.invokeTemplate("look_for_conversation", { "context": { conversation_id: d_conv.conversation.conversation_id } }));
+        console.log(err)
+        if (err) {
             showNotification(client, "danger", err.message);
-        });
+        }
+        if (reply) {
+            reply = JSON.parse(reply.response);
+            reply = getMessages(reply.messages, []);
+            console.log(reply)
+            reply = filterLatestDate(reply);
+            console.log(reply)
+            var obj = {
+                conv_id: d_conv.conversation.conversation_id,
+                user: d_conv.conversation.users[0].first_name,
+                messages: reply,
+                assigned_agent_id: d_conv.conversation.assigned_agent_id,
+                assigned_group_id: d_conv.conversation.assigned_group_id
+            };
+            console.log(obj)
+            callback(obj);
+        }
+    }
+    function getMessages(messages, messagesArray) {
+        for (let i = 0; i < messages.length; i++) {
+            var obj = {};
+            obj["created_at"] = messages[i].created_time;
+            obj["actor_id"] = (messages[i].actor_id !== undefined) ? messages[i].actor_id : messages[i].org_actor_id;
+            obj["message_parts"] = messages[i].message_parts;
+            obj["message_type"] = messages[i].message_type;
+            obj["actor_type"] = messages[i].actor_type;
+            obj["id"] = messages[i].id;
+            messagesArray.push(obj);
+        }
+        return messagesArray;
     }
     let filterLatestDate = (resp) => {
         let latestDate = resp[0].created_at.split("T")[0];
@@ -149,23 +164,8 @@ $(document).ready(function () {
             });
     }
     let getGroupsData = async (client, group_obj, page) => {
-        /*  var options = { page };
-         client.request.invoke("getFcGroups", options).then(function (data) {
-             if (data.response.message === undefined) {
-                 $.each(data.response.groups, function (k, v) {
-                     group_obj[v.id] = v.name;
-                 });
-                 if (data.response.pagination.total_pages !== data.response.pagination.current_page) {
-                     let new_page = page + 1;
-                     getGroupsData(client, group_obj, new_page);
-                 }
-             }
-         }, function (err) {
-             showNotification(client, "danger", err.message);
-         });
-  */
         let err, reply;
-    [err, reply] = await to(client.request.invokeTemplate("fetch_fc_groups", { "context": { page } }));
+        [err, reply] = await to(client.request.invokeTemplate("fetch_fc_groups", { "context": { page } }));
         console.log(err)
         if (err) {
             showNotification(client, "danger", err.message);

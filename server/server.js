@@ -158,68 +158,6 @@ exports = {
       }
     });
   },
-  searchConversation: function (args) {
-    console.log("SEARCH CONVERSATION")
-    request(reqData.searchConversation(args), function (err, resp, body) {
-      if (err) {
-        console.log("err")
-        console.log(err)
-        renderData(err);
-      }
-      if (resp !== undefined) {
-        if (resp.statusCode === 200) {
-          try {
-            var respObj = JSON.parse(body);
-            var messagesArray = [];
-            getMessages(respObj.messages, messagesArray);
-            renderData(null, messagesArray);
-          } catch (c_err) {
-            console.log("catch error")
-            console.log(c_err)
-            renderData(c_err);
-          }
-        } else {
-          var error = {
-            status: resp.statusCode,
-            message: body
-          };
-          console.log("error")
-          console.log(error)
-          renderData(error);
-        }
-      }
-    });
-  },
-  getFcGroups: function (args) {
-    console.log("GET FC GROUPS")
-    request(reqData.getFcGroups(args), function (err, resp, body) {
-      if (err) {
-        console.log("err")
-        console.log(err)
-        renderData(err);
-      }
-      if (resp !== undefined) {
-        if (resp.statusCode === 200) {
-          try {
-            var respObj = JSON.parse(body);
-            renderData(null, respObj);
-          } catch (c_err) {
-            console.log("catch error")
-            console.log(c_err)
-            renderData(c_err);
-          }
-        } else {
-          var error = {
-            status: resp.statusCode,
-            message: body
-          };
-          console.log("error")
-          console.log(error)
-          renderData(error);
-        }
-      }
-    });
-  },
   searchAssignee: function (args) {
     console.log("SEARCH ASSIGNEE")
     request(reqData.searchAssignee(args), function (err, resp, body) {
