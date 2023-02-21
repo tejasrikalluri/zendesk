@@ -44,7 +44,9 @@ exports = {
         let email = base64.decode(args.email);
         var baseURL = `https://${args.iparams.subdomain}/api/v2/`;
         var url = `${baseURL}users/search.json?query=${email}`;
+        console.log(url)
         var headers = { "Authorization": "Basic " + base64.encode(`${args.iparams.email}/token:${args.iparams.password}`) };
+        console.log(headers)
         return {
             method: 'GET',
             url: url, headers: headers

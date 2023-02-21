@@ -199,23 +199,22 @@ $(document).ready(function () {
         });
     }
     //get only user id call back function
-    function getZendeskUserId(email, client, callback) {
-        var options = {
-            "email": btoa(email)
-        };
-        client.request.invoke("searchUser", options).then(function (data) {
-            if (data.response.message === undefined) {
-                var resp = data.response;
-                var length = resp.length;
-                if (length > 0) {
-                    var user_id = atob(resp.id);
-                    callback(user_id);
+    let getZendeskUserId = () => {
+        // var baseURL = `https://<%= iparam.subdomain %>/api/v2/`;
+        var url = `https://artissol6802.zendesk.com/api/v2/users/search.json?query=tepe89@live.se`;
+        var headers = { "Authorization": "Basic ZGV2dGVhbUBhcnRpc3NvbC5jb20vdG9rZW46M241cE5pbk83TlhzYzdTdEZ3WkthS3AwdlVkblAxa3lrZkFFYm84Ng==", "Access-Control-Allow-Origin": "*" };
+        axios.get(url, headers)
+            .then(response => {
+                console.log(response);
+            }).catch(function (res) {
+                if (res instanceof Error) {
+                    console.log(res.message);
+                } else {
+                    console.log(res.data);
                 }
-            }
-        }, function (err) {
-            showNotification(client, "danger", err.message);
-        });
-    }
+            });;
+    };
+
     //get user email using callback
     function getEmailData(client, callback) {
         client.data.get("user").then(function (data) {
