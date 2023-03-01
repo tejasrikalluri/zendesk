@@ -37,4 +37,4 @@ The Primary Features of the app are:
         └── test_data               Sample payloads for local testing
             ├── onMessageCreate.json
 
-in this version resolved agents & groups API pagination issue
+in this version changed to request template due to rate limit issue in client account
