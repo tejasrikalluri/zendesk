@@ -92,25 +92,19 @@ $(document).ready(function () {
     }
     //get fifty conversation messages in freshchat
     async function getConversationData(client, callback, d_conv) {
-        console.log(d_conv)
-        let err, reply;
-        [err, reply] = await to(client.request.invokeTemplate("searchConversation", { "conversation_id": d_conv.conversation.conversation_id }));
-        console.log(reply);
-        if (err) showNotification(client, "danger", err.message);
-        if (reply) {
-            let { response } = reply;
-            let rep = JSON.parse(response);
-            rep = filterLatestDate(rep);
-            var obj = {
-                conv_id: d_conv.conversation.conversation_id,
-                user: d_conv.conversation.users[0].first_name,
-                messages: rep,
-                assigned_agent_id: d_conv.conversation.assigned_agent_id,
-                assigned_group_id: d_conv.conversation.assigned_group_id
-            };
-            console.log(obj)
-            callback(obj);
-        }
+        var url = `https://api.eu.freshchat.com/v2/conversations/${d_conv.conversation.conversation_id}/messages?page=1&items_per_page=50`;
+        console.log(url)
+        var headers = { "Authorization": "bearer eyJraWQiOiJjdXN0b20tb2F1dGgta2V5aWQiLCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmcmVzaGNoYXQiLCJzdWIiOiI2OGNmYmRmYi1kYjExLTQxMDctYTVkMC01NDIwNTkxYjhiY2QiLCJjbGllbnRJZCI6ImZjLTNiODUwNzVlLTc0MTYtNDVmNS1iZWJkLTdkMDM3MDQ2Njk1NCIsInNjb3BlIjoiYWdlbnQ6cmVhZCBhZ2VudDpjcmVhdGUgYWdlbnQ6dXBkYXRlIGFnZW50OmRlbGV0ZSBjb252ZXJzYXRpb246Y3JlYXRlIGNvbnZlcnNhdGlvbjpyZWFkIGNvbnZlcnNhdGlvbjp1cGRhdGUgbWVzc2FnZTpjcmVhdGUgbWVzc2FnZTpnZXQgYmlsbGluZzp1cGRhdGUgcmVwb3J0czpmZXRjaCByZXBvcnRzOmV4dHJhY3QgcmVwb3J0czpyZWFkIHJlcG9ydHM6ZXh0cmFjdDpyZWFkIGFjY291bnQ6cmVhZCBkYXNoYm9hcmQ6cmVhZCB1c2VyOnJlYWQgdXNlcjpjcmVhdGUgdXNlcjp1cGRhdGUgdXNlcjpkZWxldGUgb3V0Ym91bmRtZXNzYWdlOnNlbmQgb3V0Ym91bmRtZXNzYWdlOmdldCBtZXNzYWdpbmctY2hhbm5lbHM6bWVzc2FnZTpzZW5kIG1lc3NhZ2luZy1jaGFubmVsczptZXNzYWdlOmdldCBtZXNzYWdpbmctY2hhbm5lbHM6dGVtcGxhdGU6Y3JlYXRlIG1lc3NhZ2luZy1jaGFubmVsczp0ZW1wbGF0ZTpnZXQgZmlsdGVyaW5ib3g6cmVhZCBmaWx0ZXJpbmJveDpjb3VudDpyZWFkIHJvbGU6cmVhZCBpbWFnZTp1cGxvYWQiLCJpc3MiOiJmcmVzaGNoYXQiLCJ0eXAiOiJCZWFyZXIiLCJleHAiOjE5NjY3NjA3MTAsImlhdCI6MTY1MTE0MTUxMCwianRpIjoiY2E3NzBhNDctYWY3OS00NzQxLWE2NzktM2Q5OTZmYTY0OTQxIn0.Beqkkbh7GTRcDO6-mKNGLjzLXBmW4ihsW_pLMqINrXU", "Access-Control-Allow-Origin": "*" };
+       axios.get(url, headers)
+           .then(response => {
+               console.log(response);
+           }).catch(function (res) {
+               if (res instanceof Error) {
+                   console.log(res.message);
+               } else {
+                   console.log(res.data);
+               }
+           });;
     }
     let to = (promise, improved) => {
         return promise
