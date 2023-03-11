@@ -1,12 +1,12 @@
 <html>
 
 <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="module" src="https://unpkg.com/@freshworks/crayons@v4/dist/crayons/crayons.esm.js"></script>
     <script nomodule src="https://unpkg.com/@freshworks/crayons@v4/dist/crayons/crayons.js"></script>
-    <script defer src="./assets/iparams.js"></script>
-    <link rel="stylesheet" href="./assets/iparams.css">
+    <link rel="stylesheet" href="https://unpkg.com/@freshworks/crayons@v4/css/crayons-min.css" />
     <script src="{{{appclient}}}"></script>
+    <link rel="stylesheet" href="./assets/iparams.css">
 
 </head>
 
@@ -32,7 +32,7 @@
             </fw-select>
         </div>
         <div class="error_div"></div>
-        <div class="authenticate">
+        <div class="authenticate fw-mt-12">
             <fw-button color="Primary" id="authBtn">Authenticate</fw-button>
         </div>
     </div>
@@ -67,12 +67,12 @@
         </div>
         <div class="align ticketFieldContainer">
         </div>
-        <div class="ZD_authenticate">
+        <div class="ZD_authenticate fw-mt-12">
             <fw-button color="Primary" id="ZDauthBtn">Validate</fw-button>
         </div>
         <div class="token_error_zd red"></div>
     </div>
-
+    <script defer src="./assets/iparams.js"></script>
     <script type="text/javascript">
         let selectField, fetchConfigs, selectFieldText, mapText = {}, region, ticketFields = [], selectedTicketFieldText = [];
         function postConfigs() {
@@ -80,6 +80,8 @@
             var subdomain = $("#subdomain").val();
             var api_key = $("#apiKey").val();
             var email = $("#email").val();
+            let freshchatDomain = ($("#region").val() === "us") ? `api.freshchat.com` :
+                `api.${$("#region").val()}.freshchat.com`;
             var offlineVal;
             if ($('fw-toggle').prop("checked") === true) {
                 offlineVal = true;
@@ -93,8 +95,6 @@
             $.each(ticketFields, function (index, value) {
                 selectedTicketFieldText.push(mapText[value]);
             });
-            let freshchatDomain = (region === "us") ? `api.freshchat.com` :
-                `api.${region}.freshchat.com`;
             return {
                 __meta: {
                     secure: ["password,api_key"]
@@ -103,11 +103,12 @@
                 password,
                 subdomain,
                 email,
-                offlineVal, selectField, selectFieldText, region, ticketFields, selectedTicketFieldText, freshchatDomain
+                offlineVal, selectField, selectFieldText, region: $("#region").val(), ticketFields, selectedTicketFieldText, freshchatDomain
             };
         }
         function getConfigs(configs) {
             fetchConfigs = configs;
+            console.log(configs)
             $("#apiKey").val(configs.api_key);
             $("#password").val(configs.password);
             $("#subdomain").val(configs.subdomain);

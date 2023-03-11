@@ -107,11 +107,12 @@ function to(promise, improved) {
 }
 async function getAgents(client) {
     let err, reply;
-    const url = ($("#region").val() === "us") ? `https://api.freshchat.com/v2/agents?items_per_page=2` :
-        `https://api.${$("#region").val()}.freshchat.com/v2/agents?items_per_page=2`;
-    [err, reply] = await to(client.request.invokeTemplate("searchAgent", { url }));
-    console.log(reply);
+    const url = ($("#region").val() === "us") ? `api.freshchat.com` :
+        `api.${$("#region").val()}.freshchat.com`;
+    console.log(btoa($("#apiKey").val()), $("#apiKey").val());
+    [err, reply] = await to(client.request.invokeTemplate("get_agents", { "context": { url, "apiKey": $("#apiKey").val() } }));
     if (err) {
+        console.log(err);
         handleError(err, "error_div");
         $("#authBtn").text("Authenticate");
         buttonEnable("authBtn");
@@ -124,21 +125,24 @@ async function getAgents(client) {
 }
 const getZendeskFields = async function () {
     const sudomain = $("#subdomain").val().trim(), email = $("#email").val().trim(), password = $("#password").val().trim();
-    var url = `https://${sudomain}/api/v2/ticket_fields.json`;
-    var headers = { "Authorization": `Basic ` + btoa(`${email}/token:${password}`) };
     var selectElement = `<fw-select label="Abonnemangs-ID" id="aid" required placeholder="Select Abonnemangs-ID field from Zendesk"/>`;
     var ticketSelectElement = `<fw-select label="Ticket Fields" id="ticketFields" placeholder="Please select fields which need to display in ticket create modal" multiple>`;
     $('#ZDauthBtn').prop("disabled", true);
     let err, reply;
-    [err, reply] = await to(client.request.invokeTemplate("searchAgent", { url, email, password }));
-    console.log(reply);
+    [err, reply] = await to(client.request.invokeTemplate("fetch_zendesk_fields", { "context": { "auth": btoa(`${email}/token:${password}`), sudomain } }));
     if (err) {
+        console.log(err);
         $('.token_error_zd').html("Failed to get zendesk fields");
         buttonEnable("getZendeskFields");
         $("#fieldPart").hide();
-        $(".ZD_authentication").show();        
+        $(".ZD_authentication").show();
     }
     if (reply) {
+        getZdFieldsResponse(reply, ticketSelectElement, selectElement);
+    }
+}
+const getZdFieldsResponse = function (reply, ticketSelectElement, selectElement) {
+    try {
         let ticket_fields = JSON.parse(reply.response).ticket_fields;
         ticket_fields = ticket_fields.filter(field => field.visible_in_portal && field.active);
         console.log('after filter')
@@ -165,35 +169,26 @@ const getZendeskFields = async function () {
         }
         $('fw-spinner').hide();
         buttonEnable("ZDauthBtn");
+    } catch (error) {
+        console.error(error)
     }
-    /* client.request.get(url, options).then(function (data) {
-        try {
-            let ticket_fields = JSON.parse(data.response).ticket_fields;
-            console.log(ticket_fields)
-            
-        } catch (error) {
-            console.error(error)
-        }
-    }, function () {
-        ;
-    }); */
 }
-function getTicketDetails() {
+async function getTicketDetails() {
     var sudomain = $("#subdomain").val().trim();
     var email = $("#email").val().trim();
     var password = $("#password").val().trim();
-    var url = `https://${sudomain}/api/v2/tickets.json?page[size]=1`;
-    var headers = { "Authorization": `Basic ` + btoa(`${email}/token:${password}`) };
-    var options = { headers: headers };
-    client.request.get(url, options).then(function () {
+    let err, reply;
+    [err, reply] = await to(client.request.invokeTemplate("fetch_zd_tickets", { "context": { "auth": btoa(`${email}/token:${password}`), sudomain } }));
+    if (err) {
+        $('.token_error_zd').html("Something went wrong to proceed. Please try again.");
+        buttonEnable("getZendeskFields");
+    }
+    if (reply) {
         $(".token_error_zd").html("");
         $(".ZD_authentication").hide();
         $("#fieldPart").show();
         getZendeskFields();
-    }, function () {
-        $('.token_error_zd').html("Something went wrong to proceed. Please try again.");
-        buttonEnable("getZendeskFields");
-    });
+    }
 }
 function handleError(error, errorid) {
     if (error.status === 400) {

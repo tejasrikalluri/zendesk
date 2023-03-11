@@ -13,13 +13,6 @@ function getSubdomainData(client, callback) {
         showNotification(client, "danger", "Failed to fetch Iparams Subdomain.");
     });
 }
-let getRegionData = (client, callback) => {
-    client.iparams.get("freshchatDomain").then(function (data) {
-        callback(data.freshchatDomain);
-    }, function () {
-        showNotification(client, "danger", "Failed to fetch Iparams Subdomain.");
-    });
-}
 const getIparamsFields = function (client, callback) {
     client.iparams.get().then(function (data) {
         let obj = {

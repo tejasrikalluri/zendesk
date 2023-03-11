@@ -29,15 +29,6 @@
         "createTicketComment": {
           "timeout": 10
         },
-        "searchConversation": {
-          "timeout": 10
-        },
-        "getAgents": {
-          "timeout": 10
-        },
-        "getFcGroups": {
-          "timeout": 10
-        },
         "searchAssignee": {
           "timeout": 10
         },
@@ -52,13 +43,18 @@
         }
       },
       "requests": {
-        "searchConversation": {}
+        "get_agents": {},
+        "fetch_zendesk_fields": {},
+        "fetch_zd_tickets": {},
+        "fetch_agents_pagination": {},
+        "fetch_fc_groups": {},
+        "look_for_conversation": {}
       }
     }
   },
   "engines": {
     "node": "14.17.3",
-    "fdk": "9.0.0"
+    "fdk": "8.3.3"
   },
   "dependencies": {
     "request": "2.88.2",

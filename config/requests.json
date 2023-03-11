@@ -1,34 +1,65 @@
 {
-    "searchConversation": {
+    "get_agents": {
         "schema": {
             "method": "GET",
-            "host": "api.eu.freshchat.com",
-            "path": "/v2/conversations/<%= conversation_id %>/messages?page=1&items_per_page=50",
-            "headers": {
-                "Authorization": "Bearer <%= encode(iparam.api_key) %>"
-            }
-        }
-    },
-    "searchAgent": {
-        "schema": {
-            "method": "GET",
-            "host": "<%= url %>",
+            "host": "<%= context.url %>",
             "path": "/v2/agents?items_per_page=2",
             "headers": {
-                "Authorization": "Bearer <%= encode(iparam.api_key) %>",
+                "Authorization": "Bearer <%= context.apiKey %>",
                 "Content-Type": "application/json"
             }
         }
     },
-    "getZendeskFields": {
+    "fetch_zendesk_fields": {
         "schema": {
             "method": "GET",
-            "host": "<%= url %>",
-            "path": "/v2/agents?items_per_page=2",
+            "host": "<%= context.sudomain %>",
             "headers": {
-                "Authorization": "Bearer <%= encode(iparam.api_key) %>",
+                "Authorization": "Basic <%= context.auth %>"
+            },
+            "path": "/api/v2/ticket_fields.json"
+        }
+    },
+    "fetch_zd_tickets": {
+        "schema": {
+            "method": "GET",
+            "host": "<%= context.sudomain %>",
+            "headers": {
+                "Authorization": "Basic <%= context.auth %>"
+            },
+            "path": "/api/v2/tickets.json?page[size]=1"
+        }
+    },
+    "fetch_agents_pagination": {
+        "schema": {
+            "method": "GET",
+            "host": "<%=iparam.freshchatDomain %>",
+            "headers": {
+                "Authorization": "Bearer <%=  iparam.api_key %>",
                 "Content-Type": "application/json"
-            }
+            },
+            "path": "/v2/agents?items_per_page=100&page=<%= context.page %>"
+        }
+    },
+    "fetch_fc_groups": {
+        "schema": {
+            "method": "GET",
+            "host": "<%=iparam.freshchatDomain %>",
+            "headers": {
+                "Authorization": "Bearer <%=  iparam.api_key %>",
+                "Content-Type": "application/json"
+            },
+            "path": "/v2/groups?items_per_page=100&page=<%= context.page %>"
+        }
+    },
+    "look_for_conversation": {
+        "schema": {
+            "method": "GET",
+            "host": "<%= iparam.freshchatDomain %>",
+            "headers": {
+                "Authorization": "Bearer <%=  iparam.api_key %>"
+            },
+            "path": "/v2/conversations/<%= context.conversation_id %>/messages?page=1&items_per_page=50"
         }
     }
 }

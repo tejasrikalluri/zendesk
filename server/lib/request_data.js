@@ -132,26 +132,6 @@ exports = {
             };
         }
     },
-    getAgents: function (args) {
-        var headers = { "Authorization": "Bearer " + args.iparams.api_key };
-        var freshchatDomain = (args.iparams.region === "us") ? `api.freshchat.com` :
-            `api.${args.iparams.region}.freshchat.com`;
-        var url = `https://${freshchatDomain}/v2/agents?items_per_page=100&page=${args.page}`;
-        return {
-            method: 'GET',
-            url: url, headers: headers
-        };
-    },
-    getFcGroups: function (args) {
-        var freshchatDomain = (args.iparams.region === "us") ? `api.freshchat.com` :
-            `api.${args.iparams.region}.freshchat.com`;
-        var url = `https://${freshchatDomain}/v2/groups?page=${args.page}&items_per_page=100`;
-        var headers = { "Authorization": "Bearer " + args.iparams.api_key };
-        return {
-            method: 'GET',
-            url: url, headers: headers
-        };
-    },
     searchAssignee: function (args) {
         let assignee_id = base64.decode(args.assignee_id);
         var baseURL = `https://${args.iparams.subdomain}/api/v2/`;
@@ -200,15 +180,5 @@ exports = {
                 url: url, headers: headers
             };
         }
-    }, searchConversation: function (args) {
-        var conversation_id = base64.decode(args.conversation_id);
-        var freshchatDomain = (args.iparams.region === "us") ? `api.freshchat.com` :
-            `api.${args.iparams.region}.freshchat.com`;
-        var url = `https://${freshchatDomain}/v2/conversations/${conversation_id}/messages?page=1&items_per_page=50`;
-        var headers = { "Authorization": `Bearer ${args.iparams.api_key}` };
-        return {
-            method: 'GET',
-            url: url, headers: headers
-        };
     }
 };
