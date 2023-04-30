@@ -86,50 +86,51 @@ $(document).ready(function () {
     }
     //get fifty conversation messages in freshchat
     function getConversationData(client, callback, d_conv) {
-        var options = {
-            "conversation_id": btoa(d_conv.conversation.conversation_id)
-        };
-        client.request.invoke("searchConversation", options).then(function (data) {
-            if (data.response.message === undefined) {
-                var resp = data.response;
-                var obj = {
-                    conv_id: d_conv.conversation.conversation_id,
-                    user: d_conv.conversation.users[0].first_name,
-                    messages: resp
-                };
-                callback(obj);
-            }
-        }, function (err) {
+        console.log(d_conv)
+        let err, reply;
+        [err, reply] = await to(client.request.invokeTemplate("look_for_conversation", { "context": { conversation_id: d_conv.conversation.conversation_id } }));
+        console.log(err)
+        if (reply) {
+            var resp = data.response;
+            var obj = {
+                conv_id: d_conv.conversation.conversation_id,
+                user: d_conv.conversation.users[0].first_name,
+                messages: resp
+            };
+            callback(obj);
+        }
+        if (err) {
             showNotification(client, "danger", err.message);
-        });
+        }
     }
     //get agents list in freshchat
     function getAgentsData(client, agent_obj) {
-        var options = {};
-        client.request.invoke("getAgents", options).then(function (data) {
-            if (data.response.message === undefined) {
-                $.each(data.response.agents, function (k, v) {
-                    agent_obj[v.id] = v.first_name;
-                });
-                if (data.response.pagination.total_pages > 1) {
-                    var options = {
-                        "link": btoa(data.response.links.last_page.href)
-                    };
-                    client.request.invoke("getAgents", options).then(function (data) {
-                        if (data.response.message === undefined) {
-                            $.each(data.response.agents, function (k, v) {
-                                agent_obj[v.id] = xssTest(v.first_name);
-                            });
-                        }
-                    }, function (err) {
-                        showNotification(client, "danger", err.message);
-                    });
-                }
+        let err, reply;
+        [err, reply] = await to(client.request.invokeTemplate("fetch_agents_pagination", { "context": { page } }));
+        console.log(err)
+        if (reply) {
+            reply = JSON.parse(reply.response);
+            $.each(reply.agents, function (k, v) {
+                agent_obj[v.id] = (v.last_name) ? v.first_name + " " + v.last_name : v.first_name;
+            });
+            if (reply.pagination.total_pages !== reply.pagination.current_page) {
+                let new_page = page + 1;
+                getAgentsData(client, agent_obj, new_page);
             }
-
-        }, function (err) {
+        }
+        if (err) {
             showNotification(client, "danger", err.message);
-        });
+        }
+    }
+    let to = (promise, improved) => {
+        return promise
+            .then((data) => [null, data])
+            .catch((err) => {
+                if (improved) {
+                    Object.assign(err, improved);
+                }
+                return [err];
+            });
     }
     //get user id using call back function
     function getUserIdData(client, userData, callback) {

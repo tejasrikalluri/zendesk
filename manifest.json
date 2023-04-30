@@ -1,5 +1,5 @@
 {
-  "platform-version": "2.2",
+  "platform-version": "2.3",
   "product": {
     "freshchat": {
       "location": {
@@ -29,12 +29,6 @@
         "createTicketComment": {
           "timeout": 10
         },
-        "searchConversation": {
-          "timeout": 10
-        },
-        "getAgents": {
-          "timeout": 10
-        },
         "searchAssignee": {
           "timeout": 10
         },
@@ -47,20 +41,21 @@
         "getAssinableAgents": {
           "timeout": 10
         }
+      },
+      "requests": {
+        "get_agents": {},
+        "fetch_zendesk_fields": {},
+        "fetch_zd_tickets": {},
+        "fetch_agents_pagination": {},
+        "fetch_fc_groups": {},
+        "look_for_conversation": {}
       }
     }
   },
   "engines": {
-    "node": "12.22.9",
-    "fdk": "7.4.1"
+    "node": "14.17.3",
+    "fdk": "8.3.3"
   },
-  "whitelisted-domains": [
-    "https://api.in.freshchat.com",
-    "https://api.eu.freshchat.com",
-    "https://api.au.freshchat.com",
-    "https://api.freshchat.com",
-    "https://*.zendesk.com"
-  ],
   "dependencies": {
     "request": "2.88.2",
     "base-64": "0.1.0"

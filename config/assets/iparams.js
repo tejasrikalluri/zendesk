@@ -78,39 +78,48 @@ function idRemoveAtrr(id) {
     $("#" + id).removeAttr("state");
     $("#" + id).removeAttr("state-text");
 }
+function to(promise, improved) {
+    return promise.then((data) => [null, data]).catch((err) => {
+        if (improved) {
+            Object.assign(err, improved);
+        }
+        return [err];
+    });
+}
 function getAgents(client) {
-    var api_key = $("#apiKey").val();
-    var headers = { "Authorization": "Bearer " + api_key };
-    var options = { headers: headers };
-    var url = ($("fw-select").val() === "us") ? `https://api.freshchat.com/v2/agents?items_per_page=2` :
-        `https://api.${$("fw-select").val()}.freshchat.com/v2/agents?items_per_page=2`;
-    console.log(url)
-    client.request.get(url, options).then(function () {
+    let err, reply;
+    const url = ($("#region").val() === "us") ? `api.freshchat.com` :
+        `api.${$("#region").val()}.freshchat.com`;
+    console.log(btoa($("#apiKey").val()), $("#apiKey").val());
+    [err, reply] = await to(client.request.invokeTemplate("get_agents", { "context": { url, "apiKey": $("#apiKey").val() } }));
+    
+    if (reply) {
         $(".error_div").html("");
         $("#authBtn").text("Authenticated");
         $(".ZD_authentication").show();
         $(".authentication").hide();
-    }, function (error) {
-        console.log(error)
-        handleError(error, "error_div");
+    }
+    if (err) {
+        console.log(err);
+        handleError(err, "error_div");
         buttonEnable("authBtn");
-    });
+    }
 }
 function getTicketDetails() {
     var sudomain = $("#subdomain").val().trim();
     var email = $("#email").val().trim();
     var password = $("#password").val().trim();
-    var url = `https://${sudomain}/api/v2/tickets.json?page[size]=1`;
-    var headers = { "Authorization": `Basic ` + btoa(`${email}/token:${password}`) };
-    var options = { headers: headers };
-    client.request.get(url, options).then(function () {
+    let err, reply;
+    [err, reply] = await to(client.request.invokeTemplate("fetch_zd_tickets", { "context": { "auth": btoa(`${email}/token:${password}`), sudomain } }));
+    if (reply) {
         $("#ZDauthBtn").text("Authenticated");
         $('.message_div').html("Integration setup successful");
         $(".token_error_zd").html("");
-    }, function () {
+    }
+    if (err) {
         $('.token_error_zd').html("Integration setup failed. Please try again.");
         buttonEnable("ZDauthBtn");
-    });
+    }
 }
 function handleError(error, errorid) {
     if (error.status === 400) {
