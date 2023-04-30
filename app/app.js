@@ -85,7 +85,7 @@ $(document).ready(function () {
         });
     }
     //get fifty conversation messages in freshchat
-    function getConversationData(client, callback, d_conv) {
+    async function getConversationData(client, callback, d_conv) {
         console.log(d_conv)
         let err, reply;
         [err, reply] = await to(client.request.invokeTemplate("look_for_conversation", { "context": { conversation_id: d_conv.conversation.conversation_id } }));
@@ -104,7 +104,7 @@ $(document).ready(function () {
         }
     }
     //get agents list in freshchat
-    function getAgentsData(client, agent_obj) {
+    async function getAgentsData(client, agent_obj) {
         let err, reply;
         [err, reply] = await to(client.request.invokeTemplate("fetch_agents_pagination", { "context": { page } }));
         console.log(err)
