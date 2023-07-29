@@ -6,7 +6,7 @@ $(document).ready(function () {
         var getContextInfo = function (callback) {
             contextInfo(modal_client, callback);
         };
-        getTicketFields(modal_client, getContextInfo);
+        getTicketFields(modal_client);
         $("#cancel").off().click(function () {
             modal_client.instance.close();
         });
@@ -80,35 +80,30 @@ $(document).ready(function () {
 
         $(document).on('click', '#m_button', function () {
             $(this).prop("disabled", true);
-            let radioValue = $("input[name='optTicket']:checked").val();
             getContextInfo(function (c_data) {
-                ($('#m_button').text() === "Append to ticket") ? formExportConv(c_data, radioValue, modal_client, "append") : clickWithNewTicket(c_data, modal_client);
+                if ($('#m_button').text() === "Append to ticket") {
+                    var arr = [], radioValue = $("input[name='optTicket']:checked").val();
+                    c_data.conversation.messages.reverse();
+                    $.each(c_data.conversation.messages, function (i, v) {
+                        var obj = {};
+                        obj["created_at"] = v.created_time;
+                        obj["actor_id"] = (v.actor_id !== undefined) ? atob(v.actor_id) : atob(v.org_actor_id);
+                        obj["message_parts"] = v.message_parts;
+                        obj["message_type"] = atob(v.message_type);
+                        obj["actor_type"] = atob(v.actor_type);
+                        obj["id"] = atob(v.id);
+                        arr.push(obj);
+                    });
+                    var parse_id = parseInt(radioValue);
+                    searchInDb(modal_client, parse_id, arr, c_data);
+                } else {
+                    clickWithNewTicket(c_data, modal_client);
+                }
             });
         });
     }, function () {
         showNotification(modal_client, "danger", "Something went wrong, please try again");
     });
-    let formExportConv = function (c_data, ticket_id, modal_client, origin) {
-        var arr = [];
-        c_data.conversation.messages.reverse();
-        console.log(c_data.conversation.messages)
-        $.each(c_data.conversation.messages, function (i, v) {
-            formConvUI(v, arr);
-        });
-        var parse_id = parseInt(ticket_id);
-        console.log(arr)
-        searchInDb(modal_client, parse_id, arr, c_data, origin);
-    }
-    let formConvUI = function (v, arr) {
-        var obj = {};
-        obj["created_at"] = v.created_at;
-        obj["actor_id"] = (v.actor_id) ? v.actor_id : v.org_actor_id;
-        obj["message_parts"] = v.message_parts;
-        obj["message_type"] = v.message_type;
-        obj["actor_type"] = v.actor_type;
-        obj["id"] = v.id;
-        arr.push(obj);
-    }
     //for new user ticket create fetching the values
     function clickWithNewTicket(c_data, modal_client) {
         var subject = $("#subject").val().trim(), notes = $("#notes").val().trim(), status = $("#status").val();
@@ -129,20 +124,20 @@ $(document).ready(function () {
             formNewRequester(subject, notes, c_data, modal_client, obj, "not_resolve", status);
     }
     //search zendesk id from db
-    function searchInDb(modal_client, id, arr, c_data, origin) {
+    function searchInDb(modal_client, id, arr, c_data) {
         var trimmed_id = jQuery.trim(c_data.conversation.messages[c_data.conversation.messages.length - 1].id).substring(0, 30).trim(this) + "...";
         modal_client.db.get(id).then(function (d_data) {
             var db_id = d_data.conv_id;
-            formAUI(modal_client, c_data, id, db_id, origin);
+            formAUI(modal_client, c_data, id, db_id);
         }, function (error) {
             if (error.status === 404) {
-                setDb(modal_client, id, trimmed_id, arr, c_data, c_data.user_id, origin);
+                setDb(modal_client, id, trimmed_id, arr, c_data, c_data.user_id);
             } else
                 showNotification(client, "danger", "Unable to fetch DB data");
         });
     }
     //check the db and conversation id form an object form a UI for internal note
-    function formAUI(client, data, id, db_id, origin) {
+    function formAUI(client, data, id, db_id) {
         var messages = data.conversation.messages, last_conv_id = messages[messages.length - 1].id;
         var arr = [], ui_arr = [];
         $.each(messages, function (i, v) {
@@ -156,25 +151,40 @@ $(document).ready(function () {
             var index = $.inArray(db_id, arr);
             $.each(messages, function (i, v) {
                 if (index > 0) {
-                    if (i > index)
-                        formConvUI(v, ui_arr);
+                    if (i > index) {
+                        obj["created_at"] = v.created_time;
+                        obj["actor_id"] = (v.actor_id !== undefined) ? atob(v.actor_id) : atob(v.org_actor_id);
+                        obj["message_parts"] = v.message_parts;
+                        obj["actor_type"] = atob(v.actor_type);
+                        obj["message_type"] = atob(v.message_type);
+                        obj["id"] = atob(v.id);
+                        ui_arr.push(obj);
+                    }
                 }
-                if (index === -1)
-                    formConvUI(v, ui_arr);
+                if (index === -1) {
+                    var obj = {};
+                    obj["created_at"] = v.created_time;
+                    obj["actor_id"] = (v.actor_id !== undefined) ? atob(v.actor_id) : atob(v.org_actor_id);
+                    obj["message_parts"] = v.message_parts;
+                    obj["message_type"] = atob(v.message_type);
+                    obj["actor_type"] = atob(v.actor_type);
+                    obj["id"] = atob(v.id);
+                    ui_arr.push(obj);
+                }
             });
             if (index != -1)
-                updateDb(client, id, trimmed_id, ui_arr, data, origin);
+                updateDb(client, id, trimmed_id, ui_arr, data);
             else if (index === -1) {
-                setDb(client, id, trimmed_id, ui_arr, data, data.user_id, origin);
+                setDb(client, id, trimmed_id, ui_arr, data, data.user_id);
             }
         }
     }
     //set zendesk id in db
-    function setDb(client, id, trimmed_id, arr, c_data, user_id, origin) {
+    function setDb(client, id, trimmed_id, arr, c_data, user_id) {
         client.db.set(id, { conv_id: trimmed_id }).then(function () {
             console.log("setting the db")
             console.log(arr)
-            formUIforNote(arr, c_data, client, user_id, id, origin);
+            formUIforNote(arr, c_data, client, user_id, id);
         }, function (error) {
             if (error.status !== 404)
                 showNotification(client, "danger", error.message);
@@ -287,7 +297,7 @@ $(document).ready(function () {
         return arr;
     }
     // create ticket validation
-    function checkFieldValidation(subject, notes, obj, c_data) {
+    function checkFieldValidation(subject, notes, obj) {
         $("#m_button").attr("data-id", "valid");
         var regex = /.(?=.{4})/mg, subst = 'X';
         $("input[type='text'],input[type='number'],input[type='date']").each(function () {
@@ -315,7 +325,7 @@ $(document).ready(function () {
             formCheckboxBody(this, obj);
         });
         obj.body["subject"] = btoa(subject);
-        obj.body["description"] = btoa(`${notes} - ${c_data.group_obj[c_data.conversation.assigned_group_id]}`);
+        obj.body["description"] = btoa(notes);
     }
     //form body for ticket creation for select fields
     function formSelectFieldBody(ele, obj) {
@@ -363,14 +373,14 @@ $(document).ready(function () {
             showNotification(modal_client, "danger", "Please fill mandatory fields");
     }
     //for check validation for ticket creation
-    function checkValid(modal_client, obj, data) {
+    function checkValid(origin, modal_client, obj, data) {
         if ($("#m_button").attr("data-id") === "valid")
-            ticketCreate(modal_client, obj, data);
+            ticketCreate(modal_client, obj, data, origin);
     }
     //send origin for validtion of ticket creation data
     function checkOrigin(origin, modal_client, obj, c_data) {
         if (origin !== "resolved")
-            checkValid(modal_client, obj, c_data);
+            checkValid("new", modal_client, obj, c_data);
     }
     //iterate loop for agents list
     function agentProcess(count, length, arr, client) {
@@ -400,11 +410,11 @@ $(document).ready(function () {
     }
 
     //get all fields in zendesk
-    function getTicketFields(client, getContextInfo) {
+    function getTicketFields(client) {
         var options = {};
         client.request.invoke("getTicketFields", options).then(function (data) {
             if (data.response.message === undefined) {
-                var arr = [], fieldsResponse = {};
+                var arr = [];
                 $.each(data.response.ticket_fields, function (i, v) {
                     fieldsResponse[v.id] = v;
                     if (v.type === "status") {
@@ -426,28 +436,17 @@ $(document).ready(function () {
                         });
                     }
                 });
+                formCustomFields(v, arr);
                 getGroups(client);
-                getContextInfo(function (c_info) {
-                    $.each(c_info.ticketFields, function (i, v) {
-                        formTextFields(fieldsResponse[v], arr);
-                    });
-                    if (!$("#partNew :input").filter(`#${c_info.selectField}`).length)
-                        appendSelectedField(c_info);
-                    $("#subject").val("Fortnox chattärende");
-                    $(`#${c_info.selectField}`).val(`db${c_info.tenantId}`);
-                    $("#partNew").append(arr.join('')).show();
-                    formSelectFields(data);
-                });
-
             }
         }, function () {
             showNotification(client, "danger", "Failed to fetch Ticket fields");
         });
     }
-    const appendSelectedField = function (c_info) {
-        (c_info.tenantId) ?
-            $("#partNew").append(`<label>${c_info.selectFieldText}</label><br/><input id="${c_info.selectField}" type="text" value="db${c_info.tenantId}" class="form-control" required></input>`) : $("#partNew").append(`<label>${c_info.selectFieldText}</label><br/><input id="${c_info.selectField}" type="text" class="form-control" required></input>`);
-
+    //for forming body for custom fields
+    function formCustomFields(v, arr) {
+        if (v.visible_in_portal && v.active && v.type !== "assignee" && v.type !== "priority" && v.type !== "description" && v.type !== "subject")
+            formTextFields(v, arr);
     }
     //for forming body for text fields
     function formTextFields(v, arr) {
@@ -462,22 +461,6 @@ $(document).ready(function () {
         </input>`);
         } else
             appendUI(v, arr);
-    }
-    //for forming body for select fields
-    function formSelectFields(data) {
-        $.each(data.response.ticket_fields, function (i, v) {
-            if (v.type === "tagger" || v.type === "multiselect") {
-                if (v.type === "tagger")
-                    $(`#${v.id}`).append($("<option></option>").text("Select"));
-                $.each(v.custom_field_options, function (i1, v1) {
-                    $(`#${v.id}`).append($("<option></option>")
-                        .text(v1.value));
-                });
-            }
-            if (v.type === "multiselect") {
-                $(`#${v.id}`).select2({});
-            }
-        });
     }
     //append dynamic custom fields from zendesk
     function appendUI(v, arr) {
@@ -532,11 +515,13 @@ $(document).ready(function () {
         });
     }
     //create ticket in zendesk
-    function ticketCreate(client, options, c_data) {
+    function ticketCreate(client, options, c_data, origin) {
         client.request.invoke("createTicket", options).then(function (data) {
             if (data.response.message === undefined) {
-                c_data.user_id = data.response.requester_id;
-                formExportConv(c_data, data.response.id, client, "ticket");
+                if (origin === "old")
+                    sendDataToInstance(client, c_data, origin);
+                else if (origin === "new")
+                sendInstaceForNewUser(c_data, client, origin);
             }
         }, function (error) {
             if (error.status === 400 || error.status === 422)

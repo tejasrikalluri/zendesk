@@ -12,6 +12,10 @@
 
 <body>
     <div class="authentication align">
+        <div class="domain">
+            <fw-input id="domain" label="Freshchat Domain" placeholder="Ex: domain.freshchat.com" required clear-input>
+            </fw-input>
+        </div>
         <div class="apiKey">
             <fw-textarea id="apiKey" cols=116 rows=18 required label="Freshchat API Token">
             </fw-textarea>
@@ -23,16 +27,8 @@
                 finding
                 API
                 key?</a></span>
-        <div>
-            <fw-select label="Freshchat Region" id="region" required="true" value="1" placeholder="Your choice">
-                <fw-select-option value="us">US</fw-select-option>
-                <fw-select-option value="in">IN</fw-select-option>
-                <fw-select-option value="eu">EU</fw-select-option>
-                <fw-select-option value="au">AU</fw-select-option>
-            </fw-select>
-        </div>
         <div class="error_div"></div>
-        <div class="authenticate fw-mt-12">
+        <div class="authenticate">
             <fw-button color="Primary" id="authBtn">Authenticate</fw-button>
         </div>
     </div>
@@ -61,20 +57,9 @@
         <div class="message_div text-success"></div>
 
     </div>
-    <div id="fieldPart">
-        <div class="additionField align">
-            <fw-spinner class="ml11" size="medium" color="blue"></fw-spinner>
-        </div>
-        <div class="align ticketFieldContainer">
-        </div>
-        <div class="ZD_authenticate fw-mt-12">
-            <fw-button color="Primary" id="ZDauthBtn">Validate</fw-button>
-        </div>
-        <div class="token_error_zd red"></div>
-    </div>
     <script defer src="./assets/iparams.js"></script>
     <script type="text/javascript">
-        let selectField, fetchConfigs, selectFieldText, mapText = {}, region, ticketFields = [], selectedTicketFieldText = [];
+        let region;
         function postConfigs() {
             var password = $("#password").val();
             var subdomain = $("#subdomain").val();
@@ -89,12 +74,6 @@
             else if ($('fw-toggle').prop("checked") === false) {
                 offlineVal = false;
             }
-            selectField = $('#aid').val();
-            ticketFields = $('#ticketFields').val();
-            selectFieldText = mapText[selectField];
-            $.each(ticketFields, function (index, value) {
-                selectedTicketFieldText.push(mapText[value]);
-            });
             return {
                 __meta: {
                     secure: ["password,api_key"]
@@ -103,36 +82,27 @@
                 password,
                 subdomain,
                 email,
-                offlineVal, selectField, selectFieldText, region: $("#region").val(), ticketFields, selectedTicketFieldText, freshchatDomain
+                offlineVal, region: $("#region").val()
             };
         }
         function getConfigs(configs) {
-            fetchConfigs = configs;
-            console.log(configs)
             $("#apiKey").val(configs.api_key);
             $("#password").val(configs.password);
+            $("#domain").val(configs.domain);
             $("#subdomain").val(configs.subdomain);
             $("#email").val(configs.email);
             $("#region").val(configs.region);
-            selectField = configs.selectField;
             (configs.offlineVal) ?
                 $('fw-toggle').prop('checked', true) : $('fw-toggle').prop('checked', false);
         }
         function validate() {
             let isValid = true;
             var btnTextZD = $("#ZDauthBtn").text();
-            var btnText = $("#authBtn").text();
-            console.log($(".ZD_authentication").is(":visible"), $('#getZendeskFields').is(':disabled'))
             if ($(".authentication").is(":visible") === true && btnText !== "Authenticated") {
                 $(".error_div").html("Please click Authenticate button for further installation");
                 isValid = false;
-            } else if ($("#fieldPart").is(":visible") === true && btnTextZD !== "Validated") {
-                $(".token_error_zd").html("Please click Validate button for further installation");
-                isValid = false;
-            }
-            else if ($(".ZD_authentication").is(":visible") === true && !$('#getZendeskFields').is(':disabled')) {
-                $(".token_error_zd").html("Please click <b>Get abonnemangs-ID field</b> button for further installation");
-                isValid = false;
+            } else if ($(".ZD_authentication").is(":visible") === true && btnTextZD !== "Authenticated") {
+                $(".token_error_zd").html("Please click Authenticate button for further installation");
             }
             else
                 isValid = true;

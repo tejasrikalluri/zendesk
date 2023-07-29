@@ -89,12 +89,8 @@ exports = {
         renderData(err);
       }
       if (resp !== undefined) {
-        if (resp.statusCode === 201) {
-          let respObj = {};
-          respObj["id"] = resp.body.ticket.id;
-          respObj["requester_id"] = resp.body.ticket.requester_id;
-          renderData(null, respObj);
-        }
+        if (resp.statusCode === 201)
+          renderData(null, resp.statusCode);
         else {
           var error = {
             status: resp.statusCode,
@@ -351,6 +347,8 @@ function searchUser(content, payload) {
     actor_email = payload.data.actor.email;
   payload.email = base64.encode(actor_email);
   request(reqData.searchUser(payload), function (err, resp, body) {
+    if (err)
+      console.error(err);
     if (resp !== undefined) {
       if (resp.statusCode === 200) {
         try {

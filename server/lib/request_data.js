@@ -81,7 +81,7 @@ exports = {
                 }
             }
         };
-        body.ticket.comment["public"] = true;
+        body.ticket.comment["public"] = flase;
         return {
             method: 'PUT',
             url: url, headers: headers, body: body, json: true
@@ -103,7 +103,6 @@ exports = {
                     }, "requester_id": base64.decode(args.body.requester_id), "status": base64.decode(args.body.status)
                 }
             };
-            body.ticket.comment["public"] = false;
             formOtherDefaultFields(args, body);
             formCustomfieldsBody(args, body);
             return {

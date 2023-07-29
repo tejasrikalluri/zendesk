@@ -1,15 +1,5 @@
-.authentication fw-input {
+ fw-input {
     width: 71%;
-}
-
-.ZD_authentication fw-input {
-    width: 40%;
-}
-
-
-
-.ml11 {
-    margin-left: 11%;
 }
 
 .align {
@@ -116,9 +106,6 @@ input:checked+.slider:before {
     width: 20%;
 }
 
-#aid {
-    width: 34%;
-}
 
 #ticketFields {
     width: 48%;

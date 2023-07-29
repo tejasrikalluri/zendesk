@@ -13,17 +13,6 @@ function getSubdomainData(client, callback) {
         showNotification(client, "danger", "Failed to fetch Iparams Subdomain.");
     });
 }
-const getIparamsFields = function (client, callback) {
-    client.iparams.get().then(function (data) {
-        let obj = {
-            selectField: data.selectField, selectFieldText: data.selectFieldText,
-            ticketFields: data.ticketFields, selectedTicketFieldText: data.selectedTicketFieldText
-        };
-        callback(obj);
-    }, function () {
-        showNotification(client, "danger", "Failed to fetch Iparams Subdomain.");
-    });
-}
 //search assignee in zendesk
 var checkAssignee = function (assignee_id, client, callback) {
     var options = {
