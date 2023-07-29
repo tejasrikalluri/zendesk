@@ -56,7 +56,7 @@ app.initialized().then(function (client) {
             buttonEnable("ZDauthBtn");
         }
     });
-    $(document).on('fwChange', '#subdomain,#password,#email,#apiKey,#aid,#region,#domain', function () {
+    $(document).on('fwChange', '#subdomain,#password,#email,#domain,#apiKey,#region', function () {
         buttonEnable("ZDauthBtn");
         idRemoveAtrr("subdomain");
         idRemoveAtrr("email");
@@ -101,17 +101,17 @@ async function getAgents(client) {
         `api.${$("#region").val()}.freshchat.com`;
     console.log(btoa($("#apiKey").val()), $("#apiKey").val());
     [err, reply] = await to(client.request.invokeTemplate("get_agents", { "context": { url, "apiKey": $("#apiKey").val() } }));
-    if (err) {
-        console.log(err);
-        handleError(err, "error_div");
-        $("#authBtn").text("Authenticate");
-        buttonEnable("authBtn");
-    }
     if (reply) {
         $(".error_div").html("");
         $("#authBtn").text("Authenticated");
         $(".ZD_authentication").show();
         $(".authentication").hide();
+    }
+    if (err) {
+        console.log(err);
+        handleError(err, "error_div");
+        $("#authBtn").text("Authenticate");
+        buttonEnable("authBtn");
     }
 }
 async function getTicketDetails() {
