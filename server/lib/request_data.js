@@ -81,7 +81,7 @@ exports = {
                 }
             }
         };
-        body.ticket.comment["public"] = flase;
+        body.ticket.comment["public"] = false;
         return {
             method: 'PUT',
             url: url, headers: headers, body: body, json: true
@@ -122,7 +122,6 @@ exports = {
                     }, "status": base64.decode(args.body.status)
                 }
             };
-            body.ticket.comment["public"] = false;
             formOtherDefaultFields(args, body);
             createTicketForNewUser(args, body);
             return {

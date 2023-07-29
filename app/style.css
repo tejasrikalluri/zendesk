@@ -10,7 +10,8 @@
   height: 36px;
   position: absolute;
   left: 1.57%;
-  top: 0px;
+  right: 8.57%;
+  top: 28px;
   bottom: 83.33%;
   background: #F5F7F9;
   border-radius: 8px;
@@ -36,7 +37,6 @@
 
 .chevron {
   margin-left: 185px;
-  margin-top: 6%;
 }
 
 .fa {

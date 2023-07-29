@@ -115,9 +115,9 @@ $(document).ready(function () {
         };
         if (c_data.source === "new_ticket") {
             if (subject !== "" && notes !== "" && status !== "Select" && status !== "") {
-                checkFieldValidation(subject, notes, obj, c_data);
+                checkFieldValidation(subject, notes, obj);
                 obj.body["requester_id"] = btoa(c_data.user_id);
-                checkValid(modal_client, obj, c_data);
+                checkValid("old", modal_client, obj, c_data.email);
             } else
                 showNotification(modal_client, "danger", "Please fill mandatory fields");
         } else if (c_data.source === "new_requester")
@@ -150,6 +150,7 @@ $(document).ready(function () {
         else {
             var index = $.inArray(db_id, arr);
             $.each(messages, function (i, v) {
+                var obj = {};
                 if (index > 0) {
                     if (i > index) {
                         obj["created_at"] = v.created_time;
@@ -184,7 +185,7 @@ $(document).ready(function () {
         client.db.set(id, { conv_id: trimmed_id }).then(function () {
             console.log("setting the db")
             console.log(arr)
-            formUIforNote(arr, c_data, client, user_id, id);
+            formUIforNote(arr, c_data, client, user_id, id, "append");
         }, function (error) {
             if (error.status !== 404)
                 showNotification(client, "danger", error.message);
@@ -269,10 +270,10 @@ $(document).ready(function () {
         });
     }
     //when new messages are in db update db when create a internal note
-    function updateDb(modal_client, id, conv_id, ui_arr, data, origin) {
+    function updateDb(modal_client, id, conv_id, ui_arr, data) {
         var trimmed_id = jQuery.trim(conv_id).substring(0, 30).trim(this) + "...";
         modal_client.db.update(id, "set", { "conv_id": trimmed_id }).then(function () {
-            formUIforNote(ui_arr, data, modal_client, data.user_id, id, origin);
+            formUIforNote(ui_arr, data, modal_client, data.user_id, id, "append");
         }, function () {
             showNotification(modal_client, "Unexpected error occured, please try again later!", "danger");
         });
@@ -365,7 +366,7 @@ $(document).ready(function () {
     function formNewRequester(subject, notes, c_data, modal_client, obj, origin, status) {
         $("#m_button").attr("data-id", "valid");
         if (subject !== "" && notes !== "" && c_data.email !== null && status !== "Select" && status !== "") {
-            checkFieldValidation(subject, notes, obj, c_data);
+            checkFieldValidation(subject, notes, obj);
             obj.body["name"] = btoa(c_data.name);
             if (c_data.email !== null) obj.body["email"] = btoa(c_data.email);
             checkOrigin(origin, modal_client, obj, c_data);
@@ -416,15 +417,12 @@ $(document).ready(function () {
             if (data.response.message === undefined) {
                 var arr = [];
                 $.each(data.response.ticket_fields, function (i, v) {
-                    fieldsResponse[v.id] = v;
                     if (v.type === "status") {
                         $.each(v.system_field_options, function (i1, v2) {
                             $('#status')
                                 .append($("<option></option>")
                                     .attr("value", v2.value)
                                     .text(v2.name));
-                            if (v2.value === 'open')
-                                $('#status').val(v2.name);
                         });
                     }
                     if (v.type === "priority") {
@@ -435,9 +433,11 @@ $(document).ready(function () {
                                     .text(v2.name));
                         });
                     }
+                    formCustomFields(v, arr);
                 });
-                formCustomFields(v, arr);
                 getGroups(client);
+                $("#partNew").append(arr.join('')).show();
+                formSelectFields(data);
             }
         }, function () {
             showNotification(client, "danger", "Failed to fetch Ticket fields");
@@ -461,6 +461,22 @@ $(document).ready(function () {
         </input>`);
         } else
             appendUI(v, arr);
+    }
+    //for forming body for select fields
+    function formSelectFields(data) {
+        $.each(data.response.ticket_fields, function (i, v) {
+            if (v.type === "tagger" || v.type === "multiselect") {
+                if (v.type === "tagger")
+                    $(`#${v.id}`).append($("<option></option>").text("Select"));
+                $.each(v.custom_field_options, function (i1, v1) {
+                    $(`#${v.id}`).append($("<option></option>")
+                        .text(v1.value));
+                });
+            }
+            if (v.type === "multiselect") {
+                $(`#${v.id}`).select2({});
+            }
+        });
     }
     //append dynamic custom fields from zendesk
     function appendUI(v, arr) {
@@ -521,7 +537,7 @@ $(document).ready(function () {
                 if (origin === "old")
                     sendDataToInstance(client, c_data, origin);
                 else if (origin === "new")
-                sendInstaceForNewUser(c_data, client, origin);
+                    sendInstaceForNewUser(c_data, client, origin);
             }
         }, function (error) {
             if (error.status === 400 || error.status === 422)

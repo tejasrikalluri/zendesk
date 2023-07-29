@@ -10,7 +10,7 @@ $(document).ready(function () {
             getSubdomainData(client, callback);
         }, getConversation = function (callback) {
             getConversationDetails(client, callback);
-        }
+        };
         client.events.on('app.activated', function () {
             $("#no_email,#ticket_details,.fw-widget-wrapper,.create_ticket_div").hide();
             $("#ticket_details").html("");
@@ -39,7 +39,6 @@ $(document).ready(function () {
                     });
                 });
             });
-            console.log(group_obj)
         });
         $(document).on("click", ".subject,.tchevron", function (e) {
             var ticket_id = $(this).attr('data-id');

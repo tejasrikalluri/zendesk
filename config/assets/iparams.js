@@ -8,24 +8,21 @@ app.initialized().then(function (client) {
             addIdAttr("apiKey", "Please enter Freshchat API Key");
         else
             idRemoveAtrr("apiKey");
+        if ($("#domain").val().trim() === "") {
+            addIdAttr("domain", "Please enter Freshchat Domain");
+        } else {
+            idRemoveAtrr("domain");
+        }
         if (!$("#region").val()) {
             addIdAttr("region", "Please select Freshchat Region");
         }
         else {
             idRemoveAtrr("region");
         }
-        if ($("#domain").val().trim() === "") {
-            addIdAttr("domain", "Please enter Freshchat Domain");
-        } else {
-            idRemoveAtrr("domain");
-        }
         if ($("#apiKey").val().trim() !== "" && $("#region").val() && $("#domain").val().trim() !== "") {
             $("#authBtn").text("Authenticating...");
             getAgents(client);
-        } else {
-            $("#authBtn").text("Authenticate");
-            buttonEnable("authBtn");
-        }
+        } else buttonEnable("authBtn");
     });
     $(document).on('click', '#ZDauthBtn', function () {
         $(this).prop("disabled", true);
@@ -53,20 +50,19 @@ app.initialized().then(function (client) {
             idRemoveAtrr("subdomain");
         }
         if ($("#password").val().trim() !== "" && emailPattern.test($("#email").val().trim()) && $("#subdomain").val().trim() !== "") {
+            $("#ZDauthBtn").text("Authenticating...");
             getTicketDetails();
         } else {
             buttonEnable("ZDauthBtn");
         }
     });
     $(document).on('fwChange', '#subdomain,#password,#email,#apiKey,#aid,#region,#domain', function () {
-        buttonEnable("getZendeskFields");
         buttonEnable("ZDauthBtn");
         idRemoveAtrr("subdomain");
         idRemoveAtrr("email");
         idRemoveAtrr("password");
         idRemoveAtrr("domain");
         idRemoveAtrr("apiKey");
-        idRemoveAtrr("aid");
         idRemoveAtrr("region");
         $(".token_error_zd,.message_div,.error_div").html("");
     });
@@ -113,6 +109,7 @@ async function getAgents(client) {
     }
     if (reply) {
         $(".error_div").html("");
+        $("#authBtn").text("Authenticated");
         $(".ZD_authentication").show();
         $(".authentication").hide();
     }
@@ -123,13 +120,14 @@ async function getTicketDetails() {
     var password = $("#password").val().trim();
     let err, reply;
     [err, reply] = await to(client.request.invokeTemplate("fetch_zd_tickets", { "context": { "auth": btoa(`${email}/token:${password}`), sudomain } }));
-    if (err) {
-        $('.token_error_zd').html("Integration setup failed. Please try again.");
-        buttonEnable("ZDauthBtn");
-    }
     if (reply) {
         $("#ZDauthBtn").text("Authenticated");
         $('.message_div').html("Integration setup successful");
+        $(".token_error_zd").html("");
+    }
+    if (err) {
+        $('.token_error_zd').html("Integration setup failed. Please try again.");
+        buttonEnable("ZDauthBtn");
     }
 }
 function handleError(error, errorid) {
