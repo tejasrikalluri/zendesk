@@ -69,7 +69,6 @@ app.initialized().then(function (client) {
     $(document).on('change', 'textarea', function () {
         $(".token_error,.error_div").html("");
         buttonEnable("authBtn");
-        $("#authBtn").text("Authenticate");
     });
 }, function (error) {
     handleError(error, token_error);
@@ -79,6 +78,7 @@ function addIdAttr(id, message) {
     $("#" + id).attr("state-text", message);
 }
 function buttonEnable(id) {
+    $("#authBtn").text("Authenticate");
     $("#" + id).prop("disabled", false);
 }
 function idRemoveAtrr(id) {
