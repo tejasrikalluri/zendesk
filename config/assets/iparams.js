@@ -8,11 +8,10 @@ app.initialized().then(function (client) {
             addIdAttr("apiKey", "Please enter Freshchat API Key");
         else
             idRemoveAtrr("apiKey");
-        if ($("#domain").val().trim() === "") {
+        if ($("#domain").val().trim() === "")
             addIdAttr("domain", "Please enter Freshchat Domain");
-        } else {
+        else
             idRemoveAtrr("domain");
-        }
         if (!$("#region").val()) {
             addIdAttr("region", "Please select Freshchat Region");
         }
@@ -57,6 +56,7 @@ app.initialized().then(function (client) {
         }
     });
     $(document).on('fwChange', '#subdomain,#password,#email,#domain,#apiKey,#region', function () {
+        console.log("**********************")
         buttonEnable("ZDauthBtn");
         idRemoveAtrr("subdomain");
         idRemoveAtrr("email");
@@ -75,15 +75,15 @@ app.initialized().then(function (client) {
 });
 function addIdAttr(id, message) {
     $("#" + id).attr("state", "error");
-    $("#" + id).attr("state-text", message);
+    $("#" + id).attr("error-text", message);
 }
 function buttonEnable(id) {
-    $("#authBtn").text("Authenticate");
+    $("#" + id).text("Authenticate");
     $("#" + id).prop("disabled", false);
 }
 function idRemoveAtrr(id) {
     $("#" + id).removeAttr("state");
-    $("#" + id).removeAttr("state-text");
+    $("#" + id).removeAttr("error-text");
 }
 function to(promise, improved) {
     return promise
