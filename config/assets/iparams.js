@@ -55,8 +55,7 @@ app.initialized().then(function (client) {
             buttonEnable("ZDauthBtn");
         }
     });
-    $(document).on('fwChange', '#subdomain,#password,#email,#domain,#apiKey,#region', function () {
-        console.log("**********************")
+    $(document).on('fwInput', '#subdomain,#password,#email,#domain,#apiKey,#region', function () {
         buttonEnable("ZDauthBtn");
         idRemoveAtrr("subdomain");
         idRemoveAtrr("email");

@@ -59,7 +59,7 @@
             <fw-toggle size="medium">Mid-sized and selected</fw-toggle>
         </div>
         <div class="token_error_zd red"></div>
-        <div class="message_div text-success"></div>
+        <div class="message_div fw-color-jungle-500"></div>
         <div class="ZD_authenticate">
             <fw-button color="Primary" id="ZDauthBtn">Authenticate</fw-button>
         </div>
@@ -90,7 +90,7 @@
                 password,
                 subdomain,
                 email,
-                offlineVal, region: $("#region").val()
+                offlineVal, region: $("#region").val(), domain
             };
         }
         function getConfigs(configs) {
@@ -106,6 +106,7 @@
         function validate() {
             let isValid = true;
             var btnTextZD = $("#ZDauthBtn").text();
+            var btnText = $("#authBtn").text();
             if ($(".authentication").is(":visible") === true && btnText !== "Authenticated") {
                 $(".error_div").html("Please click Authenticate button for further installation");
                 isValid = false;
