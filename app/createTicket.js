@@ -87,11 +87,11 @@ $(document).ready(function () {
                     $.each(c_data.conversation.messages, function (i, v) {
                         var obj = {};
                         obj["created_at"] = v.created_time;
-                        obj["actor_id"] = (v.actor_id !== undefined) ? atob(v.actor_id) : atob(v.org_actor_id);
+                        obj["actor_id"] = (v.actor_id !== undefined) ? v.actor_id : v.org_actor_id;
                         obj["message_parts"] = v.message_parts;
-                        obj["message_type"] = atob(v.message_type);
-                        obj["actor_type"] = atob(v.actor_type);
-                        obj["id"] = atob(v.id);
+                        obj["message_type"] = v.message_type;
+                        obj["actor_type"] = v.actor_type;
+                        obj["id"] = v.id;
                         arr.push(obj);
                     });
                     var parse_id = parseInt(radioValue);
@@ -154,22 +154,22 @@ $(document).ready(function () {
                 if (index > 0) {
                     if (i > index) {
                         obj["created_at"] = v.created_time;
-                        obj["actor_id"] = (v.actor_id !== undefined) ? atob(v.actor_id) : atob(v.org_actor_id);
+                        obj["actor_id"] = (v.actor_id !== undefined) ? v.actor_id : v.org_actor_id;
                         obj["message_parts"] = v.message_parts;
-                        obj["actor_type"] = atob(v.actor_type);
-                        obj["message_type"] = atob(v.message_type);
-                        obj["id"] = atob(v.id);
+                        obj["actor_type"] = v.actor_type;
+                        obj["message_type"] = v.message_type;
+                        obj["id"] = v.id;
                         ui_arr.push(obj);
                     }
                 }
                 if (index === -1) {
                     var obj = {};
                     obj["created_at"] = v.created_time;
-                    obj["actor_id"] = (v.actor_id !== undefined) ? atob(v.actor_id) : atob(v.org_actor_id);
+                    obj["actor_id"] = (v.actor_id !== undefined) ? v.actor_id : v.org_actor_id;
                     obj["message_parts"] = v.message_parts;
-                    obj["message_type"] = atob(v.message_type);
-                    obj["actor_type"] = atob(v.actor_type);
-                    obj["id"] = atob(v.id);
+                    obj["message_type"] = v.message_type;
+                    obj["actor_type"] = v.actor_type;
+                    obj["id"] = v.id;
                     ui_arr.push(obj);
                 }
             });

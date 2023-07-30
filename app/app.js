@@ -94,7 +94,7 @@ $(document).ready(function () {
             var obj = {
                 conv_id: d_conv.conversation.conversation_id,
                 user: d_conv.conversation.users[0].first_name,
-                messages: reply
+                messages: reply.messages
             };
             callback(obj);
         }
